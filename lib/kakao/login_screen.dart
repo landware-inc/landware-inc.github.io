@@ -12,6 +12,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final viewModel = MainViewModel(KakaoLogin());
+//  String key = 'test_test';
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +20,8 @@ class _LoginScreenState extends State<LoginScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        //Image.network(
-        //    viewModel.user?.kakaoAccount?.profile?.profileImageUrl ?? ''),
+        Image.network(
+            viewModel.user?.kakaoAccount?.profile?.profileImageUrl ?? ''),
         Text(
           viewModel.user?.kakaoAccount?.profile?.nickname ?? '',
           style: const TextStyle(
@@ -30,8 +31,13 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         Text('${viewModel.isLogined ? '로그인됨' : '로그인안됨'}'),
+        Text('id : ${viewModel.user?.id}'),
+        Text('email : ${viewModel.user?.kakaoAccount?.email}'),
+        Text('nickname : ${viewModel.user?.kakaoAccount?.profile?.nickname}'),
         ElevatedButton(
           onPressed: () async {
+            // key = await KakaoSdk.origin;
+            // print(key);
             if (viewModel.isLogined) {
               await viewModel.logout();
             } else {
