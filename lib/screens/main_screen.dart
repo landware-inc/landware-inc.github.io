@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kakao_login_test/common/commondata.dart';
 import 'package:kakao_login_test/config/palette.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kakao_login_test/screens/roungescreen.dart';
+import 'package:dio/dio.dart';
 
 class LoginSignupScreen extends StatefulWidget {
   const LoginSignupScreen({Key? key}) : super(key: key);
@@ -449,6 +451,17 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                             );
 
                             if(newUser != null) {
+                              final dio = Dio();
+
+                              final response = await dio.post(
+                                  '$appServerURL/signup',
+                                  data: {
+                                    'email': userEmail,
+                                    'uid': newUser.user!.uid,
+                                    'name': userName,
+                                  }
+                              );
+                              dio.close();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -465,7 +478,32 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                             );
                           }
                         }
+                        if(!isSignupScreen) {
+                          _tryVlidation();
+                          try{
+                            final newUser = await _authentication.signInWithEmailAndPassword(
+                                email: userEmail ,
+                                password: userPassword
+                            );
 
+                            if(newUser != null) {
+
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => RoungeScreen()
+                                  ));
+                            }
+                          } catch(e) {
+                            print(e);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Please check your email or password'),
+                                backgroundColor: Colors.blue,
+                              ),
+                            );
+                          }
+                        }
                       },
                       child: Container(
                         decoration: BoxDecoration(
