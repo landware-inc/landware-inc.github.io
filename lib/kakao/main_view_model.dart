@@ -8,11 +8,12 @@ class MainViewModel {
 
   MainViewModel(this._socialLogin);
 
-  Future<void> login() async {
+  Future<User?> login() async {
     isLogined = await _socialLogin.login();
     if (isLogined) {
       user = await UserApi.instance.me();
     }
+    return user;
   }
 
   Future logout() async {

@@ -3,22 +3,22 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 
 class AssetListModel extends ChangeNotifier {
-  List<Asset> _assetList = [];
-  List<Asset> get assetList => _assetList;
+  List<AssetList> _assetList = [];
+  List<AssetList> get assetList => _assetList;
 
-  void addAsset(Asset asset) {
-    _assetList.add(asset);
+  void addAsset(AssetList assetlist) {
+    _assetList.add(assetlist);
     notifyListeners();
   }
 
-  void removeAsset(Asset asset) {
-    _assetList.remove(asset);
+  void removeAsset(AssetList assetlist) {
+    _assetList.remove(assetlist);
     notifyListeners();
   }
 }
 
 
-class Asset {
+class AssetList {
   final Int id;
   final String callname;
   final String sizetype;
@@ -29,7 +29,7 @@ class Asset {
   final Int bath;
   final String indate;
 
-  Asset({
+  AssetList({
     required this.id,
     required this.callname,
     required this.sizetype,
@@ -41,8 +41,8 @@ class Asset {
     required this.indate,
   });
 
-  factory Asset.fromJson(Map<String, dynamic> json) {
-    return Asset(
+  factory AssetList.fromJson(Map<String, dynamic> json) {
+    return AssetList(
       id: json['id'],
       callname: json['callname'],
       sizetype: json['sizetype'],
@@ -54,3 +54,4 @@ class Asset {
       indate: json['indate'],
     );
   }
+}
