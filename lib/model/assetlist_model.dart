@@ -1,6 +1,9 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+//part 'assetlist_model.g.dart';
 
 class AssetListModel extends ChangeNotifier {
   List<AssetList> _assetList = [];
@@ -17,7 +20,7 @@ class AssetListModel extends ChangeNotifier {
   }
 }
 
-
+//@JsonSerializable()
 class AssetList {
   final Int id;
   final String callname;
@@ -41,17 +44,17 @@ class AssetList {
     required this.indate,
   });
 
-  factory AssetList.fromJson(Map<String, dynamic> json) {
-    return AssetList(
-      id: json['id'],
-      callname: json['callname'],
-      sizetype: json['sizetype'],
-      direction: json['direction'],
-      floor: json['floor'],
-      price: json['price'],
-      room: json['room'],
-      bath: json['bath'],
-      indate: json['indate'],
-    );
-  }
+   factory AssetList.fromJson(Map<String, dynamic> json) {
+     return AssetList(
+       id: json['id'],
+       callname: json['callname'],
+       sizetype: json['sizetype'],
+       direction: json['direction'],
+       floor: json['floor'],
+       price: json['price'],
+       room: json['room'],
+       bath: json['bath'],
+       indate: json['indate'],
+     );
+   }
 }

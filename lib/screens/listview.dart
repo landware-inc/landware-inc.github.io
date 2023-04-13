@@ -19,7 +19,6 @@ class ListViewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final _authentication = FirebaseAuth.instance;
 
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('List test'),
@@ -43,25 +42,36 @@ class ListViewScreen extends StatelessWidget {
                 future: paginationAssetList(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
-
-                    return ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return AssetCard(
-                          id: snapshot.data[index]['id'],
-                          image: Image.network('https://lh3.googleusercontent.com/tpCgvS5XdP40MFvx6jVq4SUDteZThkOmuG4hTbPRw-Wx0-afxlPwlmM4g6dIJRw=w600',
-                            fit: BoxFit.cover,
+                    return CustomScrollView(
+                      slivers: [
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                                (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 10.0),
+                                child: AssetCard(
+                                  id: snapshot.data[index]['id'],
+                                  image: Image.network(
+                                    snapshot.data[index]['img1'] == ''
+                                        ? '$appServerURL/sample.jpg'
+                                        : '$appServerURL/${snapshot.data[index]['img1']}',
+                                    fit: BoxFit.cover,
+                                  ),
+                                  callname: snapshot.data[index]['callname'],
+                                  price: snapshot.data[index]['jeonse'] ?? 0,
+                                  room: snapshot.data[index]['room'] ?? 0,
+                                  bath: snapshot.data[index]['bath'] ?? 0,
+                                  sizetype: snapshot.data[index]['sizetype'],
+                                  direction: snapshot.data[index]['direction'],
+                                  indate: snapshot.data[index]['indate'],
+                                  floor: snapshot.data[index]['floor'],
+                                ),
+                              );
+                            },
+                            childCount: snapshot.data.length,
                           ),
-                          callname: snapshot.data[index]['callname'],
-                          price: snapshot.data[index]['jeonse'] ?? 0,
-                          room: snapshot.data[index]['room'] ?? 0,
-                          bath: snapshot.data[index]['bath'] ?? 0,
-                          sizetype: snapshot.data[index]['sizetype'],
-                          direction: snapshot.data[index]['direction'],
-                          indate: snapshot.data[index]['indate'],
-                          floor: snapshot.data[index]['floor'],
-                        );
-                      },
+                        ),
+                      ],
                     );
                   } else {
                     return const Center(
