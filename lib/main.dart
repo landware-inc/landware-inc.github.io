@@ -25,8 +25,8 @@ class MainApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: seedColor)
       ),
       themeMode: ThemeMode.system ,
-//      home: LoginSignupScreen(),
-      home: Scaffold(body: ListViewScreen()),
+      home: LoginSignupScreen(),
+//      home: ListViewScreen(),
     );
   }
 }

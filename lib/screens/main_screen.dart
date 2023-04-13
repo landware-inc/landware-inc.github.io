@@ -578,8 +578,8 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
             AnimatedPositioned(
                 duration: Duration(milliseconds: 500),
                 curve: Curves.easeInOut,
-              top: isSignupScreen ? MediaQuery.of(context).size.height - 215 :
-                      MediaQuery.of(context).size.height - 255,
+              top: isSignupScreen ? MediaQuery.of(context).size.height - 175 :
+                      MediaQuery.of(context).size.height - 200,
                 right: 0,
                 left: 0,
                 child: Column (

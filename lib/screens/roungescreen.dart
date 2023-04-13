@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:kakao_login_test/screens/listview.dart';
 
 import '../common/commondata.dart';
 import '../status/controller.dart';
@@ -71,8 +72,14 @@ class _RoungeScreenState extends State<RoungeScreen> {
               );
             }),
             TextButton(
-                onPressed: controller.increment2,
-                child: const Text('increment2')),
+              style: TextButton.styleFrom(
+                primary: Colors.white,
+                backgroundColor: Theme.of(context).colorScheme.primary,
+              ),
+                onPressed: (){
+                  Get.to(() => ListViewScreen());
+                },
+                child: const Text('List Test 화면으로')),
             Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
               return Text(
                 '${controller.userName.value}',
