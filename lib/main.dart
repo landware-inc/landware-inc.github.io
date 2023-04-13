@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:kakao_login_test/kakao/login_screen.dart';
+import 'package:kakao_login_test/common/commondata.dart';
 import 'package:kakao_login_test/screens/main_screen.dart';
+import './common/color_schemes.g.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +19,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return GetMaterialApp(
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: seedColor)
+      ),
+      themeMode: ThemeMode.system ,
       home: LoginSignupScreen(),
     );
   }

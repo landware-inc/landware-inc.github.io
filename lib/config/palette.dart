@@ -8,5 +8,7 @@ class Palette {
   static const Color textColor2 = Color(0xFF9BB3C0);
   static const Color facebookColor = Color(0xFF3B5998);
   static const Color googleColor = Color(0xFFDB4437);
+  static const Color kakaoColor = Color(0xFFFFE812);
+  static const Color naverColor = Color(0xFF03C75A);
   static const Color backgroundColor = Color(0xFFECF3F9);
 }
