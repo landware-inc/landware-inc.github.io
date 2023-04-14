@@ -40,7 +40,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
 
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -57,7 +57,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                   //   image: AssetImage('image/red.jpg'),
                   //   fit: BoxFit.fill,
                   // ),
-                  color: Theme.of(context).colorScheme.primaryContainer,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
                 child: Container(
                   padding: EdgeInsets.only(top: 90, left: 20),
@@ -68,7 +68,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                         text: TextSpan(
                           text: 'Welcome to ',
                           style: TextStyle(
-                            color: Theme.of(context).colorScheme.onBackground,
+                            color: Theme.of(context).colorScheme.onPrimary,
                             letterSpacing: 1.0,
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
@@ -77,7 +77,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                             TextSpan(
                               text: isSignupScreen ? '스마일부동산' : 'Back!',
                               style: TextStyle(
-                                color: Theme.of(context).colorScheme.onBackground,
+                                color: Theme.of(context).colorScheme.onPrimary,
                                 letterSpacing: 1.0,
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold,
@@ -584,7 +584,12 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                 left: 0,
                 child: Column (
                   children: [
-                    Text(isSignupScreen ? 'Or Signup With' : 'Or Login With'),
+                    Text(isSignupScreen ? 'Or Signup With' : 'Or Login With',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                        fontSize: 13,
+                      ),
+                    ),
                     SizedBox(height: 10),
                     TextButton.icon(
                       onPressed: () {},

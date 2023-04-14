@@ -34,7 +34,7 @@ class ListViewScreen extends StatelessWidget {
       ),
 
       body: Container(
-        color: Theme.of(context).colorScheme.background,
+        color: Theme.of(context).colorScheme.primaryContainer,
         child: Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),

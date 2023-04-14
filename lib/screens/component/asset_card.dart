@@ -45,7 +45,7 @@ class AssetCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primaryContainer,
+          color: Theme.of(context).colorScheme.onPrimaryContainer,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -59,8 +59,8 @@ class AssetCard extends StatelessWidget {
           child: Row(
             children: [
               SizedBox(
-                height: 90,
-                width: 90,
+                height: 95,
+                width: 95,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: image,
@@ -83,17 +83,17 @@ class AssetCard extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 15,
                                 fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                color: Theme.of(context).colorScheme.primaryContainer,
                               ),
                             ),
                             Text(
                               '$sizetype',
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 15,
                                 fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                color: Theme.of(context).colorScheme.primaryContainer
                               ),
                             ),
                           ],
@@ -105,7 +105,7 @@ class AssetCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          color: Theme.of(context).colorScheme.primaryContainer,
                         ),
                       ),
                       const SizedBox(height: 4,),
@@ -115,25 +115,25 @@ class AssetCard extends StatelessWidget {
                           Text(
                             '방$room/욕실$bath',
                             style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.onPrimaryContainer,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).colorScheme.primaryContainer,
                             ),
                           ),
                           Text(
                             '$direction향',
                             style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.onPrimaryContainer,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).colorScheme.primaryContainer,
                             ),
                           ),
                           Text(
                             '$floor (층/총층)',
                             style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.onPrimaryContainer,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).colorScheme.primaryContainer,
                             ),
                           ),]
                       ),
@@ -141,9 +141,9 @@ class AssetCard extends StatelessWidget {
                       Text(
                         '입주가능일 : $indate',
                         style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).colorScheme.primaryContainer,
                         ),
                       ),
                     ],

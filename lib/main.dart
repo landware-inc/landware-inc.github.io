@@ -22,9 +22,18 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: seedColor)
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: seedColor,
+            brightness: Brightness.light,
+          )
       ),
-      themeMode: ThemeMode.system ,
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: seedColor,
+            brightness: Brightness.dark,
+          )
+      ),
+      themeMode: ThemeMode.system,
       home: LoginSignupScreen(),
 //      home: ListViewScreen(),
     );
