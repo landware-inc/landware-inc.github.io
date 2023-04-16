@@ -4,8 +4,10 @@
    <application
         android:label="kakao_login_test"
         android:name="${applicationName}"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
-        
+        <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyB32IuSmKjAFCTGcKz3EU4yPUcKKZczNPU"/>
         <!-- 카카오 로그인 커스텀 URL 스킴 설정 -->
         <activity 
             android:name="com.kakao.sdk.flutter.AuthCodeCustomTabsActivity"
