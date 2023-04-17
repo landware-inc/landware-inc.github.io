@@ -76,10 +76,13 @@ class _RoungeScreenState extends State<RoungeScreen> {
                 primary: Colors.white,
                 backgroundColor: Theme.of(context).colorScheme.primary,
               ),
-                onPressed: (){
+                onPressed: () async {
                   Get.to(() => ListViewScreen());
+
+
                 },
-                child: const Text('List Test 화면으로')),
+                child: const Text('List Test 화면으로')
+  ),
             Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
               return Text(
                 '${controller.userName.value}',

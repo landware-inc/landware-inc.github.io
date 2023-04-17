@@ -10,9 +10,33 @@ class ListViewScreen extends StatelessWidget {
   const ListViewScreen({Key? key}) : super(key: key);
 
   Future<List> paginationAssetList() async {
-    final dio = Dio();
-    final response = await dio.get('$appServerURL/list');
-    return response.data;
+    try {
+      final dio = Dio();
+
+      final response = await dio.post(
+          '$appServerURL/selected',
+          data: {
+            'gubun': '전세',
+            'callname': '',
+            'minp': '12000',
+            'maxp': '30000',
+            'mins': '45',
+            'maxs': '100',
+          }
+      );
+
+      print(response.data);
+
+
+      dio.close();
+
+      return response.data;
+
+
+    } catch(e) {
+      print(e);
+      return [];
+    }
   }
 
   @override

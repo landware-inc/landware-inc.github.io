@@ -167,7 +167,7 @@ class DetailViewScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '면적 : ${snapshot.data[0]['size'] ?? ''}   (${snapshot.data[0]['sizetype'] ?? ''} 타입)',
+                            '면적 : ${snapshot.data[0]['size'] ?? ''} ㎡   (${snapshot.data[0]['sizetype'] ?? ''} 타입)',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w400,
