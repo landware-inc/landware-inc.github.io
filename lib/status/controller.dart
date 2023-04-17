@@ -6,6 +6,17 @@ class Controller extends GetxController { // GetxController extend
   var userName = ''.obs;
   var userId = ''.obs;
   var userEmail = ''.obs;
+  var selectGubun = ''.obs;
+  var maxPrice = 0.obs;
+  var minPrice = 0.obs;
+  var maxSize = 0.obs;
+  var minSize = 0.obs;
+  var maxJeonse = 0.obs;
+  var minJeonse = 0.obs;
+  var maxDeposit = 0.obs;
+  var minDeposit = 0.obs;
+  var maxMonthly = 0.obs;
+  var minMonthly = 0.obs;
 
   void increment1(){
     count1++;
