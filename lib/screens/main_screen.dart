@@ -616,7 +616,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                             controller.userId(viewModel.user!.id.toString());
                             controller.userName(viewModel.user!.kakaoAccount!.profile!.nickname);
 
-                            final response = await dio.post(
+                            var response = await dio.post(
                                 '$appServerURL/getusrname',
                                 data: {
                                   'uuid': viewModel.user!.id.toString(),
@@ -635,6 +635,13 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                   }
                               );
                             }
+
+                            response = await dio.get('$appServerURL/maxvalue');
+
+                            controller.maxS(response.data[0]['maxs']);
+                            controller.maxJ(response.data[0]['maxj']);
+                            controller.maxM(response.data[0]['maxm']);
+                            controller.maxD(response.data[0]['maxd']);
 
                             dio.close();
 

@@ -2,11 +2,9 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:kakao_login_test/screens/listview.dart';
 
-import '../common/commondata.dart';
 import '../status/controller.dart';
 
 class RoungeScreen extends StatefulWidget {
@@ -23,8 +21,8 @@ class _RoungeScreenState extends State<RoungeScreen> {
   String? userName;
   String result = '';
   List<bool> isSelected = [false, true, false];
-  RangeValues values =  RangeValues(15000, 45000);
-  RangeValues values2 =  RangeValues(5000, 45000);
+  RangeValues values =  RangeValues(15000, 150000);
+  RangeValues values2 =  RangeValues(5000, 50000);
   RangeValues values3 =  RangeValues(0, 45000);
   RangeValues values4 =  RangeValues(0, 150);
   double pickerValue = 0;
@@ -36,6 +34,7 @@ class _RoungeScreenState extends State<RoungeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    initRangeVlues();
   }
 
 
@@ -102,7 +101,7 @@ class _RoungeScreenState extends State<RoungeScreen> {
                 controller: _controller,
                 children: [
                   RangeSlider(
-                      max: 45000,
+                      max: controller.maxS.value.toDouble(),
                       values: values,
                       divisions: 50,
                       onChanged: onPickerChanged,
@@ -112,7 +111,7 @@ class _RoungeScreenState extends State<RoungeScreen> {
                       ),
                     ),
                   RangeSlider(
-                    max: 45000,
+                    max: controller.maxJ.value.toDouble(),
                     min: 0,
                     values: values2,
                     divisions: 50,
@@ -125,7 +124,7 @@ class _RoungeScreenState extends State<RoungeScreen> {
                   Column(
                     children: [
                       RangeSlider(
-                        max: 45000,
+                        max: controller.maxD.value.toDouble(),
                         min: 0,
                         values: values3,
                         divisions: 50,
@@ -136,10 +135,10 @@ class _RoungeScreenState extends State<RoungeScreen> {
                         ),
                       ),
                       RangeSlider(
-                        max: 150,
+                        max: controller.maxM.value.toDouble(),
                         min: 0,
                         values: values4,
-                        divisions: 5,
+                        divisions: 50,
                         onChanged: onPickerChanged4,
                         labels: RangeLabels(
                             values4.start.round().toString(),
@@ -164,16 +163,9 @@ class _RoungeScreenState extends State<RoungeScreen> {
               ),
                 onPressed: () async {
                   Get.to(() => ListViewScreen());
-
-
                 },
                 child: const Text('List Test 화면으로')
-  ),
-            Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
-              return Text(
-                '${controller.userName.value}',
-              );
-            }),
+            ),
           ],
         ),
       ),
@@ -181,12 +173,15 @@ class _RoungeScreenState extends State<RoungeScreen> {
   }
 
   void toggleSelect(int index) async {
-    final dio = Dio();
-
       setState(() {
         for(int i = 0; i < isSelected.length; i++) {
           if(i == index) {
             isSelected[i] = true;
+
+            if(i == 1) controller.selectGubun('전세');
+            else if(i == 2) controller.selectGubun('월세');
+            else controller.selectGubun('매매');
+
           } else {
             isSelected[i] = false;
           }
@@ -194,8 +189,6 @@ class _RoungeScreenState extends State<RoungeScreen> {
         _controller.jumpToPage(index);
       }
     );
-
-    dio.close();
   }
 
   void onPickerChanged(RangeValues value) {
@@ -208,22 +201,29 @@ class _RoungeScreenState extends State<RoungeScreen> {
   void onPickerChanged2(RangeValues value) {
     setState(() {
       values2 = value;
-      controller.minPrice(values2.start.round());
-      controller.maxPrice(values2.end.round());
+      controller.minJeonse(values2.start.round());
+      controller.maxJeonse(values2.end.round());
     });
   }
   void onPickerChanged3(RangeValues value) {
     setState(() {
       values3 = value;
-      controller.minPrice(values3.start.round());
-      controller.maxPrice(values3.end.round());
+      controller.minDeposit(values3.start.round());
+      controller.maxDeposit(values3.end.round());
     });
   }
   void onPickerChanged4(RangeValues value) {
     setState(() {
       values4 = value;
-      controller.minPrice(values4.start.round());
-      controller.maxPrice(values4.end.round());
+      controller.minMonthly(values4.start.round());
+      controller.maxMonthly(values4.end.round());
     });
+  }
+
+  void   initRangeVlues() {
+    values = RangeValues(0, controller.maxS.value.toDouble());
+    values2 = RangeValues(0, controller.maxJ.value.toDouble());
+    values3 = RangeValues(0, controller.maxD.value.toDouble());
+    values4 = RangeValues(0, controller.maxM.value.toDouble());
   }
 }

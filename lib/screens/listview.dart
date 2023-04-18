@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../common/commondata.dart';
+import '../status/controller.dart';
 import 'component/asset_card.dart';
 
 
@@ -10,16 +11,37 @@ class ListViewScreen extends StatelessWidget {
   const ListViewScreen({Key? key}) : super(key: key);
 
   Future<List> paginationAssetList() async {
+    final controller = Get.put(Controller());
+    final String minPrice;
+    final String maxPrice;
+    String minPrice2 = '0';
+    String maxPrice2 = '0';
+
+    if (controller.selectGubun.value == '전세') {
+      maxPrice = controller.maxJeonse.value.toString();
+      minPrice = controller.minJeonse.value.toString();
+    } else if (controller.selectGubun.value == '월세') {
+      minPrice = '${controller.minDeposit.value.toString()}';
+      maxPrice = '${controller.maxDeposit.value.toString()}';
+      minPrice2 = '${controller.minMonthly.value.toString()}';
+      maxPrice2 = '${controller.maxMonthly.value.toString()}';
+    } else {
+      minPrice = '${controller.minPrice.value.toString()}';
+      maxPrice = '${controller.maxPrice.value.toString()}';
+    }
+
     try {
       final dio = Dio();
 
       final response = await dio.post(
           '$appServerURL/selected',
           data: {
-            'gubun': '전세',
+            'gubun': '${controller.selectGubun.value}',
             'callname': '',
-            'minp': '12000',
-            'maxp': '30000',
+            'minp': '${minPrice}',
+            'maxp': '${maxPrice}',
+            'minp2': '${minPrice2}',
+            'maxp2': '${maxPrice2}',
             'mins': '45',
             'maxs': '100',
           }
@@ -82,7 +104,8 @@ class ListViewScreen extends StatelessWidget {
                                     fit: BoxFit.cover,
                                   ),
                                   callname: snapshot.data[index]['callname'],
-                                  price: snapshot.data[index]['jeonse'] ?? 0,
+                                  price: snapshot.data[index]['price'],
+                                  price2: snapshot.data[index]['price2'] ?? 0,
                                   room: snapshot.data[index]['room'] ?? 0,
                                   bath: snapshot.data[index]['bath'] ?? 0,
                                   sizetype: snapshot.data[index]['sizetype'],

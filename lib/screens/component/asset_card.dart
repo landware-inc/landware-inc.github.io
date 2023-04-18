@@ -12,6 +12,7 @@ class AssetCard extends StatelessWidget {
   final Widget image;
   final String callname;
   final int price;
+  final int price2;
   final int room;
   final int bath;
   final String sizetype;
@@ -21,6 +22,7 @@ class AssetCard extends StatelessWidget {
 
   const AssetCard({
     required this.price,
+    required this.price2,
     required this.id,
     required this.image,
     required this.callname,
@@ -100,13 +102,26 @@ class AssetCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 4,),
-                      Text(
-                        '${f.format(int.parse(price.toString()))}만원',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primaryContainer,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            '${f.format(int.parse(price.toString()))}만원',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primaryContainer,
+                            ),
+                          ),
+                          if (price2 != 0)
+                            Text(
+                              ' / ${f.format(int.parse(price2.toString()))}만원',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primaryContainer,
+                              ),
+                            ),
+                        ],
                       ),
                       const SizedBox(height: 4,),
                       Row(
