@@ -16,6 +16,9 @@ class ListViewScreen extends StatelessWidget {
     final String maxPrice;
     String minPrice2 = '0';
     String maxPrice2 = '0';
+    String minSize = '0';
+    String maxSize = '300';
+    final String callname;
 
     if (controller.selectGubun.value == '전세') {
       maxPrice = controller.maxJeonse.value.toString();
@@ -29,6 +32,9 @@ class ListViewScreen extends StatelessWidget {
       minPrice = '${controller.minPrice.value.toString()}';
       maxPrice = '${controller.maxPrice.value.toString()}';
     }
+    minSize = '${controller.minSize.value.toString()}';
+    maxSize = '${controller.maxSize.value.toString()}';
+    callname = '${controller.selectCallname.value}';
 
     try {
       final dio = Dio();
@@ -37,13 +43,13 @@ class ListViewScreen extends StatelessWidget {
           '$appServerURL/selected',
           data: {
             'gubun': '${controller.selectGubun.value}',
-            'callname': '',
+            'callname': '${callname}',
             'minp': '${minPrice}',
             'maxp': '${maxPrice}',
             'minp2': '${minPrice2}',
             'maxp2': '${maxPrice2}',
-            'mins': '45',
-            'maxs': '100',
+            'mins': '${minSize}',
+            'maxs': '${maxSize}',
           }
       );
 
@@ -112,6 +118,7 @@ class ListViewScreen extends StatelessWidget {
                                   direction: snapshot.data[index]['direction'],
                                   indate: snapshot.data[index]['indate'],
                                   floor: snapshot.data[index]['floor'],
+                                  type: snapshot.data[index]['type'] ?? '',
                                 ),
                               );
                             },

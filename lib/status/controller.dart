@@ -7,6 +7,7 @@ class Controller extends GetxController { // GetxController extend
   var userId = ''.obs;
   var userEmail = ''.obs;
   var selectGubun = ''.obs;
+  var selectCallname = ''.obs;
   var maxPrice = 0.obs;
   var minPrice = 0.obs;
   var maxSize = 0.obs;
@@ -21,6 +22,13 @@ class Controller extends GetxController { // GetxController extend
   var maxJ = 0.obs;
   var maxD = 0.obs;
   var maxM = 0.obs;
+  var maxZ = 0.obs;
+  var minS = 0.obs;
+  var minJ = 0.obs;
+  var minD = 0.obs;
+  var minM = 0.obs;
+  var minZ = 0.obs;
+
 
   void increment1(){
     count1++;

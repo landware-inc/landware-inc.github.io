@@ -21,10 +21,11 @@ class _RoungeScreenState extends State<RoungeScreen> {
   String? userName;
   String result = '';
   List<bool> isSelected = [false, true, false];
-  RangeValues values =  RangeValues(15000, 150000);
-  RangeValues values2 =  RangeValues(5000, 50000);
+  RangeValues values =   RangeValues(0, 150000);
+  RangeValues values2 =  RangeValues(0, 50000);
   RangeValues values3 =  RangeValues(0, 45000);
   RangeValues values4 =  RangeValues(0, 150);
+  RangeValues values5 =  RangeValues(0, 300);
   double pickerValue = 0;
   PageController _controller = PageController(initialPage: 0, keepPage: false);
 
@@ -33,8 +34,9 @@ class _RoungeScreenState extends State<RoungeScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
     initRangeVlues();
+    super.initState();
+
   }
 
 
@@ -58,19 +60,49 @@ class _RoungeScreenState extends State<RoungeScreen> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('ID : ${controller.userId.value}'),
-            Text('Email : ${controller.userEmail.value}'),
-            Text('Name : ${controller.userName.value}'),
-            Text('Rounge'),
-            GetBuilder<Controller>(
-              init: Controller(), // init을 설정하지 않을 시 에러 발생
-              builder: (_) => Text(
-                'clicks: ${_.count1}',
+            TextFormField(
+              key: ValueKey(1),
+              validator: (value) {
+                return null;
+              },
+              onSaved: (value) {
+                controller.selectCallname(value!);
+              },
+              onChanged: (value) {
+                controller.selectCallname(value!);
+              },
+              decoration: InputDecoration(
+                hintText: '단지/상권명 (없으면 모든 단지/상권)',
+                hintStyle: TextStyle(
+                  color: Theme.of(context).colorScheme.outline,
+                  letterSpacing: 1.0,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+                contentPadding: EdgeInsets.all(10),
+                prefixIcon: Icon(
+                  Icons.account_circle,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.outlineVariant,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                ),
               ),
             ),
+
+
 
             Column(
               children: [
@@ -86,76 +118,138 @@ class _RoungeScreenState extends State<RoungeScreen> {
               ],
             ),
 
-            TextButton(
-                onPressed: controller.increment1,
-                child: const Text('increment1')),
-            GetX<Controller>( // init을 통해 Controller를 등록할 수 있지만 여기선 Get.put을 사용
-              builder: (_) => Text(
-                '최대: ${_.maxPrice.value}',
-              ),
-            ),
+
             Container(
               width: MediaQuery.of(context).size.width,
-              height: 100,
+              height: 220,
               child: PageView(
                 controller: _controller,
                 children: [
-                  RangeSlider(
-                      max: controller.maxS.value.toDouble(),
-                      values: values,
-                      divisions: 50,
-                      onChanged: onPickerChanged,
-                      labels: RangeLabels(
-                        values.start.round().toString(),
-                          values.end.round().toString()
+                  Column(
+                    children: [
+                      GetX<Controller>( // init을 통해 Controller를 등록할 수 있지만 여기선 Get.put을 사용
+                        builder: (_) => Text(
+                          '최대: ${_.maxPrice.value}',
+                        ),
                       ),
-                    ),
-                  RangeSlider(
-                    max: controller.maxJ.value.toDouble(),
-                    min: 0,
-                    values: values2,
-                    divisions: 50,
-                    onChanged: onPickerChanged2,
-                    labels: RangeLabels(
-                        values2.start.round().toString(),
-                        values2.end.round().toString()
-                    ),
+                      RangeSlider(
+                          max: controller.maxS.value.toDouble(),
+                          min: controller.minS.value.toDouble(),
+                          values: values,
+                          divisions: 50,
+                          onChanged: onPickerChanged,
+                          labels: RangeLabels(
+                            values.start.round().toString(),
+                            values.end.round().toString(),
+                          ),
+                        ),
+                      GetX<Controller>( // init을 통해 Controller를 등록할 수 있지만 여기선 Get.put을 사용
+                        builder: (_) => Text(
+                          '최대: ${_.minPrice.value}',
+                        ),
+                      ),
+                    ],
                   ),
                   Column(
                     children: [
+                      Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
+                        return Text(
+                          '최대: ${controller.maxJeonse.value}',
+                        );
+                      }),
+                      RangeSlider(
+                        max: controller.maxJ.value.toDouble(),
+                        min: controller.minJ.value.toDouble(),
+                        values: values2,
+                        divisions: 50,
+                        onChanged: onPickerChanged2,
+                        labels: RangeLabels(
+                            values2.start.round().toString(),
+                            values2.end.round().toString(),
+                        ),
+                      ),
+                      Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
+                        return Text(
+                          '최소: ${controller.minJeonse.value}',
+                        );
+                      }),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
+                        return Text(
+                          '최대: ${controller.maxDeposit.value}',
+                        );
+                      }),
                       RangeSlider(
                         max: controller.maxD.value.toDouble(),
-                        min: 0,
+                        min: controller.minD.value.toDouble(),
                         values: values3,
                         divisions: 50,
                         onChanged: onPickerChanged3,
                         labels: RangeLabels(
                             values3.start.round().toString(),
-                            values3.end.round().toString()
+                            values3.end.round().toString(),
                         ),
                       ),
+                      Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
+                        return Text(
+                          '최소: ${controller.minDeposit.value}',
+                        );
+                      }),
+                      SizedBox(height: 20,),
+                      Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
+                        return Text(
+                          '최대: ${controller.maxMonthly.value}',
+                        );
+                      }),
                       RangeSlider(
                         max: controller.maxM.value.toDouble(),
-                        min: 0,
+                        min: controller.minM.value.toDouble(),
                         values: values4,
                         divisions: 50,
                         onChanged: onPickerChanged4,
                         labels: RangeLabels(
-                            values4.start.round().toString(),
-                            values4.end.round().toString()
+                          values4.start.round().toString(),
+                          values4.end.round().toString(),
                         ),
                       ),
+                      Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
+                        return Text(
+                          '최소: ${controller.minMonthly.value}',
+                        );
+                      }),
                     ],
                   ),
                 ]
               ),
             ),
-
-            Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
-              return Text(
-                '최소: ${controller.minPrice.value}',
-              );
-            }),
+            Column(
+              children : [
+                Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
+                  return Text(
+                    '최대: ${(controller.maxSize.value*0.3025).round()}',
+                  );
+                }),
+                RangeSlider(
+                  max: controller.maxZ.value.toDouble(),
+                  min: controller.minZ.value.toDouble(),
+                  values: values5,
+                  divisions: 50,
+                  onChanged: onPickerChanged5,
+                  labels: RangeLabels(
+                    (values5.start*0.3025).round().toString(),
+                    (values5.end*0.3025).round().toString(),
+                  ),
+                ),
+                Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
+                  return Text(
+                    '최소: ${(controller.minSize.value*0.3025).round()}',
+                  );
+                }),
+              ],
+            ),
             TextButton(
               style: TextButton.styleFrom(
                 primary: Colors.white,
@@ -220,10 +314,19 @@ class _RoungeScreenState extends State<RoungeScreen> {
     });
   }
 
+  void onPickerChanged5(RangeValues value) {
+    setState(() {
+      values5 = value;
+      controller.minSize(values5.start.round());
+      controller.maxSize(values5.end.round());
+    });
+  }
+
   void   initRangeVlues() {
-    values = RangeValues(0, controller.maxS.value.toDouble());
-    values2 = RangeValues(0, controller.maxJ.value.toDouble());
-    values3 = RangeValues(0, controller.maxD.value.toDouble());
-    values4 = RangeValues(0, controller.maxM.value.toDouble());
+    values = RangeValues(controller.minS.value.toDouble(), controller.maxS.value.toDouble());
+    values2 = RangeValues(controller.minJ.value.toDouble(), controller.maxJ.value.toDouble());
+    values3 = RangeValues(controller.minD.value.toDouble(), controller.maxD.value.toDouble());
+    values4 = RangeValues(controller.minM.value.toDouble(), controller.maxM.value.toDouble());
+    values5 = RangeValues(controller.minZ.value.toDouble(), controller.maxZ.value.toDouble());
   }
 }

@@ -19,6 +19,7 @@ class AssetCard extends StatelessWidget {
   final String direction;
   final String indate;
   final String floor;
+  final String type;
 
   const AssetCard({
     required this.price,
@@ -32,6 +33,7 @@ class AssetCard extends StatelessWidget {
     required this.bath,
     required this.room,
     required this.sizetype,
+    required this.type,
     Key? key}) : super(key: key);
 
   @override
@@ -103,26 +105,46 @@ class AssetCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 4,),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            '${f.format(int.parse(price.toString()))}만원',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primaryContainer,
-                            ),
-                          ),
-                          if (price2 != 0)
-                            Text(
-                              ' / ${f.format(int.parse(price2.toString()))}만원',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.primaryContainer,
+                              Column(
+                                children: [
+                                  if (price2 != 0)
+                                    Text(
+                                      '${f.format(int.parse(price.toString()))}만원 / ${f.format(int.parse(price2.toString()))}만원',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context).colorScheme.primaryContainer,
+                                      ),
+                                    ),
+                                  if (price2 == 0)
+                                    Text(
+                                      '${f.format(int.parse(price.toString()))}만원',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context).colorScheme.primaryContainer,
+                                      ),
+                                    ),
+                                ],
                               ),
-                            ),
-                        ],
-                      ),
+                              Column(
+                                children: [
+                                  Text(
+                                    '$type',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).colorScheme.primaryContainer,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                          ],
+                        ),
                       const SizedBox(height: 4,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
