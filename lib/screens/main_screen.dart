@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:kakao_login_test/common/commondata.dart';
 import 'package:kakao_login_test/config/palette.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -607,6 +608,8 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                     SizedBox(height: 10),
                     TextButton.icon(
                       onPressed: () async {
+                        var key = await KakaoSdk.origin;
+                        print(key);
                         try {
                           final dio = Dio();
                           await viewModel.login();
