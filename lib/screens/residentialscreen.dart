@@ -7,14 +7,14 @@ import 'package:kakao_login_test/screens/listview.dart';
 
 import '../status/controller.dart';
 
-class RoungeScreen extends StatefulWidget {
-  const RoungeScreen({Key? key}) : super(key: key);
+class ResidentialScreen extends StatefulWidget {
+  const ResidentialScreen({Key? key}) : super(key: key);
 
   @override
-  State<RoungeScreen> createState() => _RoungeScreenState();
+  State<ResidentialScreen> createState() => _ResidentialScreenState();
 }
 
-class _RoungeScreenState extends State<RoungeScreen> {
+class _ResidentialScreenState extends State<ResidentialScreen> {
   final _authentication = FirebaseAuth.instance;
   final controller = Get.put(Controller());
   User? loggedInUser;
@@ -108,10 +108,10 @@ class _RoungeScreenState extends State<RoungeScreen> {
             Column(
               children: [
                 ToggleButtons(
-                    children: [
-                      const Text('매매'),
-                      const Text('전세'),
-                      const Text('월세'),
+                    children: <Widget>[
+                      Container(width: (MediaQuery.of(context).size.width - 36)/3, child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[new Icon(Icons.domain,size: 20.0,color: Colors.red,),new SizedBox(width: 4.0,), new Text("매매",style: TextStyle(color: Colors.red,fontSize: 20),)],)),
+                      Container(width: (MediaQuery.of(context).size.width - 36)/3, child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[new Icon(Icons.add_business,size: 20.0,color: Colors.yellow[800],),new SizedBox(width: 4.0,), new Text("전세",style: TextStyle(color: Colors.yellow[800],fontSize: 20))],)),
+                      Container(width: (MediaQuery.of(context).size.width - 36)/3, child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[new Icon(Icons.meeting_room,size: 20.0,color: Colors.blue,),new SizedBox(width: 4.0,), new Text("월세",style: TextStyle(color: Colors.blue,fontSize: 20))],)),
                     ],
                     isSelected: isSelected,
                     onPressed: toggleSelect,
@@ -271,7 +271,10 @@ class _RoungeScreenState extends State<RoungeScreen> {
                 onPressed: () async {
                   Get.to(() => ListViewScreen());
                 },
-                child: const Text('선택 완료')
+                child: const Text(
+                  '선택 완료',
+                  style: TextStyle(fontSize: 18),
+                ),
             ),
           ],
         ),

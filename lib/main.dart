@@ -5,7 +5,6 @@ import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:kakao_login_test/common/commondata.dart';
 import 'package:kakao_login_test/screens/listview.dart';
 import 'package:kakao_login_test/screens/main_screen.dart';
-import './common/color_schemes.g.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

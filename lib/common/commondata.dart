@@ -6,5 +6,5 @@ const kakaoJsKey ='c3361ae36d0992d3958730f46e1e61ab';
 
 const googleMapKey = 'AIzaSyB32IuSmKjAFCTGcKz3EU4yPUcKKZczNPU';
 
-const seedColor = Color(0xFF89938E);
+const seedColor = Color(0xFF6F7974);
 

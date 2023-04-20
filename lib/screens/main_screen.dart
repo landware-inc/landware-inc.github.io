@@ -4,9 +4,10 @@ import 'package:kakao_login_test/common/commondata.dart';
 import 'package:kakao_login_test/config/palette.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kakao_login_test/kakao/main_view_model.dart';
-import 'package:kakao_login_test/screens/roungescreen.dart';
+import 'package:kakao_login_test/screens/residentialscreen.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:kakao_login_test/screens/startingscreen.dart';
 
 import '../kakao/kakao_login.dart';
 import '../status/controller.dart';
@@ -479,7 +480,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                               controller.userId(newUser.user!.uid);
                               controller.userName(newUser.user!.displayName!);
 
-                              Get.to(() => RoungeScreen());
+                              Get.to(() => StartScreen());
                             }
                           } catch(e) {
                             print(e);
@@ -568,7 +569,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
 
                             dio.close();
-                            Get.to (() => RoungeScreen());
+                            Get.to (() => StartScreen());
 
                           } catch(e) {
                             print(e);
@@ -694,7 +695,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
                             dio.close();
 
-                            Get.to(() => RoungeScreen());
+                            Get.to(() => StartScreen());
                           }
                         } catch(e) {
                           ScaffoldMessenger.of(context).showSnackBar(
