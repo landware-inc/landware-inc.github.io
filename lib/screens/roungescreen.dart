@@ -59,6 +59,7 @@ class _RoungeScreenState extends State<RoungeScreen> {
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
+        margin: EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -123,7 +124,19 @@ class _RoungeScreenState extends State<RoungeScreen> {
               width: MediaQuery.of(context).size.width,
               height: 220,
               child: PageView(
+                pageSnapping: true,
                 controller: _controller,
+                onPageChanged: (index) {
+                  setState(() {
+                    for (int i = 0; i < isSelected.length; i++) {
+                      if (i == index) {
+                        isSelected[i] = true;
+                      } else {
+                        isSelected[i] = false;
+                      }
+                    }
+                  });
+                },
                 children: [
                   Column(
                     children: [
@@ -258,7 +271,7 @@ class _RoungeScreenState extends State<RoungeScreen> {
                 onPressed: () async {
                   Get.to(() => ListViewScreen());
                 },
-                child: const Text('List Test 화면으로')
+                child: const Text('선택 완료')
             ),
           ],
         ),

@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:ffi';
+import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -54,6 +56,8 @@ class DetailViewScreen extends StatelessWidget {
   Widget build(BuildContext context)  {
     final _authentication = FirebaseAuth.instance;
     var f = NumberFormat('###,###,###,###');
+    PageController _controller = PageController(initialPage: 0, keepPage: false);
+    PageController _controllerMain = PageController(initialPage: 0, keepPage: false);
 
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
@@ -70,6 +74,7 @@ class DetailViewScreen extends StatelessWidget {
         ],
       ),
       body: PageView(
+        controller: _controllerMain,
         children: [
           Container(
             margin: const EdgeInsets.all(8),
@@ -84,8 +89,9 @@ class DetailViewScreen extends StatelessWidget {
                       children: [
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
-                          height: (MediaQuery.of(context).size.width / 5) * 3,
+                          height: (MediaQuery.of(context).size.width / 13) * 7,
                           child: PageView(
+                                  controller: _controller,
                                   children: [
                                       ClipRRect(
                                         child: Image.network(
@@ -145,7 +151,7 @@ class DetailViewScreen extends StatelessWidget {
                           Text(
                             snapshot.data[0]['callname'],
                             style: TextStyle(
-                              fontSize: 22,
+                              fontSize: 20,
                               fontWeight: FontWeight.w600,
                               color: Theme.of(context).colorScheme.onPrimaryContainer,
                             ),
@@ -153,7 +159,7 @@ class DetailViewScreen extends StatelessWidget {
                           Text(
                               snapshot.data[0]['type'] ?? '',
                               style: TextStyle(
-                                fontSize: 22,
+                                fontSize: 20,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context).colorScheme.onPrimaryContainer,
                               ),
@@ -169,7 +175,7 @@ class DetailViewScreen extends StatelessWidget {
                           Text(
                             '면적 : ${snapshot.data[0]['size'] ?? ''} ㎡   (${snapshot.data[0]['sizetype'] ?? ''} 타입)',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18,
                               fontWeight: FontWeight.w400,
                               color: Theme.of(context).colorScheme.onPrimaryContainer,
                             ),
@@ -177,7 +183,7 @@ class DetailViewScreen extends StatelessWidget {
                           Text(
                             '${snapshot.data[0]['floor'] ?? ''}층',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18,
                               fontWeight: FontWeight.w400,
                               color: Theme.of(context).colorScheme.onPrimaryContainer,
                             ),
@@ -185,7 +191,7 @@ class DetailViewScreen extends StatelessWidget {
                           Text(
                             '${snapshot.data[0]['direction'] ?? ''}향',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18,
                               fontWeight: FontWeight.w400,
                               color: Theme.of(context).colorScheme.onPrimaryContainer,
                             ),
@@ -196,7 +202,7 @@ class DetailViewScreen extends StatelessWidget {
                       Text(
                         '입주가능일자 : ${snapshot.data[0]['indate']}',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 17,
                           fontWeight: FontWeight.w400,
                           color: Theme.of(context).colorScheme.onPrimaryContainer,
                         ),
@@ -208,7 +214,7 @@ class DetailViewScreen extends StatelessWidget {
                         Text(
                           '전세가 : ${f.format(int.parse(snapshot.data[0]['jeonse'].toString()))}만원',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 17,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).colorScheme.onPrimaryContainer,
                           ),
@@ -219,7 +225,7 @@ class DetailViewScreen extends StatelessWidget {
                             Text(
                               '보증금 : ${f.format(int.parse(snapshot.data[0]['deposit'].toString()))}만원',
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 17,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context).colorScheme.onPrimaryContainer,
                               ),
@@ -227,7 +233,7 @@ class DetailViewScreen extends StatelessWidget {
                             Text(
                               ' / 월세 : ${f.format(int.parse(snapshot.data[0]['monthly'].toString()))}만원',
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 17,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context).colorScheme.onPrimaryContainer,
                               ),
@@ -238,7 +244,7 @@ class DetailViewScreen extends StatelessWidget {
                         Text(
                           '매매가 : ${f.format(int.parse(snapshot.data[0]['salesprice'].toString()))}만원',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 17,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).colorScheme.onPrimaryContainer,
                           ),
@@ -249,9 +255,21 @@ class DetailViewScreen extends StatelessWidget {
                       Text(
                         '연락처 : ${snapshot.data[0]['phone1'] ?? ''}',
                         style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w400,
                           color: Theme.of(context).colorScheme.onPrimaryContainer,
+                        ),
+                      ),
+                      Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
+                      GestureDetector(
+                        onTap: () {
+                          _controllerMain.jumpToPage(1);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.all(3.0),
+                          height: 200,
+                          width: MediaQuery.of(context).size.width,
+                          child: Image.network('https://maps.googleapis.com/maps/api/staticmap?center=&{$_lat,$_lng},zoom=13&size=${(MediaQuery.of(context).size.width*0.97).round()}x197&maptype=roadmap&markers=color:red%7C$_lat,$_lng&key=$googleMapKey'),
                         ),
                       ),
                       Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
@@ -283,13 +301,6 @@ class DetailViewScreen extends StatelessWidget {
                           color: Theme.of(context).colorScheme.onPrimaryContainer,
                         ),
                       ),
-                      // Text(snapshot.data[0]['rebuild'] ?? ''),
-                      // Text(snapshot.data[0]['description'] ?? ''),
-                      // Text(snapshot.data[0]['currentdeposit'].toString()),
-                      // Text(snapshot.data[0]['currentmonthly'].toString()),
-                      // Text(snapshot.data[0]['firstprice'].toString()),
-                      // Text(snapshot.data[0]['realprice'].toString()),
-                      // Text(snapshot.data[0]['premium'].toString()),
                     ],
                   ),
                 );
@@ -307,7 +318,7 @@ class DetailViewScreen extends StatelessWidget {
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
                   return GoogleMap(
-                    mapType: MapType.terrain,
+                    mapType: MapType.normal,
                     myLocationEnabled: true,
                     myLocationButtonEnabled: true,
                     initialCameraPosition: CameraPosition(

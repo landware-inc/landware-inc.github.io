@@ -128,8 +128,12 @@ class ListViewScreen extends StatelessWidget {
                       ],
                     );
                   } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                    return Column(
+                      children: [
+                        const Center(
+                          child: Text('선택한 조건의 물건이 없습니다.'),
+                        ),
+                      ],
                     );
                   }
                 },
