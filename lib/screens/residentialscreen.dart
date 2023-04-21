@@ -20,7 +20,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
   User? loggedInUser;
   String? userName;
   String result = '';
-  List<bool> isSelected = [false, true, false];
+  List<bool> isSelected = [true, false, false];
   RangeValues values =   RangeValues(0, 150000);
   RangeValues values2 =  RangeValues(0, 50000);
   RangeValues values3 =  RangeValues(0, 45000);

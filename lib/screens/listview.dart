@@ -53,10 +53,9 @@ class ListViewScreen extends StatelessWidget {
           }
       );
 
-      print(response.data);
-
 
       dio.close();
+
 
       return response.data;
 
@@ -127,20 +126,36 @@ class ListViewScreen extends StatelessWidget {
                         ),
                       ],
                     );
+
                   } else {
-                    return Column(
-                      children: [
-                        const Center(
-                          child: Text('선택한 조건의 물건이 없습니다.'),
-                        ),
-                      ],
-                    );
-                  }
-                },
-              ),
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                  );
+                }
+              },
             ),
+          ),
         ),
       ),
+    );
+  }
+
+  Future<dynamic> _showdialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('선택한 조건의 물건이 없습니다.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: const Text('확인'),
+              ),
+            ],
+          );
+        }
     );
   }
 }
