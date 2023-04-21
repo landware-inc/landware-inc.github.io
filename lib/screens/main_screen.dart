@@ -541,31 +541,6 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
                             }
 
-                            final response = await dio.get('$appServerURL/maxvalue');
-
-                            controller.maxS(response.data[0]['maxs']);
-                            controller.maxPrice(response.data[0]['maxs']);
-                            controller.maxJ(response.data[0]['maxj']);
-                            controller.maxJeonse(response.data[0]['maxj']);
-                            controller.maxM(response.data[0]['maxm']);
-                            controller.maxMonthly(response.data[0]['maxm']);
-                            controller.maxD(response.data[0]['maxd']);
-                            controller.maxDeposit(response.data[0]['maxd']);
-                            controller.minS(response.data[0]['mins']);
-                            controller.minPrice(response.data[0]['mins']);
-                            controller.minJ(response.data[0]['minj']);
-                            controller.minJeonse(response.data[0]['minj']);
-                            controller.minM(response.data[0]['minm']);
-                            controller.minMonthly(response.data[0]['minm']);
-                            controller.minD(response.data[0]['mind']);
-                            controller.minDeposit(response.data[0]['mind']);
-                            controller.selectGubun('전세');
-                            controller.minSize(response.data[0]['minz']);
-                            controller.minZ(response.data[0]['minz']);
-                            controller.maxSize(response.data[0]['maxz']);
-                            controller.maxZ(response.data[0]['maxz']);
-
-                            dio.close();
 
 
                             dio.close();
@@ -668,30 +643,6 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                   }
                               );
                             }
-
-                            response = await dio.get('$appServerURL/maxvalue');
-
-                            controller.maxS(response.data[0]['maxs']);
-                            controller.maxPrice(response.data[0]['maxs']);
-                            controller.maxJ(response.data[0]['maxj']);
-                            controller.maxJeonse(response.data[0]['maxj']);
-                            controller.maxM(response.data[0]['maxm']);
-                            controller.maxMonthly(response.data[0]['maxm']);
-                            controller.maxD(response.data[0]['maxd']);
-                            controller.maxDeposit(response.data[0]['maxd']);
-                            controller.minS(response.data[0]['mins']);
-                            controller.minPrice(response.data[0]['mins']);
-                            controller.minJ(response.data[0]['minj']);
-                            controller.minJeonse(response.data[0]['minj']);
-                            controller.minM(response.data[0]['minm']);
-                            controller.minMonthly(response.data[0]['minm']);
-                            controller.minD(response.data[0]['mind']);
-                            controller.minDeposit(response.data[0]['mind']);
-                            controller.selectGubun('전세');
-                            controller.minSize(response.data[0]['minz']);
-                            controller.minZ(response.data[0]['minz']);
-                            controller.maxSize(response.data[0]['maxz']);
-                            controller.maxZ(response.data[0]['maxz']);
 
                             dio.close();
 

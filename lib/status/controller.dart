@@ -18,6 +18,8 @@ class Controller extends GetxController { // GetxController extend
   var minDeposit = 0.obs;
   var maxMonthly = 0.obs;
   var minMonthly = 0.obs;
+  var maxEntitle = 0.obs;
+  var minEntitle = 0.obs;
   var maxS = 0.obs;
   var maxJ = 0.obs;
   var maxD = 0.obs;
@@ -28,6 +30,8 @@ class Controller extends GetxController { // GetxController extend
   var minD = 0.obs;
   var minM = 0.obs;
   var minZ = 0.obs;
+  var maxE = 0.obs;
+  var minE = 0.obs;
 
 
   void increment1(){

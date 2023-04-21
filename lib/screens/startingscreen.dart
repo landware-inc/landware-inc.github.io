@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,6 +6,7 @@ import 'package:kakao_login_test/screens/commercialscreen.dart';
 import 'package:kakao_login_test/screens/registrationscreen.dart';
 import 'package:kakao_login_test/screens/residentialscreen.dart';
 
+import '../common/commondata.dart';
 import '../status/controller.dart';
 
 
@@ -15,6 +17,7 @@ class StartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final _authentication = FirebaseAuth.instance;
     final controller = Get.put(Controller());
+
 
     return Scaffold(
       appBar: AppBar(
@@ -49,7 +52,34 @@ class StartScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      final dio = Dio();
+                      final response = await dio.get('$appServerURL/regi_maxvalue');
+
+                      controller.maxS(response.data[0]['maxs']);
+                      controller.maxPrice(response.data[0]['maxs']);
+                      controller.maxJ(response.data[0]['maxj']);
+                      controller.maxJeonse(response.data[0]['maxj']);
+                      controller.maxM(response.data[0]['maxm']);
+                      controller.maxMonthly(response.data[0]['maxm']);
+                      controller.maxD(response.data[0]['maxd']);
+                      controller.maxDeposit(response.data[0]['maxd']);
+                      controller.minS(response.data[0]['mins']);
+                      controller.minPrice(response.data[0]['mins']);
+                      controller.minJ(response.data[0]['minj']);
+                      controller.minJeonse(response.data[0]['minj']);
+                      controller.minM(response.data[0]['minm']);
+                      controller.minMonthly(response.data[0]['minm']);
+                      controller.minD(response.data[0]['mind']);
+                      controller.minDeposit(response.data[0]['mind']);
+                      controller.selectGubun('전세');
+                      controller.minSize(response.data[0]['minz']);
+                      controller.minZ(response.data[0]['minz']);
+                      controller.maxSize(response.data[0]['maxz']);
+                      controller.maxZ(response.data[0]['maxz']);
+
+                      dio.close();
+
                       Get.to(() => ResidentialScreen());
                     },
                     child: Text(
@@ -61,8 +91,34 @@ class StartScreen extends StatelessWidget {
                      ),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      Get.to (() => CommecialScreen());
+                    onPressed: () async {
+                      final dio = Dio();
+                      final response = await dio.get('$appServerURL/comm_maxvalue');
+
+                      controller.maxS(response.data[0]['maxs']);
+                      controller.maxPrice(response.data[0]['maxs']);
+                      controller.maxE(response.data[0]['maxe']);
+                      controller.maxEntitle(response.data[0]['maxe']);
+                      controller.maxM(response.data[0]['maxm']);
+                      controller.maxMonthly(response.data[0]['maxm']);
+                      controller.maxD(response.data[0]['maxd']);
+                      controller.maxDeposit(response.data[0]['maxd']);
+                      controller.minS(response.data[0]['mins']);
+                      controller.minPrice(response.data[0]['mins']);
+                      controller.minE(response.data[0]['mine']);
+                      controller.minEntitle(response.data[0]['mine']);
+                      controller.minM(response.data[0]['minm']);
+                      controller.minMonthly(response.data[0]['minm']);
+                      controller.minD(response.data[0]['mind']);
+                      controller.minDeposit(response.data[0]['mind']);
+                      controller.selectGubun('전세');
+                      controller.minSize(response.data[0]['minz']);
+                      controller.minZ(response.data[0]['minz']);
+                      controller.maxSize(response.data[0]['maxz']);
+                      controller.maxZ(response.data[0]['maxz']);
+
+                      dio.close();
+                      Get.to (() => CommercialScreen());
                     },
                     child: const Text('상업용 부동산',
                       style: TextStyle(

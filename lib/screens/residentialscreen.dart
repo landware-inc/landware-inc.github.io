@@ -3,7 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kakao_login_test/screens/listview.dart';
+import 'package:kakao_login_test/screens/regidentiallistview.dart';
 
 import '../status/controller.dart';
 
@@ -46,7 +46,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Rounge'),
+        title: const Text('주거용 검색 조건'),
         actions: [
           IconButton(
             onPressed: () {
@@ -76,7 +76,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                 controller.selectCallname(value!);
               },
               decoration: InputDecoration(
-                hintText: '단지/상권명 (없으면 모든 단지/상권)',
+                hintText: '단지명 (없으면 모든 단지)',
                 hintStyle: TextStyle(
                   color: Theme.of(context).colorScheme.outline,
                   letterSpacing: 1.0,
@@ -269,7 +269,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                 backgroundColor: Theme.of(context).colorScheme.primary,
               ),
                 onPressed: () async {
-                  Get.to(() => ListViewScreen());
+                  Get.to(() => RegidentialListViewScreen());
                 },
                 child: const Text(
                   '선택 완료',

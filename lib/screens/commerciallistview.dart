@@ -7,8 +7,8 @@ import '../status/controller.dart';
 import 'component/asset_card.dart';
 
 
-class ListViewScreen extends StatelessWidget {
-  const ListViewScreen({Key? key}) : super(key: key);
+class CommercialListViewScreen extends StatelessWidget {
+  const CommercialListViewScreen({Key? key}) : super(key: key);
 
   Future<List> paginationAssetList() async {
     final controller = Get.put(Controller());
@@ -72,7 +72,7 @@ class ListViewScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('List test'),
+        title: const Text('상업용 부동산'),
         actions: [
           IconButton(
             onPressed: () {
