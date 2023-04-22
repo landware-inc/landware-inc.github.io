@@ -13,11 +13,11 @@ import '../common/commondata.dart';
 import '../map/maptest.dart';
 
 
-class DetailViewScreen extends StatelessWidget {
+class AssetDetailViewScreen extends StatelessWidget {
   final int id;
   double _lat = 0.0;
   double _lng = 0.0;
-  DetailViewScreen({
+  AssetDetailViewScreen({
     required this.id,
     Key? key}) : super(key: key);
 

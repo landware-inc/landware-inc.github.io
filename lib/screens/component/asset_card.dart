@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../detailview.dart';
+import '../assetdetailview.dart';
 
 
 class AssetCard extends StatelessWidget {
@@ -42,7 +42,7 @@ class AssetCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Get.to(() => DetailViewScreen(
+        Get.to(() => AssetDetailViewScreen(
           id: id,
         ));
       },

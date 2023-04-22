@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:kakao_login_test/screens/component/comm_card.dart';
 import '../common/commondata.dart';
 import '../status/controller.dart';
 import 'component/asset_card.dart';
@@ -20,17 +21,14 @@ class CommercialListViewScreen extends StatelessWidget {
     String maxSize = '300';
     final String callname;
 
-    if (controller.selectGubun.value == '전세') {
-      maxPrice = controller.maxJeonse.value.toString();
-      minPrice = controller.minJeonse.value.toString();
-    } else if (controller.selectGubun.value == '월세') {
+    if (controller.selectGubun.value == '매매') {
+      maxPrice = controller.maxPrice.value.toString();
+      minPrice = controller.minPrice.value.toString();
+    } else  {
       minPrice = '${controller.minDeposit.value.toString()}';
       maxPrice = '${controller.maxDeposit.value.toString()}';
       minPrice2 = '${controller.minMonthly.value.toString()}';
       maxPrice2 = '${controller.maxMonthly.value.toString()}';
-    } else {
-      minPrice = '${controller.minPrice.value.toString()}';
-      maxPrice = '${controller.maxPrice.value.toString()}';
     }
     minSize = '${controller.minSize.value.toString()}';
     maxSize = '${controller.maxSize.value.toString()}';
@@ -40,7 +38,7 @@ class CommercialListViewScreen extends StatelessWidget {
       final dio = Dio();
 
       final response = await dio.post(
-          '$appServerURL/selected',
+          '$appServerURL/commselected',
           data: {
             'gubun': '${controller.selectGubun.value}',
             'callname': '${callname}',
@@ -100,23 +98,23 @@ class CommercialListViewScreen extends StatelessWidget {
                                 (context, index) {
                               return Padding(
                                 padding: const EdgeInsets.only(top: 10.0),
-                                child: AssetCard(
+                                child: CommCard(
                                   id: snapshot.data[index]['id'],
                                   image: Image.network(
-                                    snapshot.data[index]['img1'] == ''
+                                    snapshot.data[index]['img_1'] == ''
                                         ? '$appServerURL/sample.jpg'
-                                        : '$appServerURL/${snapshot.data[index]['img1']}',
+                                        : '$appServerURL/${snapshot.data[index]['img_1']}',
                                     fit: BoxFit.cover,
                                   ),
-                                  callname: snapshot.data[index]['callname'],
+                                  division: snapshot.data[index]['division'],
                                   price: snapshot.data[index]['price'],
                                   price2: snapshot.data[index]['price2'] ?? 0,
-                                  room: snapshot.data[index]['room'] ?? 0,
-                                  bath: snapshot.data[index]['bath'] ?? 0,
-                                  sizetype: snapshot.data[index]['sizetype'],
-                                  direction: snapshot.data[index]['direction'],
-                                  indate: snapshot.data[index]['indate'],
-                                  floor: snapshot.data[index]['floor'],
+                                  eliv: snapshot.data[index]['eliv'] ?? '',
+                                  parking : snapshot.data[index]['parking'] ?? '',
+                                  size: snapshot.data[index]['size'] ?? 0,
+                                  entitleprice: snapshot.data[index]['entitleprice'] ?? 0,
+                                  indate: snapshot.data[index]['indate'] ?? '',
+                                  floor: snapshot.data[index]['floor'] ?? '',
                                   type: snapshot.data[index]['type'] ?? '',
                                 ),
                               );
