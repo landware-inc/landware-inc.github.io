@@ -342,5 +342,6 @@ class _CommercialScreenState extends State<CommercialScreen> {
     values3 = RangeValues(controller.minD.value.toDouble(), controller.maxD.value.toDouble());
     values4 = RangeValues(controller.minM.value.toDouble(), controller.maxM.value.toDouble());
     values5 = RangeValues(controller.minZ.value.toDouble(), controller.maxZ.value.toDouble());
+    controller.selectGubun('매매');
   }
 }

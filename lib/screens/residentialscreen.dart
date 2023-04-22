@@ -1,7 +1,11 @@
 
 
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kakao_login_test/screens/regidentiallistview.dart';
 
@@ -28,15 +32,18 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
   RangeValues values5 =  RangeValues(0, 300);
   double pickerValue = 0;
   PageController _controller = PageController(initialPage: 0, keepPage: false);
+  TextEditingController _textEditingControllerMin = TextEditingController();
+  TextEditingController _textEditingControllerMax = TextEditingController();
+  List<Widget> _list = [Text('모든가격')];
 
 
 
   @override
   void initState() {
     // TODO: implement initState
-    initRangeVlues();
-    super.initState();
 
+    super.initState();
+    initRangeVlues();
   }
 
 
@@ -120,9 +127,10 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
             ),
 
 
+
             Container(
               width: MediaQuery.of(context).size.width,
-              height: 220,
+              height: 300,
               child: PageView(
                 pageSnapping: true,
                 controller: _controller,
@@ -140,7 +148,111 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                 children: [
                   Column(
                     children: [
-                      GetX<Controller>( // init을 통해 Controller를 등록할 수 있지만 여기선 Get.put을 사용
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width / 4,
+                                  child: TextField(
+                                    controller: _textEditingControllerMin,
+                                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      hintText: '최소',
+                                      hintStyle: TextStyle(
+                                        color: Theme.of(context).colorScheme.outline,
+                                        letterSpacing: 1.0,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      contentPadding: EdgeInsets.all(10),
+                                      prefixIcon: Icon(
+                                        Icons.account_circle,
+                                        color: Theme.of(context).colorScheme.onSurface,
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Theme.of(context).colorScheme.onBackground,
+                                        ),
+                                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Theme.of(context).colorScheme.outlineVariant,
+                                        ),
+                                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                                      ),
+                                    ),
+                                  )
+                              ),
+                              Container(
+                                alignment: Alignment.center,
+                                height: 90,
+                                width: MediaQuery.of(context).size.width / 3,
+                                child: CupertinoPicker(
+                                  itemExtent: 40,
+                                  diameterRatio: 5,
+                                  offAxisFraction: -1.0,
+                                    backgroundColor: Colors.white,
+                                    scrollController: FixedExtentScrollController(initialItem: 0),
+                                    squeeze: 1.0,
+                                    onSelectedItemChanged: (index) {
+                                      if(index == 0) {
+                                        _textEditingControllerMin.text = controller.minS.value.toString();
+                                        _textEditingControllerMax.text = controller.maxS.value.toString();
+                                        controller.minPrice(controller.minS.value.toInt());
+                                        controller.maxPrice(controller.maxS.value.toInt());
+                                      } else {
+                                        _textEditingControllerMin.text = ((index) * 5000 - 5000).toString();
+                                        _textEditingControllerMax.text = ((index + 1) * 5000).toString();
+                                        controller.minPrice(((index) * 5000 -5000));
+                                        controller.maxPrice(((index + 1) * 5000));
+                                      }
+                                    },
+                                    children: _list,
+                                ),
+                              ),
+                              Container(
+                                  width: MediaQuery.of(context).size.width / 4,
+                                  child: TextField(
+                                    controller: _textEditingControllerMax,
+                                    key: ValueKey(1),
+                                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      hintText: '최대',
+                                      hintStyle: TextStyle(
+                                        color: Theme.of(context).colorScheme.outline,
+                                        letterSpacing: 1.0,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      contentPadding: EdgeInsets.all(10),
+                                      prefixIcon: Icon(
+                                        Icons.account_circle,
+                                        color: Theme.of(context).colorScheme.onSurface,
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Theme.of(context).colorScheme.onBackground,
+                                        ),
+                                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Theme.of(context).colorScheme.outlineVariant,
+                                        ),
+                                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                                      ),
+                                    ),
+                                  )
+                              ),
+                            ],
+                          ),
+
+
+/*                      GetX<Controller>( // init을 통해 Controller를 등록할 수 있지만 여기선 Get.put을 사용
                         builder: (_) => Text(
                           '최대: ${_.maxPrice.value}',
                         ),
@@ -158,9 +270,9 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                         ),
                       GetX<Controller>( // init을 통해 Controller를 등록할 수 있지만 여기선 Get.put을 사용
                         builder: (_) => Text(
-                          '최대: ${_.minPrice.value}',
+                          '최소: ${_.minPrice.value}',
                         ),
-                      ),
+                      ), */
                     ],
                   ),
                   Column(
@@ -344,5 +456,9 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
     values3 = RangeValues(controller.minD.value.toDouble(), controller.maxD.value.toDouble());
     values4 = RangeValues(controller.minM.value.toDouble(), controller.maxM.value.toDouble());
     values5 = RangeValues(controller.minZ.value.toDouble(), controller.maxZ.value.toDouble());
+    controller.selectGubun('매매');
+    _textEditingControllerMin.text = controller.minS.value.toString();
+    _textEditingControllerMax.text = controller.maxS.value.toString();
+    _list.addAll(List.generate((controller.maxS.value.toInt()/5000).toInt(), (i) => ((i + 1) * 5000)).map((e) => Text('$e만원')).toList());
   }
 }

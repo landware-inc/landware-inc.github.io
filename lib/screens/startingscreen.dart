@@ -52,6 +52,9 @@ class StartScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).colorScheme.secondary,
+                    ),
                     onPressed: () async {
                       final dio = Dio();
                       final response = await dio.get('$appServerURL/regi_maxvalue');
@@ -91,6 +94,9 @@ class StartScreen extends StatelessWidget {
                      ),
                   ),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).colorScheme.secondary,
+                    ),
                     onPressed: () async {
                       final dio = Dio();
                       final response = await dio.get('$appServerURL/comm_maxvalue');
@@ -128,6 +134,9 @@ class StartScreen extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).colorScheme.secondary,
+                    ),
                     onPressed: () {
                       Get.to (() => RegistrationScreen());
                     },
