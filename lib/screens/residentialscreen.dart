@@ -2,11 +2,13 @@
 
 import 'dart:convert';
 
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:kakao_login_test/screens/regidentiallistview.dart';
 
 import '../status/controller.dart';
@@ -34,7 +36,20 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
   PageController _controller = PageController(initialPage: 0, keepPage: false);
   TextEditingController _textEditingControllerMin = TextEditingController();
   TextEditingController _textEditingControllerMax = TextEditingController();
+  TextEditingController _textEditingControllerMinJ = TextEditingController();
+  TextEditingController _textEditingControllerMaxJ = TextEditingController();
+  TextEditingController _textEditingControllerMinD = TextEditingController();
+  TextEditingController _textEditingControllerMaxD = TextEditingController();
+  TextEditingController _textEditingControllerMinM = TextEditingController();
+  TextEditingController _textEditingControllerMaxM = TextEditingController();
+  TextEditingController _textEditingControllerMinSize = TextEditingController();
+  TextEditingController _textEditingControllerMaxSize = TextEditingController();
   List<Widget> _list = [Text('모든가격')];
+  List<Widget> _listJ = [Text('모든가격')];
+  List<Widget> _listD = [Text('모든가격')];
+  List<Widget> _listM = [Text('모든가격')];
+  List<Widget> _listSize = [Text('모든평수')];
+  var f = NumberFormat('###,###,###,###');
 
 
 
@@ -83,7 +98,8 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                 controller.selectCallname(value!);
               },
               decoration: InputDecoration(
-                hintText: '단지명 (없으면 모든 단지)',
+                hintText: '단지/동명 (없으면 모든 단지/동)',
+                labelText: '단지/동명',
                 hintStyle: TextStyle(
                   color: Theme.of(context).colorScheme.outline,
                   letterSpacing: 1.0,
@@ -126,19 +142,22 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
               ],
             ),
 
-
-
             Container(
               width: MediaQuery.of(context).size.width,
-              height: 300,
+              height: 250,
               child: PageView(
                 pageSnapping: true,
                 controller: _controller,
                 onPageChanged: (index) {
                   setState(() {
-                    for (int i = 0; i < isSelected.length; i++) {
-                      if (i == index) {
+                    for(int i = 0; i < isSelected.length; i++) {
+                      if(i == index) {
                         isSelected[i] = true;
+
+                        if(i == 1) controller.selectGubun('전세');
+                        else if(i == 2) controller.selectGubun('월세');
+                        else controller.selectGubun('매매');
+
                       } else {
                         isSelected[i] = false;
                       }
@@ -146,8 +165,17 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                   });
                 },
                 children: [
+
                   Column(
                     children: [
+                          Text(
+                              '매매 가격',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -157,10 +185,15 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                   child: TextField(
                                     textAlign: TextAlign.right ,
                                     controller: _textEditingControllerMin,
-                                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                    inputFormatters: [CurrencyTextInputFormatter(
+                                        locale: 'ko_KR',
+                                        decimalDigits: 0,
+                                        symbol: '',
+                                    )],
                                     keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
                                       hintText: '최소',
+                                      labelText: '최소',
                                       hintStyle: TextStyle(
                                         color: Theme.of(context).colorScheme.outline,
                                         letterSpacing: 1.0,
@@ -187,7 +220,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                               Container(
                                 alignment: Alignment.center,
                                 height: 90,
-                                width: MediaQuery.of(context).size.width / 3,
+                                width: MediaQuery.of(context).size.width / 2.5,
                                 child: CupertinoPicker(
                                   itemExtent: 40,
                                   diameterRatio: 5,
@@ -196,13 +229,13 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                     squeeze: 1.0,
                                     onSelectedItemChanged: (index) {
                                       if(index == 0) {
-                                        _textEditingControllerMin.text = controller.minS.value.toString();
-                                        _textEditingControllerMax.text = controller.maxS.value.toString();
+                                        _textEditingControllerMin.text = f.format(controller.minS.value);
+                                        _textEditingControllerMax.text = f.format(controller.maxS.value);
                                         controller.minPrice(controller.minS.value.toInt());
                                         controller.maxPrice(controller.maxS.value.toInt());
                                       } else {
-                                        _textEditingControllerMin.text = ((index) * 5000 - 5000).toString();
-                                        _textEditingControllerMax.text = ((index + 1) * 5000).toString();
+                                        _textEditingControllerMin.text = f.format(((index) * 5000 - 5000));
+                                        _textEditingControllerMax.text = f.format(((index + 1) * 5000));
                                         controller.minPrice(((index) * 5000 -5000));
                                         controller.maxPrice(((index + 1) * 5000));
                                       }
@@ -216,10 +249,15 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                     textAlign: TextAlign.right ,
                                     controller: _textEditingControllerMax,
                                     key: ValueKey(1),
-                                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                    inputFormatters: [CurrencyTextInputFormatter(
+                                      locale: 'ko_KR',
+                                      decimalDigits: 0,
+                                      symbol: '',
+                                    )],
                                     keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
                                       hintText: '최대',
+                                      labelText: '최대',
                                       hintStyle: TextStyle(
                                         color: Theme.of(context).colorScheme.outline,
                                         letterSpacing: 1.0,
@@ -244,6 +282,8 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                               ),
                             ],
                           ),
+                        ]
+                    ),
 
 
 /*                      GetX<Controller>( // init을 통해 Controller를 등록할 수 있지만 여기선 Get.put을 사용
@@ -267,114 +307,515 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                           '최소: ${_.minPrice.value}',
                         ),
                       ), */
+
+
+                  Column(
+                    children: [
+                      Text('전세 가격',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                              width: MediaQuery.of(context).size.width / 4,
+                              child: TextField(
+                                textAlign: TextAlign.right ,
+                                controller: _textEditingControllerMinJ,
+                                inputFormatters: [CurrencyTextInputFormatter(
+                                  locale: 'ko_KR',
+                                  decimalDigits: 0,
+                                  symbol: '',
+                                )],
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  hintText: '최소',
+                                  labelText: '최소',
+                                  hintStyle: TextStyle(
+                                    color: Theme.of(context).colorScheme.outline,
+                                    letterSpacing: 1.0,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  contentPadding: EdgeInsets.all(10),
+
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Theme.of(context).colorScheme.onBackground,
+                                    ),
+                                    //                           borderRadius: BorderRadius.all(Radius.circular(30)),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Theme.of(context).colorScheme.outlineVariant,
+                                    ),
+                                    //                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                                  ),
+                                ),
+                              )
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            height: 90,
+                            width: MediaQuery.of(context).size.width / 2.5,
+                            child: CupertinoPicker(
+                              itemExtent: 40,
+                              diameterRatio: 5,
+                              offAxisFraction: -1.0,
+                              scrollController: FixedExtentScrollController(initialItem: 0),
+                              squeeze: 1.0,
+                              onSelectedItemChanged: (index) {
+                                if(index == 0) {
+                                  _textEditingControllerMinJ.text = f.format(controller.minJ.value);
+                                  _textEditingControllerMaxJ.text = f.format(controller.maxJ.value);
+                                  controller.minJeonse(controller.minJ.value.toInt());
+                                  controller.maxJeonse(controller.maxJ.value.toInt());
+                                } else {
+                                  _textEditingControllerMinJ.text = f.format(((index) * 5000 - 5000));
+                                  _textEditingControllerMaxJ.text = f.format(((index + 1) * 5000));
+                                  controller.minJeonse(((index) * 5000 -5000));
+                                  controller.maxJeonse(((index + 1) * 5000));
+                                }
+                              },
+                              children: _listJ,
+                            ),
+                          ),
+                          Container(
+                              width: MediaQuery.of(context).size.width / 4,
+                              child: TextField(
+                                textAlign: TextAlign.right ,
+                                controller: _textEditingControllerMaxJ,
+                                key: ValueKey(1),
+                                inputFormatters: [CurrencyTextInputFormatter(
+                                  locale: 'ko_KR',
+                                  decimalDigits: 0,
+                                  symbol: '',
+                                )],
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  hintText: '최대',
+                                  labelText: '최대',
+                                  hintStyle: TextStyle(
+                                    color: Theme.of(context).colorScheme.outline,
+                                    letterSpacing: 1.0,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  contentPadding: EdgeInsets.all(10),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Theme.of(context).colorScheme.onBackground,
+                                    ),
+                                    //              borderRadius: BorderRadius.all(Radius.circular(30)),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Theme.of(context).colorScheme.outlineVariant,
+                                    ),
+                                    //             borderRadius: BorderRadius.all(Radius.circular(30)),
+                                  ),
+                                ),
+                              )
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                   Column(
                     children: [
-                      Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
-                        return Text(
-                          '최대: ${controller.maxJeonse.value}',
-                        );
-                      }),
-                      RangeSlider(
-                        max: controller.maxJ.value.toDouble(),
-                        min: controller.minJ.value.toDouble(),
-                        values: values2,
-                        divisions: 50,
-                        onChanged: onPickerChanged2,
-                        labels: RangeLabels(
-                            values2.start.round().toString(),
-                            values2.end.round().toString(),
+                      Column(
+                        children: [
+                          Text(
+                              '보증금',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                  width: MediaQuery.of(context).size.width / 4,
+                                  child: TextField(
+                                    textAlign: TextAlign.right ,
+                                    controller: _textEditingControllerMinD,
+                                    inputFormatters: [CurrencyTextInputFormatter(
+                                      locale: 'ko_KR',
+                                      decimalDigits: 0,
+                                      symbol: '',
+                                    )],
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      hintText: '최소',
+                                      labelText: '최소',
+                                      hintStyle: TextStyle(
+                                        color: Theme.of(context).colorScheme.outline,
+                                        letterSpacing: 1.0,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      contentPadding: EdgeInsets.all(10),
+
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Theme.of(context).colorScheme.onBackground,
+                                        ),
+                                        //                           borderRadius: BorderRadius.all(Radius.circular(30)),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Theme.of(context).colorScheme.outlineVariant,
+                                        ),
+                                        //                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                                      ),
+                                    ),
+                                  )
+                              ),
+                              Container(
+                                alignment: Alignment.center,
+                                height: 90,
+                                width: MediaQuery.of(context).size.width / 2.5,
+                                child: CupertinoPicker(
+                                  itemExtent: 40,
+                                  diameterRatio: 5,
+                                  offAxisFraction: -1.0,
+                                  scrollController: FixedExtentScrollController(initialItem: 0),
+                                  squeeze: 1.0,
+                                  onSelectedItemChanged: (index) {
+                                    if(index == 0) {
+                                      _textEditingControllerMinD.text = f.format(controller.minD.value);
+                                      _textEditingControllerMaxD.text = f.format(controller.maxD.value);
+                                      controller.minDeposit(controller.minD.value.toInt());
+                                      controller.maxDeposit(controller.maxD.value.toInt());
+                                    } else {
+                                      _textEditingControllerMinD.text = f.format(((index) * 500 - 500));
+                                      _textEditingControllerMaxD.text = f.format(((index + 1) * 500));
+                                      controller.minDeposit(((index) * 500 -500));
+                                      controller.maxDeposit(((index + 1) * 500));
+                                    }
+                                  },
+                                  children: _listD,
+                                ),
+                              ),
+                              Container(
+                                  width: MediaQuery.of(context).size.width / 4,
+                                  child: TextField(
+                                    textAlign: TextAlign.right ,
+                                    controller: _textEditingControllerMaxD,
+                                    key: ValueKey(1),
+                                    inputFormatters: [CurrencyTextInputFormatter(
+                                      locale: 'ko_KR',
+                                      decimalDigits: 0,
+                                      symbol: '',
+                                    )],
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      hintText: '최대',
+                                      labelText: '최대',
+                                      hintStyle: TextStyle(
+                                        color: Theme.of(context).colorScheme.outline,
+                                        letterSpacing: 1.0,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      contentPadding: EdgeInsets.all(10),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Theme.of(context).colorScheme.onBackground,
+                                        ),
+                                        //              borderRadius: BorderRadius.all(Radius.circular(30)),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Theme.of(context).colorScheme.outlineVariant,
+                                        ),
+                                        //             borderRadius: BorderRadius.all(Radius.circular(30)),
+                                      ),
+                                    ),
+                                  )
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Text(
+                          '월세',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
-                        return Text(
-                          '최소: ${controller.minJeonse.value}',
-                        );
-                      }),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                              width: MediaQuery.of(context).size.width / 4,
+                              child: TextField(
+                                textAlign: TextAlign.right ,
+                                controller: _textEditingControllerMinM,
+                                inputFormatters: [CurrencyTextInputFormatter(
+                                  locale: 'ko_KR',
+                                  decimalDigits: 0,
+                                  symbol: '',
+                                )],
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  hintText: '최소',
+                                  labelText: '최소',
+                                  hintStyle: TextStyle(
+                                    color: Theme.of(context).colorScheme.outline,
+                                    letterSpacing: 1.0,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  contentPadding: EdgeInsets.all(10),
+
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Theme.of(context).colorScheme.onBackground,
+                                    ),
+                                    //                           borderRadius: BorderRadius.all(Radius.circular(30)),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Theme.of(context).colorScheme.outlineVariant,
+                                    ),
+                                    //                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                                  ),
+                                ),
+                              )
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            height: 90,
+                            width: MediaQuery.of(context).size.width / 2.5,
+                            child: CupertinoPicker(
+                              itemExtent: 40,
+                              diameterRatio: 5,
+                              offAxisFraction: -1.0,
+                              scrollController: FixedExtentScrollController(initialItem: 0),
+                              squeeze: 1.0,
+                              onSelectedItemChanged: (index) {
+                                if(index == 0) {
+                                  _textEditingControllerMinM.text = f.format(controller.minM.value);
+                                  _textEditingControllerMaxM.text = f.format(controller.maxM.value);
+                                  controller.minMonthly(controller.minM.value.toInt());
+                                  controller.maxMonthly(controller.maxM.value.toInt());
+                                } else {
+                                  _textEditingControllerMinM.text = f.format(((index) * 10 - 10));
+                                  _textEditingControllerMaxM.text = f.format(((index + 1) * 10));
+                                  controller.minMonthly(((index) * 10 -10));
+                                  controller.maxMonthly(((index + 1) * 10));
+                                }
+                              },
+                              children: _listM,
+                            ),
+                          ),
+                          Container(
+                              width: MediaQuery.of(context).size.width / 4,
+                              child: TextField(
+                                textAlign: TextAlign.right ,
+                                controller: _textEditingControllerMaxM,
+                                key: ValueKey(1),
+                                inputFormatters: [CurrencyTextInputFormatter(
+                                  locale: 'ko_KR',
+                                  decimalDigits: 0,
+                                  symbol: '',
+                                )],
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  hintText: '최대',
+                                  labelText: '최대',
+                                  hintStyle: TextStyle(
+                                    color: Theme.of(context).colorScheme.outline,
+                                    letterSpacing: 1.0,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  contentPadding: EdgeInsets.all(10),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Theme.of(context).colorScheme.onBackground,
+                                    ),
+                                    //              borderRadius: BorderRadius.all(Radius.circular(30)),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Theme.of(context).colorScheme.outlineVariant,
+                                    ),
+                                    //             borderRadius: BorderRadius.all(Radius.circular(30)),
+                                  ),
+                                ),
+                              )
+                          ),
+                        ],
+                      ),
                     ],
                   ),
-                  Column(
-                    children: [
-                      Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
-                        return Text(
-                          '최대: ${controller.maxDeposit.value}',
-                        );
-                      }),
-                      RangeSlider(
-                        max: controller.maxD.value.toDouble(),
-                        min: controller.minD.value.toDouble(),
-                        values: values3,
-                        divisions: 50,
-                        onChanged: onPickerChanged3,
-                        labels: RangeLabels(
-                            values3.start.round().toString(),
-                            values3.end.round().toString(),
-                        ),
-                      ),
-                      Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
-                        return Text(
-                          '최소: ${controller.minDeposit.value}',
-                        );
-                      }),
-                      SizedBox(height: 20,),
-                      Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
-                        return Text(
-                          '최대: ${controller.maxMonthly.value}',
-                        );
-                      }),
-                      RangeSlider(
-                        max: controller.maxM.value.toDouble(),
-                        min: controller.minM.value.toDouble(),
-                        values: values4,
-                        divisions: 50,
-                        onChanged: onPickerChanged4,
-                        labels: RangeLabels(
-                          values4.start.round().toString(),
-                          values4.end.round().toString(),
-                        ),
-                      ),
-                      Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
-                        return Text(
-                          '최소: ${controller.minMonthly.value}',
-                        );
-                      }),
-                    ],
-                  ),
-                ]
+                  ]
+                ),
               ),
-            ),
+
             Column(
-              children : [
-                Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
-                  return Text(
-                    '최대: ${(controller.maxSize.value*0.3025).round()}',
-                  );
-                }),
-                RangeSlider(
-                  max: controller.maxZ.value.toDouble(),
-                  min: controller.minZ.value.toDouble(),
-                  values: values5,
-                  divisions: 50,
-                  onChanged: onPickerChanged5,
-                  labels: RangeLabels(
-                    (values5.start*0.3025).round().toString(),
-                    (values5.end*0.3025).round().toString(),
+              children: [
+                Text(
+                    '평수',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
-                  return Text(
-                    '최소: ${(controller.minSize.value*0.3025).round()}',
-                  );
-                }),
+                SizedBox(height: 10,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                        width: MediaQuery.of(context).size.width / 4,
+                        child: TextField(
+                          textAlign: TextAlign.right ,
+                          controller: _textEditingControllerMinSize,
+                          inputFormatters: [CurrencyTextInputFormatter(
+                            locale: 'ko_KR',
+                            decimalDigits: 0,
+                            symbol: '',
+                          )],
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: '최소',
+                            labelText: '최소',
+                            hintStyle: TextStyle(
+                              color: Theme.of(context).colorScheme.outline,
+                              letterSpacing: 1.0,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            contentPadding: EdgeInsets.all(10),
+
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.onBackground,
+                              ),
+                              //                           borderRadius: BorderRadius.all(Radius.circular(30)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.outlineVariant,
+                              ),
+                              //                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                            ),
+                          ),
+                        )
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      height: 90,
+                      width: MediaQuery.of(context).size.width / 2.5,
+                      child: CupertinoPicker(
+                        itemExtent: 40,
+                        diameterRatio: 5,
+                        offAxisFraction: -1.0,
+                        scrollController: FixedExtentScrollController(initialItem: 0),
+                        squeeze: 1.0,
+                        onSelectedItemChanged: (index) {
+                          if(index == 0) {
+                            _textEditingControllerMinSize.text = f.format((controller.minZ.value.toInt() * 0.3025).toInt());
+                            _textEditingControllerMaxSize.text = f.format((controller.maxZ.value.toInt() * 0.3025).toInt());
+                            controller.minSize(controller.minZ.value.toInt());
+                            controller.maxSize(controller.maxZ.value.toInt());
+                          } else {
+                            _textEditingControllerMinSize.text = f.format(((index) * 5 - 5));
+                            _textEditingControllerMaxSize.text = f.format(((index + 1) * 5));
+                            controller.minSize(((((index) * 5) -5) * 3.3057).toInt());
+                            controller.maxSize((((index + 1) * 5) * 3.3057).toInt());
+                          }
+                        },
+                        children: _listSize,
+                      ),
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width / 4,
+                        child: TextField(
+                          textAlign: TextAlign.right ,
+                          controller: _textEditingControllerMaxSize,
+                          key: ValueKey(1),
+                          inputFormatters: [CurrencyTextInputFormatter(
+                            locale: 'ko_KR',
+                            decimalDigits: 0,
+                            symbol: '',
+                          )],
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: '최대',
+                            labelText: '최대',
+                            hintStyle: TextStyle(
+                              color: Theme.of(context).colorScheme.outline,
+                              letterSpacing: 1.0,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            contentPadding: EdgeInsets.all(10),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.onBackground,
+                              ),
+                              //              borderRadius: BorderRadius.all(Radius.circular(30)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.outlineVariant,
+                              ),
+                              //             borderRadius: BorderRadius.all(Radius.circular(30)),
+                            ),
+                          ),
+                        )
+                    ),
+                  ],
+                ),
               ],
             ),
+
+            // Column(
+            //   children : [
+            //     Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
+            //       return Text(
+            //         '최대: ${(controller.maxSize.value*0.3025).round()}',
+            //       );
+            //     }),
+            //     RangeSlider(
+            //       max: controller.maxZ.value.toDouble(),
+            //       min: controller.minZ.value.toDouble(),
+            //       values: values5,
+            //       divisions: 50,
+            //       onChanged: onPickerChanged5,
+            //       labels: RangeLabels(
+            //         (values5.start*0.3025).round().toString(),
+            //         (values5.end*0.3025).round().toString(),
+            //       ),
+            //     ),
+            //     Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
+            //       return Text(
+            //         '최소: ${(controller.minSize.value*0.3025).round()}',
+            //       );
+            //     }),
+            //   ],
+            // ),
             TextButton(
               style: TextButton.styleFrom(
                 primary: Colors.white,
                 backgroundColor: Theme.of(context).colorScheme.primary,
               ),
                 onPressed: () async {
+
                   Get.to(() => RegidentialListViewScreen());
                 },
                 child: const Text(
@@ -384,7 +825,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
             ),
           ],
         ),
-      ),
+    ),
     );
   }
 
@@ -451,8 +892,20 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
     values4 = RangeValues(controller.minM.value.toDouble(), controller.maxM.value.toDouble());
     values5 = RangeValues(controller.minZ.value.toDouble(), controller.maxZ.value.toDouble());
     controller.selectGubun('매매');
-    _textEditingControllerMin.text = controller.minS.value.toString();
-    _textEditingControllerMax.text = controller.maxS.value.toString();
-    _list.addAll(List.generate((controller.maxS.value.toInt()/5000).toInt(), (i) => ((i + 1) * 5000)).map((e) => Text('$e만원')).toList());
+    _textEditingControllerMin.text = f.format(controller.minS.value).toString();
+    _textEditingControllerMax.text = f.format(controller.maxS.value).toString();
+    _textEditingControllerMinJ.text = f.format(controller.minJ.value).toString();
+    _textEditingControllerMaxJ.text = f.format(controller.maxJ.value).toString();
+    _textEditingControllerMinD.text = f.format(controller.minD.value).toString();
+    _textEditingControllerMaxD.text = f.format(controller.maxD.value).toString();
+    _textEditingControllerMinM.text = f.format(controller.minM.value).toString();
+    _textEditingControllerMaxM.text = f.format(controller.maxM.value).toString();
+    _textEditingControllerMinSize.text = f.format(controller.minZ.value).toString();
+    _textEditingControllerMaxSize.text = f.format(controller.maxZ.value).toString();
+    _list.addAll(List.generate((controller.maxS.value.toInt()/5000).toInt(), (i) => ((i + 1) * 5000)).map((e) => Text('${f.format(e)}만원')).toList());
+    _listJ.addAll(List.generate((controller.maxJ.value.toInt()/5000).toInt(), (i) => ((i + 1) * 5000)).map((e) => Text('${f.format(e)}만원')).toList());
+    _listD.addAll(List.generate((controller.maxD.value.toInt()/500).toInt(), (i) => ((i + 1) * 500)).map((e) => Text('${f.format(e)}만원')).toList());
+    _listM.addAll(List.generate((controller.maxM.value.toInt()/10).toInt(), (i) => ((i + 1) * 10)).map((e) => Text('${f.format(e)}만원')).toList());
+    _listSize.addAll(List.generate(((controller.maxZ.value.toInt()*0.3025)/5).toInt(), (i) => ((i + 1) * 5)).map((e) => Text('${f.format(e)}평')).toList());
   }
 }
