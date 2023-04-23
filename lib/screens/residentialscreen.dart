@@ -155,6 +155,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                               Container(
                                 width: MediaQuery.of(context).size.width / 4,
                                   child: TextField(
+                                    textAlign: TextAlign.right ,
                                     controller: _textEditingControllerMin,
                                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                     keyboardType: TextInputType.number,
@@ -163,25 +164,22 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                       hintStyle: TextStyle(
                                         color: Theme.of(context).colorScheme.outline,
                                         letterSpacing: 1.0,
-                                        fontSize: 14,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.bold,
                                       ),
                                       contentPadding: EdgeInsets.all(10),
-                                      prefixIcon: Icon(
-                                        Icons.account_circle,
-                                        color: Theme.of(context).colorScheme.onSurface,
-                                      ),
+
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: Theme.of(context).colorScheme.onBackground,
                                         ),
-                                        borderRadius: BorderRadius.all(Radius.circular(30)),
+             //                           borderRadius: BorderRadius.all(Radius.circular(30)),
                                       ),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: Theme.of(context).colorScheme.outlineVariant,
                                         ),
-                                        borderRadius: BorderRadius.all(Radius.circular(30)),
+              //                          borderRadius: BorderRadius.all(Radius.circular(30)),
                                       ),
                                     ),
                                   )
@@ -194,7 +192,6 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                   itemExtent: 40,
                                   diameterRatio: 5,
                                   offAxisFraction: -1.0,
-                                    backgroundColor: Colors.white,
                                     scrollController: FixedExtentScrollController(initialItem: 0),
                                     squeeze: 1.0,
                                     onSelectedItemChanged: (index) {
@@ -216,6 +213,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                               Container(
                                   width: MediaQuery.of(context).size.width / 4,
                                   child: TextField(
+                                    textAlign: TextAlign.right ,
                                     controller: _textEditingControllerMax,
                                     key: ValueKey(1),
                                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -225,25 +223,21 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                       hintStyle: TextStyle(
                                         color: Theme.of(context).colorScheme.outline,
                                         letterSpacing: 1.0,
-                                        fontSize: 14,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.bold,
                                       ),
                                       contentPadding: EdgeInsets.all(10),
-                                      prefixIcon: Icon(
-                                        Icons.account_circle,
-                                        color: Theme.of(context).colorScheme.onSurface,
-                                      ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: Theme.of(context).colorScheme.onBackground,
                                         ),
-                                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                          //              borderRadius: BorderRadius.all(Radius.circular(30)),
                                       ),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: Theme.of(context).colorScheme.outlineVariant,
                                         ),
-                                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                           //             borderRadius: BorderRadius.all(Radius.circular(30)),
                                       ),
                                     ),
                                   )
