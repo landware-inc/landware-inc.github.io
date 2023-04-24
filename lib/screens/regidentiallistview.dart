@@ -19,6 +19,7 @@ class RegidentialListViewScreen extends StatelessWidget {
     String minSize = '0';
     String maxSize = '300';
     final String callname;
+    final String roomCount;
 
     if (controller.selectGubun.value == '전세') {
       maxPrice = controller.maxJeonse.value.toString();
@@ -35,6 +36,7 @@ class RegidentialListViewScreen extends StatelessWidget {
     minSize = '${controller.minSize.value.toString()}';
     maxSize = '${controller.maxSize.value.toString()}';
     callname = '${controller.selectCallname.value}';
+    roomCount = '${controller.roomCount.value}';
 
     try {
       final dio = Dio();
@@ -50,6 +52,7 @@ class RegidentialListViewScreen extends StatelessWidget {
             'maxp2': '${maxPrice2}',
             'mins': '${minSize}',
             'maxs': '${maxSize}',
+            'roomcount': '${roomCount}',
           }
       );
 

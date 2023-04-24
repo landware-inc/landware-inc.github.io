@@ -32,6 +32,7 @@ class Controller extends GetxController { // GetxController extend
   var minZ = 0.obs;
   var maxE = 0.obs;
   var minE = 0.obs;
+  var roomCount = ''.obs;
 
 
   void increment1(){
