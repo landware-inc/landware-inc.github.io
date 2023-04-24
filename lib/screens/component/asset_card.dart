@@ -40,154 +40,184 @@ class AssetCard extends StatelessWidget {
   Widget build(BuildContext context) {
     var f = NumberFormat('###,###,###,###');
 
-    return GestureDetector(
-      onTap: () {
-        Get.to(() => AssetDetailViewScreen(
-          id: id,
-        ));
+    return Dismissible(
+      // Each Dismissible must contain a Key. Keys allow Flutter to
+      // uniquely identify widgets.
+      key: UniqueKey(),
+      // Provide a function that tells the app
+      background: Container(
+        color: Colors.red,
+        child: const Icon(Icons.delete),
+      ),
+      secondaryBackground: Container(
+        color: Colors.blue,
+        child: const Icon(Icons.archive),
+      ),
+      onDismissed: (direction) {
+        // Remove the item from the data source.
+        // setState(() {
+        //   _items.removeAt(index);
+        // });
+        //
+        // Then show a snackbar.
+        if(direction == DismissDirection.endToStart) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("$callname 관심 물건 추가")));
+        } else {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("$callname 거래 완료됨")));
+        }
       },
-      child: Container(
-        padding: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.onPrimaryContainer,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: IntrinsicHeight(
-          child: Row(
-            children: [
-              SizedBox(
-                height: 95,
-                width: 95,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: image,
-                ),
+
+      child: GestureDetector(
+        onTap: () {
+          Get.to(() => AssetDetailViewScreen(
+            id: id,
+          ));
+        },
+        child: Container(
+          padding: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.onPrimaryContainer,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      IntrinsicHeight(
-                        child: Row(
+            ],
+          ),
+          child: IntrinsicHeight(
+            child: Row(
+              children: [
+                SizedBox(
+                  height: 95,
+                  width: 95,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: image,
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        IntrinsicHeight(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '$callname',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primaryContainer,
+                                ),
+                              ),
+                              Text(
+                                '$sizetype',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primaryContainer
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 4,),
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                                Column(
+                                  children: [
+                                    if (price2 != 0)
+                                      Text(
+                                        '${f.format(int.parse(price.toString()))}만원 / ${f.format(int.parse(price2.toString()))}만원',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(context).colorScheme.primaryContainer,
+                                        ),
+                                      ),
+                                    if (price2 == 0)
+                                      Text(
+                                        '${f.format(int.parse(price.toString()))}만원',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(context).colorScheme.primaryContainer,
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Text(
+                                      '$type',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context).colorScheme.primaryContainer,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                            ],
+                          ),
+                        const SizedBox(height: 4,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              '$callname',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                              '방$room/욕실$bath',
                               style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
                                 color: Theme.of(context).colorScheme.primaryContainer,
                               ),
                             ),
                             Text(
-                              '$sizetype',
+                              '$direction향',
                               style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.primaryContainer
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).colorScheme.primaryContainer,
                               ),
                             ),
-                          ],
+                            Text(
+                              '$floor (층/총층)',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).colorScheme.primaryContainer,
+                              ),
+                            ),]
                         ),
-                      ),
-                      const SizedBox(height: 4,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                              Column(
-                                children: [
-                                  if (price2 != 0)
-                                    Text(
-                                      '${f.format(int.parse(price.toString()))}만원 / ${f.format(int.parse(price2.toString()))}만원',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: Theme.of(context).colorScheme.primaryContainer,
-                                      ),
-                                    ),
-                                  if (price2 == 0)
-                                    Text(
-                                      '${f.format(int.parse(price.toString()))}만원',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: Theme.of(context).colorScheme.primaryContainer,
-                                      ),
-                                    ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    '$type',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).colorScheme.primaryContainer,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                          ],
-                        ),
-                      const SizedBox(height: 4,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '방$room/욕실$bath',
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).colorScheme.primaryContainer,
-                            ),
-                          ),
-                          Text(
-                            '$direction향',
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).colorScheme.primaryContainer,
-                            ),
-                          ),
-                          Text(
-                            '$floor (층/총층)',
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).colorScheme.primaryContainer,
-                            ),
-                          ),]
-                      ),
 
-                      Text(
-                        '입주가능일 : $indate',
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).colorScheme.primaryContainer,
+                        Text(
+                          '입주가능일 : $indate',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).colorScheme.primaryContainer,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
