@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kakao_login_test/screens/commercialscreen.dart';
+import 'package:kakao_login_test/screens/homebasketlist.dart';
 import 'package:kakao_login_test/screens/registrationscreen.dart';
 import 'package:kakao_login_test/screens/residentialscreen.dart';
 
@@ -141,6 +142,20 @@ class StartScreen extends StatelessWidget {
                       Get.to (() => RegistrationScreen());
                     },
                     child: const Text('신규 물건 등록',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).colorScheme.secondary,
+                    ),
+                    onPressed: () {
+                      Get.to (() => HomeBasketListViewScreen());
+                    },
+                    child: const Text('관심 물건 보기',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w300,

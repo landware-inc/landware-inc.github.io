@@ -8,3 +8,4 @@ const googleMapKey = 'AIzaSyB32IuSmKjAFCTGcKz3EU4yPUcKKZczNPU';
 
 const seedColor = Color(0xFF6F7974);
 
+var homeBasket = <int>[];

@@ -1,9 +1,11 @@
 import 'dart:ffi';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../common/commondata.dart';
 import '../assetdetailview.dart';
 
 
@@ -46,13 +48,88 @@ class AssetCard extends StatelessWidget {
       key: UniqueKey(),
       // Provide a function that tells the app
       background: Container(
+        margin: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(20),
+        alignment: Alignment.centerLeft,
         color: Colors.red,
-        child: const Icon(Icons.delete),
+        child: const Icon(Icons.delete,size: 36,),
       ),
       secondaryBackground: Container(
+        margin: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(20),
+        alignment: Alignment.centerRight,
         color: Colors.blue,
-        child: const Icon(Icons.archive),
+        child: const Icon(Icons.archive,size: 36,),
       ),
+      confirmDismiss: (direction) async {
+        if(direction == DismissDirection.endToStart) {
+          return await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("관심 물건 추가"),
+                content: const Text("관심 물건으로 추가하시겠습니까?"),
+                actions: <Widget>[
+                  TextButton(
+                      onPressed: () => {
+                        homeBasket.add(id),
+                        print(homeBasket),
+                        Navigator.of(context).pop(false),
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(SnackBar(content: Text("$callname 관심 물건으로 추가됨"))),
+                      },
+                      child: const Text("예")
+                  ),
+                  TextButton(
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: const Text("아니오")
+                  ),
+                ],
+              );
+            },
+          );
+        } else {
+          return await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("거래 완료"),
+                content: const Text("거래가 완료되었습니까?"),
+                actions: <Widget>[
+                  TextButton(
+                      onPressed: () async{
+                        final dio = Dio();
+                        try {
+                          final response = await dio.post(
+                              '$appServerURL/setstatushome',
+                              data: {
+                                'uuid': id,
+                              }
+                          );
+
+
+
+                        } catch (e) {
+                          print(e);
+                        }
+
+                        dio.close();
+                        Navigator.of(context).pop(true);
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(SnackBar(content: Text("$callname 거래 완료됨")));
+                      },
+                      child: const Text("예")
+                  ),
+                  TextButton(
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: const Text("아니오")
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      },
       onDismissed: (direction) {
         // Remove the item from the data source.
         // setState(() {
