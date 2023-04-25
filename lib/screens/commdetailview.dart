@@ -60,7 +60,7 @@ class CommDetailViewScreen extends StatelessWidget {
     PageController _controllerMain = PageController(initialPage: 0, keepPage: false);
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: const Text('Detail View'),
         actions: [

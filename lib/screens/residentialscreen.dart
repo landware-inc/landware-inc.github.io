@@ -863,7 +863,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
               //     }),
               //   ],
               // ),
-              SizedBox(height: 50,),
+              SizedBox(height: 40,),
               TextButton(
                 style: TextButton.styleFrom(
                   primary: Colors.white,

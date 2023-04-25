@@ -86,7 +86,7 @@ class CommercialListViewScreen extends StatelessWidget {
       bottomNavigationBar: BottomMenuBar(),
 
       body: Container(
-        color: Theme.of(context).colorScheme.primaryContainer,
+        color: Theme.of(context).colorScheme.background,
         child: Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),

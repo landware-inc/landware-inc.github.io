@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:dio/dio.dart';
@@ -24,6 +25,7 @@ class AssetCard extends StatelessWidget {
   final String floor;
   final String type;
   final String gubun;
+  final String addr;
 
   const AssetCard({
     required this.price,
@@ -39,12 +41,50 @@ class AssetCard extends StatelessWidget {
     required this.sizetype,
     required this.type,
     required this.gubun,
+    required this.addr,
     Key? key}) : super(key: key);
+
+
+  updateLatLng() async {
+    final dio = Dio();
+    double _lat = 0.0;
+    double _lng = 0.0;
+
+    String gpsUrl =
+        'https://maps.googleapis.com/maps/api/geocode/json?address=$addr&key=$googleMapKey&language=ko';
+
+    final responseGps = await dio.get(gpsUrl);
+
+    var rst = jsonDecode(responseGps.toString());
+
+    _lat = rst['results'][0]['geometry']['location']['lat'];
+    _lng = rst['results'][0]['geometry']['location']['lng'];
+    // print(response.data[0]['addr']);
+    // print ('========================================');
+    // print(_lat.toString());
+    // print('========================================');
+
+
+    try {
+      final response = await dio.post(
+          '$appServerURL/updatelatlng',
+          data: {
+            'id': id,
+            'lat': _lat,
+            'lng': _lng,
+          }
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     var f = NumberFormat('###,###,###,###');
 //    List<basketItems> basketList = [];
+
+//    updateLatLng();
 
     return Dismissible(
       // Each Dismissible must contain a Key. Keys allow Flutter to
@@ -161,7 +201,7 @@ class AssetCard extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.onPrimaryContainer,
+            color: Theme.of(context).colorScheme.primary,
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(

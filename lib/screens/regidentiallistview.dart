@@ -9,6 +9,7 @@ import 'package:kakao_login_test/screens/main_screen.dart';
 import 'package:kakao_login_test/screens/registrationscreen.dart';
 import 'package:kakao_login_test/screens/residentialscreen.dart';
 import 'package:kakao_login_test/screens/startingscreen.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../common/commondata.dart';
 import '../status/controller.dart';
 import 'component/asset_card.dart';
@@ -28,6 +29,7 @@ class RegidentialListViewScreen extends StatelessWidget {
     final String callname;
     final String roomCount;
     final String gubun;
+
 
     if (controller.selectGubun.value == '전세') {
       maxPrice = controller.maxJeonse.value.toString();
@@ -134,6 +136,7 @@ class RegidentialListViewScreen extends StatelessWidget {
                                   floor: snapshot.data[index]['floor'],
                                   type: snapshot.data[index]['type'] ?? '',
                                   gubun: controller.selectGubun.value,
+                                  addr: snapshot.data[index]['addr'],
                                 ),
                               );
                             },
