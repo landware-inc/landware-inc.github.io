@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:kakao_login_test/screens/component/basket.dart';
 
 const appServerURL = "http://34.64.86.84:8080";
 
@@ -8,4 +11,4 @@ const googleMapKey = 'AIzaSyB32IuSmKjAFCTGcKz3EU4yPUcKKZczNPU';
 
 const seedColor = Color(0xFF6F7974);
 
-var homeBasket = <int>[];
+List<int> homeBasket = [];

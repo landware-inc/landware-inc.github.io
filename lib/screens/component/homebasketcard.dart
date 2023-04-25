@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:kakao_login_test/screens/component/basket.dart';
 
 import '../../common/commondata.dart';
 import '../assetdetailview.dart';
@@ -70,7 +71,7 @@ class AssetBasketCard extends StatelessWidget {
                 actions: <Widget>[
                   TextButton(
                       onPressed: () {
-                        homeBasket.removeWhere((element) => element == id);
+                        deleteItem(id);
                         Navigator.of(context).pop(true);
                         ScaffoldMessenger.of(context)
                             .showSnackBar(SnackBar(content: Text("$callname 관심등록 삭제됨")));

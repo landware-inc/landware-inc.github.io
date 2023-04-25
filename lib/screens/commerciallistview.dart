@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:kakao_login_test/screens/component/bottom_menu.dart';
 import 'package:kakao_login_test/screens/component/comm_card.dart';
 import '../common/commondata.dart';
 import '../status/controller.dart';
@@ -81,6 +82,8 @@ class CommercialListViewScreen extends StatelessWidget {
           ),
         ],
       ),
+
+      bottomNavigationBar: BottomMenuBar(),
 
       body: Container(
         color: Theme.of(context).colorScheme.primaryContainer,

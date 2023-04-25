@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:kakao_login_test/screens/main_screen.dart';
 
 import '../common/commondata.dart';
 import '../map/maptest.dart';
@@ -60,14 +61,14 @@ class AssetDetailViewScreen extends StatelessWidget {
     PageController _controllerMain = PageController(initialPage: 0, keepPage: false);
 
     return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
-          title: const Text('Detail View'),
+          title: const Text('상세보기'),
           actions: [
             IconButton(
               onPressed: () {
                 _authentication.signOut();
-                Get.back();
+                Get.to(LoginSignupScreen());
               },
             icon: const Icon(Icons.logout),
           ),

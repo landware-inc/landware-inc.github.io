@@ -2,6 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:kakao_login_test/screens/commercialscreen.dart';
+import 'package:kakao_login_test/screens/component/bottom_menu.dart';
+import 'package:kakao_login_test/screens/homebasketlist.dart';
+import 'package:kakao_login_test/screens/main_screen.dart';
+import 'package:kakao_login_test/screens/registrationscreen.dart';
+import 'package:kakao_login_test/screens/residentialscreen.dart';
+import 'package:kakao_login_test/screens/startingscreen.dart';
 import '../common/commondata.dart';
 import '../status/controller.dart';
 import 'component/asset_card.dart';
@@ -20,6 +27,7 @@ class RegidentialListViewScreen extends StatelessWidget {
     String maxSize = '300';
     final String callname;
     final String roomCount;
+    final String gubun;
 
     if (controller.selectGubun.value == '전세') {
       maxPrice = controller.maxJeonse.value.toString();
@@ -37,6 +45,7 @@ class RegidentialListViewScreen extends StatelessWidget {
     maxSize = '${controller.maxSize.value.toString()}';
     callname = '${controller.selectCallname.value}';
     roomCount = '${controller.roomCount.value}';
+    gubun = '${controller.selectGubun.value}';
 
     try {
       final dio = Dio();
@@ -72,6 +81,7 @@ class RegidentialListViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _authentication = FirebaseAuth.instance;
+    final controller = Get.put(Controller());
 
     return Scaffold(
       appBar: AppBar(
@@ -80,15 +90,17 @@ class RegidentialListViewScreen extends StatelessWidget {
           IconButton(
             onPressed: () {
               _authentication.signOut();
-              Get.back();
+              Get.to(() => LoginSignupScreen());
             },
             icon: const Icon(Icons.logout),
           ),
         ],
       ),
 
+      bottomNavigationBar: BottomMenuBar(),
+
       body: Container(
-        color: Theme.of(context).colorScheme.primaryContainer,
+        color: Theme.of(context).colorScheme.background,
         child: Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -121,6 +133,7 @@ class RegidentialListViewScreen extends StatelessWidget {
                                   indate: snapshot.data[index]['indate'],
                                   floor: snapshot.data[index]['floor'],
                                   type: snapshot.data[index]['type'] ?? '',
+                                  gubun: controller.selectGubun.value,
                                 ),
                               );
                             },

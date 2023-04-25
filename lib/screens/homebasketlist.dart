@@ -2,7 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:kakao_login_test/screens/component/basket.dart';
+import 'package:kakao_login_test/screens/component/bottom_menu.dart';
 import 'package:kakao_login_test/screens/component/homebasketcard.dart';
+import 'package:kakao_login_test/screens/main_screen.dart';
 import '../common/commondata.dart';
 import '../status/controller.dart';
 import 'component/asset_card.dart';
@@ -21,6 +24,7 @@ class HomeBasketListViewScreen extends StatelessWidget {
     String maxSize = '300';
     final String callname;
     final String roomCount;
+    final String gubun;
 
     if (controller.selectGubun.value == '전세') {
       maxPrice = controller.maxJeonse.value.toString();
@@ -38,9 +42,22 @@ class HomeBasketListViewScreen extends StatelessWidget {
     maxSize = '${controller.maxSize.value.toString()}';
     callname = '${controller.selectCallname.value}';
     roomCount = '${controller.roomCount.value}';
+    gubun = '${controller.selectGubun.value}';
 
     try {
       final dio = Dio();
+      List<basketItems> basketList = [];
+      homeBasket = [];
+
+      basketList  = await getAllItems();
+      // print('==============');
+      // print(basketList[0].id);
+
+      while (basketList.length > 0) {
+        homeBasket.add(basketList[0].id);
+        basketList.removeAt(0);
+      }
+
 
       final response = await dio.post(
           '$appServerURL/baskethome',
@@ -52,7 +69,7 @@ class HomeBasketListViewScreen extends StatelessWidget {
 
       dio.close();
 
-
+      homeBasket = [];
       return response.data;
 
 
@@ -73,15 +90,17 @@ class HomeBasketListViewScreen extends StatelessWidget {
           IconButton(
             onPressed: () {
               _authentication.signOut();
-              Get.back();
+              Get.to(() => LoginSignupScreen());
             },
             icon: const Icon(Icons.logout),
           ),
         ],
       ),
 
+      bottomNavigationBar: BottomMenuBar(),
+
       body: Container(
-        color: Theme.of(context).colorScheme.primaryContainer,
+        color: Theme.of(context).colorScheme.background,
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kakao_login_test/screens/component/bottom_menu.dart';
 import 'package:kakao_login_test/screens/regidentiallistview.dart';
 
 import '../status/controller.dart';
@@ -56,6 +57,9 @@ class _CommercialScreenState extends State<CommercialScreen> {
           ),
         ],
       ),
+
+      bottomNavigationBar: BottomMenuBar(),
+
       body: Container(
         width: MediaQuery.of(context).size.width,
         margin: EdgeInsets.symmetric(horizontal: 15),
@@ -262,6 +266,7 @@ class _CommercialScreenState extends State<CommercialScreen> {
                 }),
               ],
             ),
+            SizedBox(height: 20,),
             TextButton(
               style: TextButton.styleFrom(
                 primary: Colors.white,

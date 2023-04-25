@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:kakao_login_test/screens/component/basket.dart';
 
 import '../../common/commondata.dart';
 import '../assetdetailview.dart';
@@ -22,6 +23,7 @@ class AssetCard extends StatelessWidget {
   final String indate;
   final String floor;
   final String type;
+  final String gubun;
 
   const AssetCard({
     required this.price,
@@ -36,11 +38,13 @@ class AssetCard extends StatelessWidget {
     required this.room,
     required this.sizetype,
     required this.type,
+    required this.gubun,
     Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var f = NumberFormat('###,###,###,###');
+//    List<basketItems> basketList = [];
 
     return Dismissible(
       // Each Dismissible must contain a Key. Keys allow Flutter to
@@ -71,12 +75,14 @@ class AssetCard extends StatelessWidget {
                 content: const Text("관심 물건으로 추가하시겠습니까?"),
                 actions: <Widget>[
                   TextButton(
-                      onPressed: () => {
-                        homeBasket.add(id),
-                        print(homeBasket),
-                        Navigator.of(context).pop(false),
+                      onPressed: () async {
+                        addData(id,gubun);
+                        // basketList  = await getAllItems();
+                        // print('==============');
+                        // print(basketList[0].id);
+                        Navigator.of(context).pop(false);
                         ScaffoldMessenger.of(context)
-                            .showSnackBar(SnackBar(content: Text("$callname 관심 물건으로 추가됨"))),
+                            .showSnackBar(SnackBar(content: Text("$callname 관심 물건으로 추가됨")));
                       },
                       child: const Text("예")
                   ),

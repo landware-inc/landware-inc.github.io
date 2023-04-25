@@ -9,9 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:kakao_login_test/screens/main_screen.dart';
 import 'package:kakao_login_test/screens/regidentiallistview.dart';
 
 import '../status/controller.dart';
+import 'component/bottom_menu.dart';
 
 class ResidentialScreen extends StatefulWidget {
   const ResidentialScreen({Key? key}) : super(key: key);
@@ -68,27 +70,32 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
 
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: const Text('주거용 검색 조건'),
         actions: [
           IconButton(
             onPressed: () {
               _authentication.signOut();
-              Get.back();
+              Get.to(() => LoginSignupScreen());
             },
             icon: const Icon(Icons.logout),
           ),
         ],
       ),
+
+      bottomNavigationBar: BottomMenuBar(),
+
       body: SingleChildScrollView(
         child: Container(
           width: MediaQuery.of(context).size.width,
+ //         height: MediaQuery.of(context).size.height - 120,
           margin: EdgeInsets.symmetric(horizontal: 15),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 15,),
+              SizedBox(height: 35,),
               TextFormField(
                 key: ValueKey(1),
                 validator: (value) {
@@ -103,13 +110,19 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                 decoration: InputDecoration(
                   hintText: '단지/동명 (없으면 모든 단지/동)',
                   labelText: '단지/동명',
+                  labelStyle: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    letterSpacing: 1.0,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                   hintStyle: TextStyle(
                     color: Theme.of(context).colorScheme.outline,
                     letterSpacing: 1.0,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
-                  contentPadding: EdgeInsets.all(10),
+                  contentPadding: EdgeInsets.all(5),
                   prefixIcon: Icon(
                     Icons.account_circle,
                     color: Theme.of(context).colorScheme.onSurface,
@@ -128,7 +141,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 15,),
+              SizedBox(height: 40,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -141,7 +154,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                       isSelected: isSelected,
                       onPressed: toggleSelect,
                   ),
-                  SizedBox(width: 20,),
+                  SizedBox(width: 15,),
                   Text('방 : ',style: TextStyle(fontSize: 18),),
                   DropdownButton(
                     value: selectedRoomCount,
@@ -176,10 +189,10 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 15,),
+              SizedBox(height: 25,),
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: 318,
+                height: MediaQuery.of(context).size.height/3.2,
                 child: PageView(
                   pageSnapping: true,
                   controller: _controller,
@@ -203,15 +216,15 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
 
                     Column(
                       children: [
-                            SizedBox(height: 25,),
+                            SizedBox(height: 10,),
                             Text(
                                 '매매 가격',
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 17,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 25),
+                            SizedBox(height: 10),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -236,7 +249,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
                                         ),
-                                        contentPadding: EdgeInsets.all(10),
+                                        contentPadding: EdgeInsets.all(5),
 
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -255,7 +268,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                 ),
                                 Container(
                                   alignment: Alignment.center,
-                                  height: 85,
+                                  height: 65,
                                   width: MediaQuery.of(context).size.width / 2.5,
                                   child: CupertinoPicker(
                                     itemExtent: 40,
@@ -300,7 +313,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
                                         ),
-                                        contentPadding: EdgeInsets.all(10),
+                                        contentPadding: EdgeInsets.all(5),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: Theme.of(context).colorScheme.onBackground,
@@ -347,13 +360,13 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
 
                     Column(
                       children: [
-                        SizedBox(height: 25,),
+                        SizedBox(height: 10,),
                         Text('전세 가격',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 17,
                             fontWeight: FontWeight.bold,
                           ),),
-                        SizedBox(height: 25),
+                        SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -378,7 +391,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
                                     ),
-                                    contentPadding: EdgeInsets.all(10),
+                                    contentPadding: EdgeInsets.all(5),
 
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -397,7 +410,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                             ),
                             Container(
                               alignment: Alignment.center,
-                              height: 85,
+                              height: 65,
                               width: MediaQuery.of(context).size.width / 2.5,
                               child: CupertinoPicker(
                                 itemExtent: 40,
@@ -442,7 +455,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
                                     ),
-                                    contentPadding: EdgeInsets.all(10),
+                                    contentPadding: EdgeInsets.all(5),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                         color: Theme.of(context).colorScheme.onBackground,
@@ -466,15 +479,15 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                       children: [
                         Column(
                           children: [
-                            SizedBox(height: 25,),
+                            SizedBox(height: 10,),
                             Text(
                                 '보증금',
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 17,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 20),
+                            SizedBox(height: 10),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -499,7 +512,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
                                         ),
-                                        contentPadding: EdgeInsets.all(10),
+                                        contentPadding: EdgeInsets.all(5),
 
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -518,7 +531,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                 ),
                                 Container(
                                   alignment: Alignment.center,
-                                  height: 85,
+                                  height: 65,
                                   width: MediaQuery.of(context).size.width / 2.5,
                                   child: CupertinoPicker(
                                     itemExtent: 40,
@@ -563,7 +576,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
                                         ),
-                                        contentPadding: EdgeInsets.all(10),
+                                        contentPadding: EdgeInsets.all(5),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: Theme.of(context).colorScheme.onBackground,
@@ -583,11 +596,11 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 25,),
+                        SizedBox(height: 20,),
                         Text(
                             '월세',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 17,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -616,7 +629,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
                                     ),
-                                    contentPadding: EdgeInsets.all(10),
+                                    contentPadding: EdgeInsets.all(5),
 
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -635,7 +648,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                             ),
                             Container(
                               alignment: Alignment.center,
-                              height: 90,
+                              height: 65,
                               width: MediaQuery.of(context).size.width / 2.5,
                               child: CupertinoPicker(
                                 itemExtent: 40,
@@ -680,7 +693,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
                                     ),
-                                    contentPadding: EdgeInsets.all(10),
+                                    contentPadding: EdgeInsets.all(5),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                         color: Theme.of(context).colorScheme.onBackground,
@@ -703,15 +716,14 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                     ]
                   ),
                 ),
-              SizedBox(height: 25,),
               Container(
-                height: 140,
+//                height: 140,
                 child: Column(
                   children: [
                     Text(
                         '평수',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 17,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -740,7 +752,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                 ),
-                                contentPadding: EdgeInsets.all(10),
+                                contentPadding: EdgeInsets.all(5),
 
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -759,7 +771,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                         ),
                         Container(
                           alignment: Alignment.center,
-                          height: 80,
+                          height: 65,
                           width: MediaQuery.of(context).size.width / 2.5,
                           child: CupertinoPicker(
                             itemExtent: 40,
@@ -804,7 +816,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                 ),
-                                contentPadding: EdgeInsets.all(10),
+                                contentPadding: EdgeInsets.all(5),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: Theme.of(context).colorScheme.onBackground,
@@ -851,7 +863,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
               //     }),
               //   ],
               // ),
-              SizedBox(height: 25,),
+              SizedBox(height: 50,),
               TextButton(
                 style: TextButton.styleFrom(
                   primary: Colors.white,
@@ -937,6 +949,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
     values5 = RangeValues(controller.minZ.value.toDouble(), controller.maxZ.value.toDouble());
     controller.selectGubun('매매');
     controller.roomCount('0');
+    controller.selectCallname('');
     _textEditingControllerMin.text = f.format(controller.minS.value).toString();
     _textEditingControllerMax.text = f.format(controller.maxS.value).toString();
     _textEditingControllerMinJ.text = f.format(controller.minJ.value).toString();

@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kakao_login_test/screens/commercialscreen.dart';
+import 'package:kakao_login_test/screens/component/bottom_menu.dart';
 import 'package:kakao_login_test/screens/homebasketlist.dart';
+import 'package:kakao_login_test/screens/main_screen.dart';
 import 'package:kakao_login_test/screens/registrationscreen.dart';
 import 'package:kakao_login_test/screens/residentialscreen.dart';
 
@@ -21,19 +23,24 @@ class StartScreen extends StatelessWidget {
 
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: const Text('스마일 부동산 물건 관리'),
         actions: [
           IconButton(
             onPressed: () {
               _authentication.signOut();
-              Get.back();
+              Get.to(() => const LoginSignupScreen());
             },
             icon: const Icon(Icons.logout),
           ),
         ],
       ),
+
+      bottomNavigationBar: BottomMenuBar(),
+
       body: Container(
+        color: Theme.of(context).colorScheme.background,
         margin: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
