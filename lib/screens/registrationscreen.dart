@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,6 +21,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   bool _isSales = false;
   bool _isJeonse = false;
   bool _isMonthly = false;
+  int pyeong = 0;
 
 
 
@@ -28,17 +31,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
 
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('부동산 물건 등록'),
-      // ),
-
-//      bottomNavigationBar: BottomMenuBar(),
 
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             title: Text('부동산 물건 등록'),
-            pinned: true,
+            pinned: false,
             floating: true,
           ),
           SliverToBoxAdapter(
@@ -53,9 +51,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   SizedBox(height: 10,),
                   ToggleButtons(
                     children: <Widget>[
-                      Container(width: (MediaQuery.of(context).size.width - 36)/3.0, child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[new Icon(Icons.domain,size: 20.0,color: Colors.red,),new SizedBox(width: 4.0,), new Text("주거용",style: TextStyle(color: Colors.red,fontSize: 20),)],)),
+                      Container(width: (MediaQuery.of(context).size.width - 36)/3.0, child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[new Icon(Icons.house,size: 20.0,color: Colors.red,),new SizedBox(width: 4.0,), new Text("주거용",style: TextStyle(color: Colors.red,fontSize: 20),)],)),
                       Container(width: (MediaQuery.of(context).size.width - 36)/3.0, child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[new Icon(Icons.add_business,size: 20.0,color: Colors.yellow[800],),new SizedBox(width: 4.0,), new Text("사업용",style: TextStyle(color: Colors.yellow[800],fontSize: 20))],)),
-                      Container(width: (MediaQuery.of(context).size.width - 36)/3.0, child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[new Icon(Icons.meeting_room,size: 20.0,color: Colors.blue,),new SizedBox(width: 4.0,), new Text("건물/토지",style: TextStyle(color: Colors.blue,fontSize: 20))],)),
+                      Container(width: (MediaQuery.of(context).size.width - 36)/3.0, child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[new Icon(Icons.domain,size: 20.0,color: Colors.blue,),new SizedBox(width: 4.0,), new Text("건물/토지",style: TextStyle(color: Colors.blue,fontSize: 20))],)),
                     ],
                     isSelected: isSelected,
                     onPressed: toggleSelect,
@@ -63,7 +61,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   SizedBox(height: 20,),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
+                    height: MediaQuery.of(context).size.height + 400,
                     child: PageView(
                       controller: _controller,
                       onPageChanged: (index) {
@@ -101,10 +99,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextButton(
+            child: ElevatedButton(
                 style: ButtonStyle(
+                  elevation: MaterialStateProperty.all(1.0),
                   backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.primary),
-                  padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 13.0)),
+                  padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 10.0)),
                 ),
                 onPressed: (){},
                 child: Text(
@@ -169,6 +168,153 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ),
           SizedBox(height: 10,),
           Divider(thickness: 1, height: 1, color: Colors.indigo[300],),
+          SizedBox(height: 10,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: 85,
+                height: 50,
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: '면적(㎡)',
+                    hintText: '면적(㎡)',
+                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.red[50],
+                  ),
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) {
+                    setState(() {
+                      pyeong = (int.parse(value) / 3.3058).round();
+                    });
+                  },
+                ),
+              ),
+              Container(
+                alignment: Alignment.center,
+                width: 70,
+                height: 50,
+                  child: Text(
+                    '$pyeong평',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  )
+              ),
+              SizedBox(width: 20,),
+              Container(
+                width: 70,
+                height: 50,
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: '방수',
+                    hintText: '방수',
+                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.red[50],
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+              ),
+              Text('/'),
+              Container(
+                width: 70,
+                height: 50,
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: '화장실',
+                    hintText: '화장실',
+                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.red[50],
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10,),
+          Divider(thickness: 1, height: 1, color: Colors.indigo[300],),
+          SizedBox(height: 10,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: 85,
+                height: 60,
+                child: DropdownButtonFormField(
+                    items: ['남','남서','남동','서','동','북서','북동','북'].map((String value) {
+                      return DropdownMenuItem(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (value) {},
+                    value: '남',
+                    decoration: InputDecoration(
+                      labelText: '방향',
+                      hintText: '방향',
+                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.red[50],
+                    ),
+                ),
+              ),
+              SizedBox(width: 20,),
+              Container(
+                width: 120,
+                height: 60,
+                child: TextButton(
+                  onPressed: (){
+                    showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2023),
+                        lastDate: DateTime(2024)
+                    );
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.red[50]),
+                  ),
+                  child: Text(
+                    '입주일',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  // decoration: InputDecoration(
+                  //   labelText: '입주일',
+                  //   hintText: '입주가능 일자',
+                  //   border: OutlineInputBorder(),
+                  //   filled: true,
+                  //   fillColor: Colors.red[50],
+                  ),
+              ),
+              Container(
+                width: 93,
+                height: 60,
+                child: DropdownButtonFormField(
+                  value: '협의',
+                  items: ['즉시','협의','지정일'].map((String value) {
+                    return DropdownMenuItem(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (value) {},
+                  decoration: InputDecoration(
+                    labelText: '입주조건',
+                    hintText: '입주조건',
+                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.red[50],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10,),
+          Divider(thickness: 1, height: 1, color: Colors.indigo[300],),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -181,11 +327,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
               ),
               Switch(
+                activeColor: Theme.of(context).colorScheme.primary,
+                inactiveThumbColor: Theme.of(context).colorScheme.secondary,
                 value : _isSales,
-                onChanged: (value) {
-                  setState(() {
-                    _isSales = value!;
-                  });
+                  onChanged: (value) {
+                    setState(() {
+                      _isSales = value!;
+                    }
+                  );
                 },
               ),
               SizedBox(width: 20,),
@@ -197,6 +346,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
               ),
               Switch(
+                activeColor: Theme.of(context).colorScheme.primary,
+                inactiveThumbColor: Theme.of(context).colorScheme.secondary,
                 value : _isJeonse,
                 onChanged: (value) {
                   setState(() {
@@ -213,6 +364,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
               ),
               Switch(
+                activeColor: Theme.of(context).colorScheme.primary,
+                inactiveThumbColor: Theme.of(context).colorScheme.secondary,
                 value : _isMonthly,
                 onChanged: (value) {
                   setState(() {
@@ -323,6 +476,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
           ),
           SizedBox(height: 10,),
+          Divider(thickness: 1, height: 1, color: Colors.indigo[300],),
+          TextFormField(
+            keyboardType: TextInputType.multiline,
+            maxLines: 10,
+            minLines: 3,
+            decoration: InputDecoration(
+              labelText: '특이사항',
+              hintText: '기타 특이사항을 적어 주세요',
+              border: OutlineInputBorder(),
+            ),
+          ),
         ],
       ),
     );

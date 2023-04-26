@@ -62,6 +62,7 @@ class StartScreen extends StatelessWidget {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).colorScheme.secondary,
+                      padding: const EdgeInsets.all(40),
                     ),
                     onPressed: () async {
                       final dio = Dio();
@@ -96,7 +97,7 @@ class StartScreen extends StatelessWidget {
                     child: Text(
                         '주거용 부동산',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 20,
                           fontWeight: FontWeight.w300,
                         ),
                      ),
@@ -104,6 +105,7 @@ class StartScreen extends StatelessWidget {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).colorScheme.secondary,
+                      padding: const EdgeInsets.all(40),
                     ),
                     onPressed: () async {
                       final dio = Dio();
@@ -136,7 +138,7 @@ class StartScreen extends StatelessWidget {
                     },
                     child: const Text('상업용 부동산',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 20,
                         fontWeight: FontWeight.w300,
                       ),
                     ),
@@ -144,13 +146,14 @@ class StartScreen extends StatelessWidget {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).colorScheme.secondary,
+                      padding: const EdgeInsets.all(40),
                     ),
                     onPressed: () {
                       Get.to (() => RegistrationScreen());
                     },
                     child: const Text('신규 물건 등록',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 20,
                         fontWeight: FontWeight.w300,
                       ),
                     ),
@@ -158,13 +161,14 @@ class StartScreen extends StatelessWidget {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).colorScheme.secondary,
+                      padding: const EdgeInsets.all(40),
                     ),
                     onPressed: () {
                       Get.to (() => HomeBasketListViewScreen());
                     },
                     child: const Text('관심 물건 보기',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 20,
                         fontWeight: FontWeight.w300,
                       ),
                     ),

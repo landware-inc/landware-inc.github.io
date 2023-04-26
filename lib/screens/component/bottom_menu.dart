@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:kakao_login_test/screens/commercialscreen.dart';
 import 'package:kakao_login_test/screens/homebasketlist.dart';
+import 'package:kakao_login_test/screens/registrationscreen.dart';
 import 'package:kakao_login_test/screens/residentialscreen.dart';
 import 'package:kakao_login_test/screens/startingscreen.dart';
 import 'package:kakao_login_test/status/controller.dart';
@@ -34,6 +35,8 @@ class _BottomMenuBarState extends State<BottomMenuBar> {
           Get.to(() => const CommercialScreen());
         } else if (index == 3) {
           Get.to(() => const HomeBasketListViewScreen());
+        } else if (index == 4) {
+          Get.to(() => const RegistrationScreen());
         }
       },
       items: const [
@@ -50,8 +53,12 @@ class _BottomMenuBarState extends State<BottomMenuBar> {
           label: '상업',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_basket),
+          icon: Icon(Icons.shopping_cart),
           label: '관심',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.add_circle),
+          label: '신규',
         ),
       ],
     );

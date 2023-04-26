@@ -89,7 +89,7 @@ class CommercialListViewScreen extends StatelessWidget {
         color: Theme.of(context).colorScheme.background,
         child: Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: FutureBuilder(
                 future: paginationAssetList(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
