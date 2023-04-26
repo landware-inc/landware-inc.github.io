@@ -167,6 +167,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               fillColor: Colors.red[50],
             ),
           ),
+          SizedBox(height: 10,),
+          Divider(thickness: 1, height: 1, color: Colors.indigo[300],),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -220,7 +222,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
             ],
           ),
-
+          Divider(thickness: 1, height: 1, color: Colors.indigo[300],),
           Visibility(
             visible: _isSales,
             child: Column(
