@@ -173,7 +173,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                width: 85,
+                width: 83,
                 height: 50,
                 child: TextFormField(
                   decoration: InputDecoration(
@@ -193,16 +193,27 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
               Container(
                 alignment: Alignment.center,
-                width: 70,
+                width: 66,
                 height: 50,
                   child: Text(
                     '$pyeong평',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
                   )
               ),
-              SizedBox(width: 20,),
               Container(
-                width: 70,
+                width: 55,
+                height: 50,
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: '타입',
+                    hintText: '타입',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ),
+              SizedBox(width: 15,),
+              Container(
+                width: 69,
                 height: 50,
                 child: TextFormField(
                   decoration: InputDecoration(
@@ -217,7 +228,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
               Text('/'),
               Container(
-                width: 70,
+                width: 69,
                 height: 50,
                 child: TextFormField(
                   decoration: InputDecoration(
