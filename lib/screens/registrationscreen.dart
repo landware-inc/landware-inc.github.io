@@ -1,7 +1,10 @@
 import 'dart:ffi';
-
+import 'package:intl/intl.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kakao_login_test/common/commondata.dart';
+import 'package:remedi_kopo/remedi_kopo.dart';
 
 
 import '../status/controller.dart';
@@ -22,16 +25,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   bool _isJeonse = false;
   bool _isMonthly = false;
   int pyeong = 0;
+  int canvasHeight = 0;
+  final _AddressController = TextEditingController();
+  final _InDateController = TextEditingController();
+  Map<String, String> formData = {};
+
+
+  @override
+  void initState() {
+    super.initState();
+    _InDateController.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  }
 
 
 
   @override
   Widget build(BuildContext context) {
-
-
-
     return Scaffold(
-
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -61,7 +71,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   SizedBox(height: 20,),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height + 400,
+                    height: MediaQuery.of(context).size.height + canvasHeight,
                     child: PageView(
                       controller: _controller,
                       onPageChanged: (index) {
@@ -157,10 +167,47 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
           ),
           SizedBox(height: 10,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: 270,
+                height: 60,
+                child: TextFormField(
+                  controller: _AddressController,
+                  decoration: InputDecoration(
+                    labelText: '주소',
+                    hintText: '주소를 입력하세요',
+                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.red[50],
+                  ),
+                ),
+              ),
+              Container(
+                width: 100,
+                height: 60,
+                child: ElevatedButton(
+                     onPressed: (){
+                       _addressAPI();
+                     },
+                     child: Text(
+                        '주소검색',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        )
+                     ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10,),
           TextFormField(
             decoration: InputDecoration(
-              labelText: '주소',
-              hintText: '주소를 입력하세요',
+              labelText: '상세주소',
+              hintText: '상세 주소를 입력하세요',
               border: OutlineInputBorder(),
               filled: true,
               fillColor: Colors.red[50],
@@ -173,7 +220,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                width: 83,
+                width: 88,
                 height: 50,
                 child: TextFormField(
                   decoration: InputDecoration(
@@ -201,7 +248,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   )
               ),
               Container(
-                width: 55,
+                width: 60,
                 height: 50,
                 child: TextFormField(
                   decoration: InputDecoration(
@@ -250,7 +297,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                width: 85,
+                width: 88,
                 height: 60,
                 child: DropdownButtonFormField(
                     items: ['남','남서','남동','서','동','북서','북동','북'].map((String value) {
@@ -274,35 +321,31 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               Container(
                 width: 120,
                 height: 60,
-                child: TextButton(
-                  onPressed: (){
+                child: TextFormField(
+                  controller: _InDateController,
+                  readOnly: true,
+                  onTap: (){
                     showDatePicker(
                         context: context,
                         initialDate: DateTime.now(),
                         firstDate: DateTime(2023),
-                        lastDate: DateTime(2024)
+                        lastDate: DateTime(2024),
+                    ).then((value) => setState(() {
+                      _InDateController.text = value.toString().substring(0,10);
+                    })
                     );
                   },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.red[50]),
+                  decoration: InputDecoration(
+                     labelText: '입주일',
+                     hintText: '입주가능 일자',
+                     border: OutlineInputBorder(),
+                     filled: true,
+                     fillColor: Colors.red[50],
                   ),
-                  child: Text(
-                    '입주일',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  // decoration: InputDecoration(
-                  //   labelText: '입주일',
-                  //   hintText: '입주가능 일자',
-                  //   border: OutlineInputBorder(),
-                  //   filled: true,
-                  //   fillColor: Colors.red[50],
-                  ),
+                ),
               ),
               Container(
-                width: 93,
+                width: 100,
                 height: 60,
                 child: DropdownButtonFormField(
                   value: '협의',
@@ -338,12 +381,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
               ),
               Switch(
-                activeColor: Theme.of(context).colorScheme.primary,
+                activeColor: Theme.of(context).colorScheme.error,
                 inactiveThumbColor: Theme.of(context).colorScheme.secondary,
                 value : _isSales,
                   onChanged: (value) {
                     setState(() {
                       _isSales = value!;
+                      if(_isSales) {
+                        canvasHeight = canvasHeight + 150;
+                      } else {
+                        canvasHeight = canvasHeight - 150;
+                      }
                     }
                   );
                 },
@@ -357,12 +405,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
               ),
               Switch(
-                activeColor: Theme.of(context).colorScheme.primary,
+                activeColor: Theme.of(context).colorScheme.error,
                 inactiveThumbColor: Theme.of(context).colorScheme.secondary,
                 value : _isJeonse,
                 onChanged: (value) {
                   setState(() {
                     _isJeonse = value!;
+                    if(_isJeonse) {
+                      canvasHeight = canvasHeight + 150;
+                    } else {
+                      canvasHeight = canvasHeight - 150;
+                    }
                   });
                 },
               ),
@@ -375,18 +428,85 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
               ),
               Switch(
-                activeColor: Theme.of(context).colorScheme.primary,
+                activeColor: Theme.of(context).colorScheme.error,
                 inactiveThumbColor: Theme.of(context).colorScheme.secondary,
                 value : _isMonthly,
                 onChanged: (value) {
                   setState(() {
                     _isMonthly = value!;
                   });
+                  if(_isMonthly) {
+                    canvasHeight = canvasHeight + 230;
+                  } else {
+                    canvasHeight = canvasHeight - 230;
+                  }
                 },
               ),
             ],
           ),
           Divider(thickness: 1, height: 1, color: Colors.indigo[300],),
+          SizedBox(height: 10,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: 130,
+                height: 60,
+                child : TextFormField(
+                  decoration: InputDecoration(
+                    labelText: '이름1',
+                    hintText: '연락처 이름1',
+                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.red[50],
+                  ),
+                ),
+              ),
+              SizedBox(width: 10,),
+              Container(
+                width: 230,
+                height: 60,
+                child : TextFormField(
+                  decoration: InputDecoration(
+                    labelText: '연락처1',
+                    hintText: '연락처1',
+                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.red[50],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: 130,
+                height: 60,
+                child : TextFormField(
+                  decoration: InputDecoration(
+                    labelText: '이름2',
+                    hintText: '이름2',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ),
+              SizedBox(width: 10,),
+              Container(
+                width: 230,
+                height: 60,
+                child : TextFormField(
+                  decoration: InputDecoration(
+                    labelText: '연락처2',
+                    hintText: '연락처2',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ),
+            ],
+          ),
           Visibility(
             visible: _isSales,
             child: Column(
@@ -490,8 +610,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           Divider(thickness: 1, height: 1, color: Colors.indigo[300],),
           TextFormField(
             keyboardType: TextInputType.multiline,
-            maxLines: 10,
-            minLines: 3,
+            maxLines: 8,
+            minLines: 8,
             decoration: InputDecoration(
               labelText: '특이사항',
               hintText: '기타 특이사항을 적어 주세요',
@@ -503,6 +623,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 
+
+  _addressAPI() async {
+    KopoModel model = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RemediKopo(),
+      ),
+    );
+
+    if (model != null) {
+      final address = model.address ?? '';
+      _AddressController.value = TextEditingValue(
+        text: address,
+      );
+      formData['address'] = address;
+    }
+  }
 
   Widget _commertial() {
     return Container(
