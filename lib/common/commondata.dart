@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kakao_login_test/screens/component/basket.dart';
 
 const appServerURL = "http://34.64.86.84:8080";
@@ -12,3 +13,39 @@ const googleMapKey = 'AIzaSyB32IuSmKjAFCTGcKz3EU4yPUcKKZczNPU';
 const seedColor = Color(0xFF6F7974);
 
 List<int> homeBasket = [];
+
+
+
+class NumberFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    var text = newValue.text;
+
+    if (newValue.selection.baseOffset == 0) {
+      return newValue;
+    }
+
+    var buffer = StringBuffer();
+    for (int i = 0; i < text.length; i++) {
+      buffer.write(text[i]);
+      var nonZeroIndex = i + 1;
+      if (nonZeroIndex <= 3) {
+        if (nonZeroIndex % 3 == 0 && nonZeroIndex != text.length) {
+          buffer.write('-'); // Add double spaces.
+        }
+      } else {
+        if (nonZeroIndex % 7 == 0 &&
+            nonZeroIndex != text.length &&
+            nonZeroIndex > 4) {
+          buffer.write('-');
+        }
+      }
+    }
+
+    var string = buffer.toString();
+    return newValue.copyWith(
+        text: string,
+        selection: TextSelection.collapsed(offset: string.length));
+  }
+}
