@@ -169,19 +169,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         'totalfloor': formData['totalFloor'] ?? 0,
                         'room': formData['room'],
                         'bath': formData['bath'],
+                        'type': formData['Type'],
                         'direction': formData['direction'],
                         'name1': formData['name1'],
                         'name2': formData['name2'] ?? '',
-                        'phone1': formData['phone1'],
-                        'phone2': formData['phone2'] ?? '',
-                        'sales': formData['sales'] ?? 0,
-                        'jeonse': formData['jeonse'] ?? 0,
-                        'deposit': formData['deposit'] ?? 0,
-                        'monthly': formData['monthly'] ?? 0,
-                        'loan': formData['loan'] ?? 0,
-                        'depositnow': formData['depositNow'] ?? 0,
-                        'monthlynow': formData['monthlyNow'] ?? 0,
+                        'phone1': formData['tel1'],
+                        'phone2': formData['tel2'] ?? '',
+                        'sales': formData['sales'] == null ? 0 : formData['sales']!.replaceAll('₩', '').replaceAll(',',''),
+                        'jeonse': formData['jeonse'] == null ? 0 : formData['jeonse']!.replaceAll('₩', '').replaceAll(',',''),
+                        'deposit': formData['deposit'] == null ? 0 : formData['deposit']!.replaceAll('₩', '').replaceAll(',',''),
+                        'monthly': formData['monthly'] == null ? 0 : formData['monthly']!.replaceAll('₩', '').replaceAll(',',''),
+                        'loan': formData['loan'] == null ? 0 : formData['loan']!.replaceAll('₩', '').replaceAll(',',''),
+                        'depositnow': formData['depositNow'] == null ? 0 : formData['depositNow']!.replaceAll('₩', '').replaceAll(',',''),
+                        'monthlynow': formData['monthlyNow'] == null ? 0 : formData['monthlyNow']!.replaceAll('₩', '').replaceAll(',',''),
                         'desc': formData['desc'] ?? '',
+                        'date': DateTime.now().toString(),
                       }
                     );
 
@@ -424,9 +426,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     controller: _TypeController,
                     onSaved: (value) {
                       if(value!.isEmpty) {
-                        formData['type'] = '';
+                        formData['sizeType'] = '';
                       } else {
-                        formData['type'] = value!;
+                        formData['sizeType'] = value!;
                       }
                     },
                     maxLength: 4,
@@ -498,14 +500,46 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             SizedBox(height: 10,),
             Divider(thickness: 1, height: 1, color: Colors.indigo[300],),
             SizedBox(height: 10,),
-            Container(
-                alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width,
-                height: 30,
-                child: Text(
-                  '약 $pyeong평',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                )
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                    width: MediaQuery.of(context).size.width/3,
+                    alignment: Alignment.centerRight,
+                    height: 30,
+                    child: Text(
+                      '약 $pyeong평',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                    )
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width/3,
+                  height: 60,
+                  child: DropdownButtonFormField(
+
+                    items: ['아파트','오피','도생','빌라','원룸','주택','다가구','상가주택'].map((String value) {
+                      return DropdownMenuItem(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      formData['Type'] = value!;
+                    },
+                    onSaved: (value) {
+                      formData['Type'] = value!;
+                    },
+                    value: '아파트',
+                    decoration: InputDecoration(
+                      labelText: '종류',
+                      hintText: '종류',
+                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.red[50],
+                    ),
+                  ),
+                ),
+              ],
             ),
             SizedBox(height: 10,),
             Divider(thickness: 1, height: 1, color: Colors.indigo[300],),
