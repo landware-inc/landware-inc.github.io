@@ -182,7 +182,7 @@ class AssetDetailViewScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '${snapshot.data[0]['floor'] ?? ''}층',
+                            '${snapshot.data[0]['floor'] ?? ''}/${snapshot.data[0]['totalfloor'] ?? ''}층',
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w400,

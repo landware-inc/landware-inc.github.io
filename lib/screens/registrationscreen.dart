@@ -1,5 +1,6 @@
 import 'dart:ffi';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,7 +28,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   bool _isJeonse = false;
   bool _isMonthly = false;
   int pyeong = 0;
-  int canvasHeight = 0;
+  int canvasHeight = 150;
   final _AddressController = TextEditingController();
   final _AddressDetailController = TextEditingController();
   final _CallNameController = TextEditingController();
@@ -88,9 +89,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   SizedBox(height: 10,),
                   ToggleButtons(
                     children: <Widget>[
-                      Container(width: (MediaQuery.of(context).size.width - 36)/3.0, child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[new Icon(Icons.house,size: 20.0,color: Colors.red,),new SizedBox(width: 4.0,), new Text("주거용",style: TextStyle(color: Colors.red,fontSize: 20),)],)),
-                      Container(width: (MediaQuery.of(context).size.width - 36)/3.0, child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[new Icon(Icons.add_business,size: 20.0,color: Colors.yellow[800],),new SizedBox(width: 4.0,), new Text("사업용",style: TextStyle(color: Colors.yellow[800],fontSize: 20))],)),
-                      Container(width: (MediaQuery.of(context).size.width - 36)/3.0, child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[new Icon(Icons.domain,size: 20.0,color: Colors.blue,),new SizedBox(width: 4.0,), new Text("건물/토지",style: TextStyle(color: Colors.blue,fontSize: 20))],)),
+                      Container(width: (MediaQuery.of(context).size.width - 40)/3.0, child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[new Text("주거용",style: TextStyle(color: Colors.red,fontSize: 20),)],)),
+                      Container(width: (MediaQuery.of(context).size.width - 40)/3.0, child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[new Text("사업용",style: TextStyle(color: Colors.yellow[800],fontSize: 20))],)),
+                      Container(width: (MediaQuery.of(context).size.width - 40)/3.0, child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[new Text("건물/토지",style: TextStyle(color: Colors.blue,fontSize: 20))],)),
                     ],
                     isSelected: isSelected,
                     onPressed: toggleSelect,
@@ -142,7 +143,56 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.primary),
                   padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 10.0)),
                 ),
-                onPressed: (){},
+                onPressed: () async {
+                  if(!_isSales && !_isJeonse && !_isMonthly) {
+                    Get.snackbar('등록 오류', '거래유형을 최소 한가지 이상 선택해주세요.');
+                    return;
+                  }
+                  if(_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                    print(formData);
+
+                    try {
+                    final dio = Dio();
+
+                    final response = await dio.post(
+                      '$appServerURL/newasset',
+                      data: {
+                        'callname': formData['callName'],
+                        'addr1': formData['address'],
+                        'addr2': formData['addressDetail'] ?? '',
+                        'size': formData['size'],
+                        'sizetype': formData['sizeType'] ?? '',
+                        'indate': formData['inDate'],
+                        'indatetype': formData['inDateType'],
+                        'floor': formData['floor'],
+                        'totalfloor': formData['totalFloor'] ?? 0,
+                        'room': formData['room'],
+                        'bath': formData['bath'],
+                        'direction': formData['direction'],
+                        'name1': formData['name1'],
+                        'name2': formData['name2'] ?? '',
+                        'phone1': formData['phone1'],
+                        'phone2': formData['phone2'] ?? '',
+                        'sales': formData['sales'] ?? 0,
+                        'jeonse': formData['jeonse'] ?? 0,
+                        'deposit': formData['deposit'] ?? 0,
+                        'monthly': formData['monthly'] ?? 0,
+                        'loan': formData['loan'] ?? 0,
+                        'depositnow': formData['depositNow'] ?? 0,
+                        'monthlynow': formData['monthlyNow'] ?? 0,
+                        'desc': formData['desc'] ?? '',
+                      }
+                    );
+
+                    dio.close();
+                    return response.data;
+
+                    } catch(e) {
+                      print(e);
+                    }
+                  }
+                },
                 child: Text(
                   '등록하기',
                   style: TextStyle(
@@ -188,6 +238,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             SizedBox(height: 5,),
             TextFormField(
               controller: _CallNameController,
+              validator: (value) {
+                if(value!.isEmpty) {
+                  return '필수 입력 항목입니다.';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                formData['callName'] = value!;
+              },
               decoration: InputDecoration(
                 labelText: '물건명',
                 hintText: '단지명/건물명칭 등',
@@ -201,10 +260,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  width: 260,
-                  height: 60,
+                  width: MediaQuery.of(context).size.width - 130,
                   child: TextFormField(
                     controller: _AddressController,
+                    validator: (value) {
+                      if(value!.isEmpty) {
+                        return '필수 입력 항목입니다.';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      formData['address'] = value!;
+                    },
                     decoration: InputDecoration(
                       labelText: '주소',
                       hintText: '주소를 입력하세요',
@@ -224,7 +291,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                        child: Text(
                           '주소검색',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 17,
                             fontWeight: FontWeight.w600,
                             color: Theme.of(context).colorScheme.onPrimary,
                           )
@@ -238,10 +305,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  width: 230,
-                  height: 60,
+                  width: MediaQuery.of(context).size.width - 150,
                   child: TextFormField(
                     controller: _AddressDetailController,
+                    validator: (value) {
+                      if(value!.isEmpty) {
+                        return '필수 입력 항목입니다.';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      formData['addressDetail'] = value!;
+                    },
                     decoration: InputDecoration(
                       labelText: '상세주소',
                       hintText: '상세 주소를 입력하세요',
@@ -253,11 +328,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
                 SizedBox(width: 10,),
                 Container(
-                  width: 55,
-                  height: 60,
+                  width: 58,
                   child: TextFormField(
                     controller: _FloorController,
                     keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if(value!.isEmpty) {
+                        return '필수 입력 항목입니다.';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      formData['floor'] = value!;
+                    },
                     inputFormatters: [FilteringTextInputFormatter(RegExp('[0-9-]',), allow:true), ],
                     maxLength: 3,
                     textAlign: TextAlign.center,
@@ -271,13 +354,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                   ),
                 ),
-                Text('/'),
                 Container(
-                  width: 55,
-                  height: 60,
+                  width: 58,
                   child: TextFormField(
                     controller: _TotalFloorController,
                     keyboardType: TextInputType.number,
+                    onSaved: (value) {
+                      if(value!.isEmpty) {
+                        formData['totalFloor'] = '0';
+                      } else {
+                        formData['totalFloor'] = value!;
+                      }
+                    },
                     inputFormatters: [FilteringTextInputFormatter(RegExp('[0-9]',), allow:true), ],
                     maxLength: 3,
                     textAlign: TextAlign.center,
@@ -299,10 +387,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  width: 90,
-                  height: 50,
+                  width: MediaQuery.of(context).size.width/3,
                   child: TextFormField(
                     controller: _SizeController,
+                    validator: (value) {
+                      if(value!.isEmpty) {
+                        return '필수 입력 항목입니다.';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      formData['size'] = value!;
+                    },
                     decoration: InputDecoration(
                       labelText: '면적(㎡)',
                       hintText: '면적(㎡)',
@@ -316,25 +412,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     maxLength: 7,
                     onChanged: (value) {
                       setState(() {
-                        pyeong = (int.parse(value) / 3.3058).round();
+                        pyeong = (int.parse(value) / 3.3058).toInt();
                       });
                     },
                   ),
                 ),
+                SizedBox(width: 5,),
                 Container(
-                  alignment: Alignment.center,
-                  width: 70,
-                  height: 50,
-                    child: Text(
-                      '$pyeong평',
-                      style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
-                    )
-                ),
-                Container(
-                  width: 60,
-                  height: 50,
+                  width: 58,
                   child: TextFormField(
                     controller: _TypeController,
+                    onSaved: (value) {
+                      if(value!.isEmpty) {
+                        formData['type'] = '';
+                      } else {
+                        formData['type'] = value!;
+                      }
+                    },
                     maxLength: 4,
                     decoration: InputDecoration(
                       labelText: '타입',
@@ -344,12 +438,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                   ),
                 ),
-                SizedBox(width: 10,),
+                SizedBox(width: 5,),
                 Container(
-                  width: 55,
-                  height: 50,
+                  width: 58,
                   child: TextFormField(
                     controller: _RoomController,
+                    validator: (value) {
+                      if(value!.isEmpty) {
+                        return '필수 입력 항목입니다.';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      formData['room'] = value!;
+                    },
                     inputFormatters: [FilteringTextInputFormatter(RegExp('[0-9]'), allow:true), ],
                     decoration: InputDecoration(
                       labelText: '방수',
@@ -364,12 +466,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     keyboardType: TextInputType.number,
                   ),
                 ),
-                Text('/'),
                 Container(
-                  width: 55,
-                  height: 50,
+                  width: 58 ,
                   child: TextFormField(
                     controller: _BathController,
+                    validator: (value) {
+                      if(value!.isEmpty) {
+                        return '필수 입력 항목입니다.';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      formData['bath'] = value!;
+                    },
                     inputFormatters: [FilteringTextInputFormatter(RegExp('[0-9]'), allow:true), ],
                     decoration: InputDecoration(
                       labelText: '욕실',
@@ -389,11 +498,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             SizedBox(height: 10,),
             Divider(thickness: 1, height: 1, color: Colors.indigo[300],),
             SizedBox(height: 10,),
+            Container(
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width,
+                height: 30,
+                child: Text(
+                  '약 $pyeong평',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                )
+            ),
+            SizedBox(height: 10,),
+            Divider(thickness: 1, height: 1, color: Colors.indigo[300],),
+            SizedBox(height: 10,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  width: 88,
+                  width: MediaQuery.of(context).size.width/4,
                   height: 60,
                   child: DropdownButtonFormField(
 
@@ -406,6 +527,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       onChanged: (value) {
                         _DirectionController = value.toString();
                       },
+                      onSaved: (value) {
+                        formData['direction'] = value!;
+                      },
                       value: '남',
                       decoration: InputDecoration(
                         labelText: '방향',
@@ -416,12 +540,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       ),
                   ),
                 ),
-                SizedBox(width: 20,),
+                SizedBox(width: 10,),
                 Container(
-                  width: 120,
+                  width: MediaQuery.of(context).size.width/3.3,
                   height: 60,
                   child: TextFormField(
                     controller: _InDateController,
+                    onSaved: (value) {
+                      formData['inDate'] = value!.replaceAll('-', '/');
+                    },
                     readOnly: true,
                     onTap: (){
                       showDatePicker(
@@ -444,11 +571,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                 ),
                 Container(
-                  width: 100,
+                  width: MediaQuery.of(context).size.width/3.3,
                   height: 60,
                   child: DropdownButtonFormField(
            //         controller: _InDateTypeController,
                     value: '협의',
+                    onSaved: (value) {
+                      formData['inDateType'] = value!;
+                    },
                     items: ['즉시','협의','지정일'].map((String value) {
                       return DropdownMenuItem(
                         value: value,
@@ -473,7 +603,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             Divider(thickness: 1, height: 1, color: Colors.indigo[300],),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
                   '매매',
@@ -490,15 +620,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       setState(() {
                         _isSales = value!;
                         if(_isSales) {
-                          canvasHeight = canvasHeight + 220;
+                          canvasHeight = canvasHeight + 250;
                         } else {
-                          canvasHeight = canvasHeight - 220;
+                          canvasHeight = canvasHeight - 250;
                         }
                       }
                     );
                   },
                 ),
-                SizedBox(width: 20,),
+                SizedBox(width: 10,),
                 Text(
                   '전세',
                   style: TextStyle(
@@ -514,14 +644,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     setState(() {
                       _isJeonse = value!;
                       if(_isJeonse) {
-                        canvasHeight = canvasHeight + 150;
+                        canvasHeight = canvasHeight + 170;
                       } else {
-                        canvasHeight = canvasHeight - 150;
+                        canvasHeight = canvasHeight - 170;
                       }
                     });
                   },
                 ),
-                SizedBox(width: 20,),
+                SizedBox(width: 10,),
                 Text(
                   '월세',
                   style: TextStyle(
@@ -538,9 +668,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       _isMonthly = value!;
                     });
                     if(_isMonthly) {
-                      canvasHeight = canvasHeight + 230;
+                      canvasHeight = canvasHeight + 265;
                     } else {
-                      canvasHeight = canvasHeight - 230;
+                      canvasHeight = canvasHeight - 265;
                     }
                   },
                 ),
@@ -552,10 +682,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  width: 130,
-                  height: 60,
+                  width: 100,
                   child : TextFormField(
                     controller: _Name1Controller,
+                    validator: (value) {
+                      if(value!.isEmpty) {
+                        return '필수 입력 항목입니다.';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      formData['name1'] = value!;
+                    },
                     decoration: InputDecoration(
                       labelText: '이름1',
                       hintText: '연락처 이름1',
@@ -567,10 +705,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
                 SizedBox(width: 10,),
                 Container(
-                  width: 220,
-                  height: 60,
+                  width: MediaQuery.of(context).size.width - 150,
                   child : TextFormField(
                     controller: _Tel1Controller,
+                    validator: (value) {
+                      if(value!.isEmpty) {
+                        return '필수 입력 항목입니다.';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      formData['tel1'] = value!;
+                    },
                     keyboardType: TextInputType.number,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly, //숫자만!
@@ -593,10 +739,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  width: 130,
+                  width: 100,
                   height: 60,
                   child : TextFormField(
                     controller: _Name2Controller,
+                    onSaved: (value) {
+                      if(value!.isEmpty) {
+                        formData['name2'] = '';
+                      } else {
+                        formData['name2'] = value!;
+                      }
+                    },
                     decoration: InputDecoration(
                       labelText: '이름2',
                       hintText: '이름2',
@@ -606,11 +759,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
                 SizedBox(width: 10,),
                 Container(
-                  width: 220,
+                  width: MediaQuery.of(context).size.width - 150,
                   height: 60,
                   child : TextFormField(
                     controller: _Tel2Controller,
                     keyboardType: TextInputType.number,
+                    onSaved: (value) {
+                      if(value!.isEmpty) {
+                        formData['tel2'] = '';
+                      } else {
+                        formData['tel2'] = value!;
+                      }
+                    },
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly, //숫자만!
                       NumberFormatter(), // 자동하이픈
@@ -634,6 +794,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   SizedBox(height: 10,),
                   TextFormField(
                     controller: _SalesController,
+                    validator: (value) {
+                        if(_isSales & value!.isEmpty) {
+                          return '필수 입력 항목입니다.';
+                        }
+                        return null;
+                      },
+                    onSaved: (value) {
+                      formData['sales'] = value!;
+                    },
                     keyboardType: TextInputType.number,
                     inputFormatters: [
                       CurrencyTextInputFormatter(
@@ -655,6 +824,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   TextFormField(
                     controller: _DepositNowController,
                     keyboardType: TextInputType.number,
+                    onSaved: (value) {
+                      if(value!.isEmpty) {
+                        formData['depositNow'] = '0';
+                      } else {
+                        formData['depositNow'] = value!;
+                      }
+                    },
                     inputFormatters: [
                       CurrencyTextInputFormatter(
                         locale: 'ko',
@@ -673,6 +849,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   TextFormField(
                     controller: _MonthlyNowController,
                     keyboardType: TextInputType.number,
+                    onSaved: (value) {
+                      if(value!.isEmpty) {
+                        formData['monthlyNow'] = '0';
+                      } else {
+                        formData['monthlyNow'] = value!;
+                      }
+                    },
                     inputFormatters: [
                       CurrencyTextInputFormatter(
                         locale: 'ko',
@@ -699,6 +882,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   SizedBox(height: 10,),
                   TextFormField(
                     controller: _JeonseController,
+                    validator: (value) {
+                      if(_isJeonse & value!.isEmpty) {
+                        return '필수 입력 항목입니다.';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      formData['jeonse'] = value!;
+                    },
                     keyboardType: TextInputType.number,
                     inputFormatters: [
                       CurrencyTextInputFormatter(
@@ -729,6 +921,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   TextFormField(
                     controller: _DepositController,
                     keyboardType: TextInputType.number,
+                    onSaved: (value) {
+                      if(value!.isEmpty) {
+                        formData['deposit'] = '0';
+                      } else {
+                        formData['deposit'] = value!;
+                      }
+                    },
+                    validator: (value) {
+                      if(_isMonthly & value!.isEmpty) {
+                        return '필수 입력 항목입니다.';
+                      }
+                      return null;
+                    },
                     inputFormatters: [
                       CurrencyTextInputFormatter(
                         locale: 'ko',
@@ -749,6 +954,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   TextFormField(
                     controller: _MonthlyController,
                     keyboardType: TextInputType.number,
+                    onSaved: (value) {
+                      if(value!.isEmpty) {
+                        formData['monthly'] = '0';
+                      } else {
+                        formData['monthly'] = value!;
+                      }
+                    },
+                    validator: (value) {
+                      if(_isMonthly & value!.isEmpty) {
+                        return '필수 입력 항목입니다.';
+                      }
+                      return null;
+                    },
                     inputFormatters: [
                       CurrencyTextInputFormatter(
                         locale: 'ko',
@@ -778,6 +996,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   TextFormField(
                     controller: _LoanController,
                     keyboardType: TextInputType.number,
+                    onSaved: (value) {
+                      if(value!.isEmpty) {
+                        formData['loan'] = '0';
+                      } else {
+                        formData['loan'] = value!;
+                      }
+                    },
                     inputFormatters: [
                       CurrencyTextInputFormatter(
                         locale: 'ko',
@@ -800,6 +1025,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             TextFormField(
               controller: _DescController,
               keyboardType: TextInputType.multiline,
+              onSaved: (value) {
+                if(value!.isEmpty) {
+                  formData['desc'] = '';
+                } else {
+                  formData['desc'] = value!;
+                }
+              },
               maxLines: 8,
               minLines: 8,
               decoration: InputDecoration(

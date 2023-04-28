@@ -147,9 +147,9 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                 children: [
                   ToggleButtons(
                       children: <Widget>[
-                        Container(width: (MediaQuery.of(context).size.width - 36)/4.5, child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[new Icon(Icons.domain,size: 20.0,color: Colors.red,),new SizedBox(width: 4.0,), new Text("매매",style: TextStyle(color: Colors.red,fontSize: 20),)],)),
-                        Container(width: (MediaQuery.of(context).size.width - 36)/4.5, child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[new Icon(Icons.add_business,size: 20.0,color: Colors.yellow[800],),new SizedBox(width: 4.0,), new Text("전세",style: TextStyle(color: Colors.yellow[800],fontSize: 20))],)),
-                        Container(width: (MediaQuery.of(context).size.width - 36)/4.5, child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[new Icon(Icons.meeting_room,size: 20.0,color: Colors.blue,),new SizedBox(width: 4.0,), new Text("월세",style: TextStyle(color: Colors.blue,fontSize: 20))],)),
+                        Container(width: (MediaQuery.of(context).size.width - 40)/4.7, child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[new Text("매매",style: TextStyle(color: Colors.red,fontSize: 20),)],)),
+                        Container(width: (MediaQuery.of(context).size.width - 40)/4.7, child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[new Text("전세",style: TextStyle(color: Colors.yellow[800],fontSize: 20))],)),
+                        Container(width: (MediaQuery.of(context).size.width - 40)/4.7, child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[new Text("월세",style: TextStyle(color: Colors.blue,fontSize: 20))],)),
                       ],
                       isSelected: isSelected,
                       onPressed: toggleSelect,

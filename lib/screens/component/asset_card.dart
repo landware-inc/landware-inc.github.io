@@ -22,7 +22,8 @@ class AssetCard extends StatelessWidget {
   final String sizetype;
   final String direction;
   final String indate;
-  final String floor;
+  final int floor;
+  final int totalfloor;
   final String type;
   final String gubun;
   final String addr;
@@ -35,6 +36,7 @@ class AssetCard extends StatelessWidget {
     required this.callname,
     required this.direction,
     required this.floor,
+    required this.totalfloor,
     required this.indate,
     required this.bath,
     required this.room,
@@ -318,7 +320,7 @@ class AssetCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '$floor (층/총층)',
+                              '${floor.toString()}/${totalfloor.toString()} (층)',
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
