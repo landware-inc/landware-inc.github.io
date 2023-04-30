@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:kakao_login_test/screens/component/bottom_menu.dart';
 
 import '../common/commondata.dart';
 import '../map/maptest.dart';
@@ -31,19 +32,8 @@ class CommDetailViewScreen extends StatelessWidget {
         }
     );
 
-    String gpsUrl =
-        'https://maps.googleapis.com/maps/api/geocode/json?address=${response.data[0]['addr']}&key=$googleMapKey&language=ko';
-
-    final responseGps = await dio.get(gpsUrl);
-
-    var rst = jsonDecode(responseGps.toString());
-
-    _lat = rst['results'][0]['geometry']['location']['lat'];
-    _lng = rst['results'][0]['geometry']['location']['lng'];
-    // print(response.data[0]['addr']);
-    // print ('========================================');
-    // print(_lat.toString());
-    // print('========================================');
+    _lat = double.parse(response.data[0]['lat'].toString());
+    _lng = double.parse(response.data[0]['lng'].toString());
 
     dio.close();
     return response.data;
@@ -73,6 +63,7 @@ class CommDetailViewScreen extends StatelessWidget {
           ),
         ],
       ),
+      bottomNavigationBar: BottomMenuBar(),
       body: PageView(
         controller: _controllerMain,
         children: [

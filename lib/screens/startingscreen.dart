@@ -47,7 +47,7 @@ class StartScreen extends StatelessWidget {
           children: [
             Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
               return Text(
-                '${controller.userName.value}님 환영합니다.',
+                '${controller.userName.value} 회원님 환영합니다.',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
@@ -63,32 +63,35 @@ class StartScreen extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).colorScheme.secondary,
                       padding: const EdgeInsets.all(40),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                     ),
                     onPressed: () async {
                       final dio = Dio();
                       final response = await dio.get('$appServerURL/regi_maxvalue');
 
-                      controller.maxS(response.data[0]['maxs']);
-                      controller.maxPrice(response.data[0]['maxs']);
-                      controller.maxJ(response.data[0]['maxj']);
-                      controller.maxJeonse(response.data[0]['maxj']);
-                      controller.maxM(response.data[0]['maxm']);
-                      controller.maxMonthly(response.data[0]['maxm']);
-                      controller.maxD(response.data[0]['maxd']);
-                      controller.maxDeposit(response.data[0]['maxd']);
-                      controller.minS(response.data[0]['mins']);
-                      controller.minPrice(response.data[0]['mins']);
-                      controller.minJ(response.data[0]['minj']);
-                      controller.minJeonse(response.data[0]['minj']);
-                      controller.minM(response.data[0]['minm']);
-                      controller.minMonthly(response.data[0]['minm']);
+                      controller.maxS(response.data[0]['maxs'].round());
+                      controller.maxPrice(response.data[0]['maxs'].round());
+                      controller.maxJ(response.data[0]['maxj'].round());
+                      controller.maxJeonse(response.data[0]['maxj'].round());
+                      controller.maxM(response.data[0]['maxm'].round());
+                      controller.maxMonthly(response.data[0]['maxm'].round());
+                      controller.maxD(response.data[0]['maxd'].round());
+                      controller.maxDeposit(response.data[0]['maxd'].round());
+                      controller.minS(response.data[0]['mins'].round());
+                      controller.minPrice(response.data[0]['mins'].round());
+                      controller.minJ(response.data[0]['minj'].round());
+                      controller.minJeonse(response.data[0]['minj'].round());
+                      controller.minM(response.data[0]['minm'].round());
+                      controller.minMonthly(response.data[0]['minm'].round());
                       controller.minD(response.data[0]['mind']);
-                      controller.minDeposit(response.data[0]['mind']);
+                      controller.minDeposit(response.data[0]['mind'].round());
                       controller.selectGubun('전세');
-                      controller.minSize(response.data[0]['minz']);
-                      controller.minZ(response.data[0]['minz']);
-                      controller.maxSize(response.data[0]['maxz']);
-                      controller.maxZ(response.data[0]['maxz']);
+                      controller.minSize(response.data[0]['minz'].round());
+                      controller.minZ(response.data[0]['minz'].round());
+                      controller.maxSize(response.data[0]['maxz'].round());
+                      controller.maxZ(response.data[0]['maxz'].round());
 
                       dio.close();
 
@@ -106,32 +109,35 @@ class StartScreen extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).colorScheme.secondary,
                       padding: const EdgeInsets.all(40),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                     ),
                     onPressed: () async {
                       final dio = Dio();
                       final response = await dio.get('$appServerURL/comm_maxvalue');
 
-                      controller.maxS(response.data[0]['maxs']);
-                      controller.maxPrice(response.data[0]['maxs']);
-                      controller.maxE(response.data[0]['maxe']);
-                      controller.maxEntitle(response.data[0]['maxe']);
-                      controller.maxM(response.data[0]['maxm']);
-                      controller.maxMonthly(response.data[0]['maxm']);
-                      controller.maxD(response.data[0]['maxd']);
-                      controller.maxDeposit(response.data[0]['maxd']);
-                      controller.minS(response.data[0]['mins']);
-                      controller.minPrice(response.data[0]['mins']);
-                      controller.minE(response.data[0]['mine']);
-                      controller.minEntitle(response.data[0]['mine']);
-                      controller.minM(response.data[0]['minm']);
-                      controller.minMonthly(response.data[0]['minm']);
-                      controller.minD(response.data[0]['mind']);
-                      controller.minDeposit(response.data[0]['mind']);
+                      controller.maxS(response.data[0]['maxs'].round());
+                      controller.maxPrice(response.data[0]['maxs'].round());
+                      controller.maxE(response.data[0]['maxe'].round());
+                      controller.maxEntitle(response.data[0]['maxe'].round());
+                      controller.maxM(response.data[0]['maxm'].round());
+                      controller.maxMonthly(response.data[0]['maxm'].round());
+                      controller.maxD(response.data[0]['maxd'].round());
+                      controller.maxDeposit(response.data[0]['maxd'].round());
+                      controller.minS(response.data[0]['mins'].round());
+                      controller.minPrice(response.data[0]['mins'].round());
+                      controller.minE(response.data[0]['mine'].round());
+                      controller.minEntitle(response.data[0]['mine'].round());
+                      controller.minM(response.data[0]['minm'].round());
+                      controller.minMonthly(response.data[0]['minm'].round());
+                      controller.minD(response.data[0]['mind'].round());
+                      controller.minDeposit(response.data[0]['mind'].round());
                       controller.selectGubun('전세');
-                      controller.minSize(response.data[0]['minz']);
-                      controller.minZ(response.data[0]['minz']);
-                      controller.maxSize(response.data[0]['maxz']);
-                      controller.maxZ(response.data[0]['maxz']);
+                      controller.minSize(response.data[0]['minz'].round());
+                      controller.minZ(response.data[0]['minz'].round());
+                      controller.maxSize(response.data[0]['maxz'].round());
+                      controller.maxZ(response.data[0]['maxz'].round());
 
                       dio.close();
                       Get.to (() => CommercialScreen());
@@ -147,6 +153,9 @@ class StartScreen extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).colorScheme.secondary,
                       padding: const EdgeInsets.all(40),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                     ),
                     onPressed: () {
                       Get.to (() => RegistrationScreen());
@@ -162,6 +171,9 @@ class StartScreen extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).colorScheme.secondary,
                       padding: const EdgeInsets.all(40),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                     ),
                     onPressed: () {
                       Get.to (() => HomeBasketListViewScreen());

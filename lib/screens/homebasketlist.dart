@@ -53,12 +53,15 @@ class HomeBasketListViewScreen extends StatelessWidget {
       // print('==============');
       // print(basketList[0].id);
 
+
       while (basketList.length > 0) {
         homeBasket.add(basketList[0].id);
         basketList.removeAt(0);
       }
 
-
+      if(homeBasket.length == 0) {
+        return [];
+      }
       final response = await dio.post(
           '$appServerURL/baskethome',
           data: {
@@ -130,10 +133,11 @@ class HomeBasketListViewScreen extends StatelessWidget {
                                 price4: snapshot.data[index]['price4'] ?? 0,
                                 room: snapshot.data[index]['room'] ?? 0,
                                 bath: snapshot.data[index]['bath'] ?? 0,
-                                sizetype: snapshot.data[index]['sizetype'],
+                                size: snapshot.data[index]['size'],
                                 direction: snapshot.data[index]['direction'],
                                 indate: snapshot.data[index]['indate'],
                                 floor: snapshot.data[index]['floor'],
+                                totalfloor: snapshot.data[index]['totalfloor'] ?? 0,
                                 type: snapshot.data[index]['type'] ?? '',
                               ),
                             );

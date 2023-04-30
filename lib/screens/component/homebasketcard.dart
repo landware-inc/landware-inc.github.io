@@ -20,10 +20,11 @@ class AssetBasketCard extends StatelessWidget {
   final int price4;
   final int room;
   final int bath;
-  final String sizetype;
+  final int size;
   final String direction;
   final String indate;
-  final String floor;
+  final int floor;
+  final int totalfloor;
   final String type;
 
   const AssetBasketCard({
@@ -36,10 +37,11 @@ class AssetBasketCard extends StatelessWidget {
     required this.callname,
     required this.direction,
     required this.floor,
+    required this.totalfloor,
     required this.indate,
     required this.bath,
     required this.room,
-    required this.sizetype,
+    required this.size,
     required this.type,
     Key? key}) : super(key: key);
 
@@ -143,18 +145,21 @@ class AssetBasketCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                '$callname',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.primaryContainer,
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                child: Text(
+                                  '$callname',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.fade,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).colorScheme.primaryContainer,
+                                  ),
                                 ),
                               ),
                               Text(
-                                '$sizetype',
+                                '${(size * 0.3052).round()}평',
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
@@ -172,7 +177,7 @@ class AssetBasketCard extends StatelessWidget {
                               children: [
                                 if (price2 != 0)
                                   Text(
-                                    '매:${f.format(int.parse(price3.toString()))}/전:${f.format(int.parse(price4.toString()))}/보:${f.format(int.parse(price.toString()))}/${f.format(int.parse(price2.toString()))}',
+                                    '매:${f.format(int.parse((price3/10000).round().toString()))}/전:${f.format(int.parse((price4/10000).round().toString()))}/보:${f.format(int.parse((price/10000).round().toString()))}/${f.format(int.parse((price2/10000).round().toString()))}',
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold,
@@ -181,7 +186,7 @@ class AssetBasketCard extends StatelessWidget {
                                   ),
                                 if (price2 == 0)
                                   Text(
-                                    '매:${f.format(int.parse(price3.toString()))}/전:${f.format(int.parse(price4.toString()))}',
+                                    '매:${f.format(int.parse((price3/10000).round().toString()))}/전:${f.format(int.parse((price4/10000).round().toString()))}',
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold,
@@ -227,7 +232,7 @@ class AssetBasketCard extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '$floor (층/총층)',
+                                '$floor/$totalfloor (층)',
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,

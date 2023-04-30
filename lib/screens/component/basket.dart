@@ -39,6 +39,7 @@ Future<List<basketItems>> getAllItems() async {
   var res = await db.rawQuery('SELECT id,gubun FROM $TableName');
   List<Map<String,dynamic>> list = res;
 
+  if(list.length == 0) return [];
   return List.generate(list.length, (i) {
     return basketItems(
       id: list[i]['id'],

@@ -19,7 +19,7 @@ class AssetCard extends StatelessWidget {
   final int price2;
   final int room;
   final int bath;
-  final String sizetype;
+  final int size;
   final String direction;
   final String indate;
   final int floor;
@@ -40,7 +40,7 @@ class AssetCard extends StatelessWidget {
     required this.indate,
     required this.bath,
     required this.room,
-    required this.sizetype,
+    required this.size,
     required this.type,
     required this.gubun,
     required this.addr,
@@ -236,22 +236,28 @@ class AssetCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                '$callname',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.primaryContainer,
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.45,
+                                child: Text(
+                                  '$callname',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.fade,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).colorScheme.primaryContainer,
+                                  ),
                                 ),
                               ),
-                              Text(
-                                '$sizetype',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.primaryContainer
+                              Container(
+                                child: Text(
+                                  '${(size * 0.3052).round().toString()}평',
+                                  overflow: TextOverflow.fade,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).colorScheme.primaryContainer
+                                  ),
                                 ),
                               ),
                             ],
@@ -265,7 +271,7 @@ class AssetCard extends StatelessWidget {
                                   children: [
                                     if (price2 != 0)
                                       Text(
-                                        '${f.format(int.parse(price.toString()))}만원 / ${f.format(int.parse(price2.toString()))}만원',
+                                        '${f.format(int.parse((price/10000).round().toString()))}만/${f.format(int.parse((price2/10000).round().toString()))}만',
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
@@ -274,7 +280,7 @@ class AssetCard extends StatelessWidget {
                                       ),
                                     if (price2 == 0)
                                       Text(
-                                        '${f.format(int.parse(price.toString()))}만원',
+                                        '${f.format(int.parse((price/10000).round().toString()))}만',
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,

@@ -32,21 +32,11 @@ class AssetDetailViewScreen extends StatelessWidget {
         }
     );
 
-    String gpsUrl =
-        'https://maps.googleapis.com/maps/api/geocode/json?address=${response.data[0]['addr']}&key=$googleMapKey&language=ko';
-
-    final responseGps = await dio.get(gpsUrl);
-
-    var rst = jsonDecode(responseGps.toString());
-
-    _lat = rst['results'][0]['geometry']['location']['lat'];
-    _lng = rst['results'][0]['geometry']['location']['lng'];
-    // print(response.data[0]['addr']);
-    // print ('========================================');
-    // print(_lat.toString());
-    // print('========================================');
 
     dio.close();
+
+    _lat = double.parse(response.data[0]['lat'].toString());
+    _lng = double.parse(response.data[0]['lng'].toString());
     return response.data;
   }
 
@@ -59,6 +49,7 @@ class AssetDetailViewScreen extends StatelessWidget {
     var f = NumberFormat('###,###,###,###');
     PageController _controller = PageController(initialPage: 0, keepPage: false);
     PageController _controllerMain = PageController(initialPage: 0, keepPage: false);
+
 
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -213,7 +204,7 @@ class AssetDetailViewScreen extends StatelessWidget {
                       ),
                       if(snapshot.data[0]['jeonse'] > 0)
                         Text(
-                          '전세가 : ${f.format(int.parse(snapshot.data[0]['jeonse'].toString()))}만원',
+                          '전세가 : ${f.format(int.parse((snapshot.data[0]['jeonse']/10000).round().toString()))}만원',
                           style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.w400,
@@ -224,7 +215,7 @@ class AssetDetailViewScreen extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              '보증금 : ${f.format(int.parse(snapshot.data[0]['deposit'].toString()))}만원',
+                              '보증금 : ${f.format(int.parse((snapshot.data[0]['deposit']/10000).round().toString()))}만원',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w400,
@@ -232,7 +223,7 @@ class AssetDetailViewScreen extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              ' / 월세 : ${f.format(int.parse(snapshot.data[0]['monthly'].toString()))}만원',
+                              ' / 월세 : ${f.format(int.parse((snapshot.data[0]['monthly']/10000).round().toString()))}만원',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w400,
@@ -243,7 +234,7 @@ class AssetDetailViewScreen extends StatelessWidget {
                         ),
                       if(snapshot.data[0]['salesprice'] > 0)
                         Text(
-                          '매매가 : ${f.format(int.parse(snapshot.data[0]['salesprice'].toString()))}만원',
+                          '매매가 : ${f.format(int.parse((snapshot.data[0]['salesprice']/10000).round().toString()))}만원',
                           style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.w400,
@@ -323,13 +314,13 @@ class AssetDetailViewScreen extends StatelessWidget {
                     myLocationEnabled: true,
                     myLocationButtonEnabled: true,
                     initialCameraPosition: CameraPosition(
-                      target: LatLng(_lat, _lng),
+                      target: LatLng(_lat,_lng),
                       zoom: 17,
                     ),
                     markers: {
                       Marker(
                         markerId: MarkerId('marker_1'),
-                        position: LatLng(_lat, _lng),
+                        position: LatLng(_lat,_lng),
                       ),
                     },
                   );
