@@ -1,10 +1,13 @@
+import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:kakao_login_test/screens/commdetailview.dart';
 
+import '../../common/commondata.dart';
 import '../assetdetailview.dart';
 
 
@@ -21,6 +24,7 @@ class CommCard extends StatelessWidget {
   final String indate;
   final String floor;
   final String type;
+  final String addr;
 
   const CommCard({
     required this.price,
@@ -35,11 +39,49 @@ class CommCard extends StatelessWidget {
     required this.eliv,
     required this.size,
     required this.type,
+    required this.addr,
     Key? key}) : super(key: key);
+
+
+  updateLatLng() async {
+    final dio = Dio();
+    double _lat = 0.0;
+    double _lng = 0.0;
+
+    String gpsUrl =
+        'https://maps.googleapis.com/maps/api/geocode/json?address=$addr&key=$googleMapKey&language=ko';
+
+    final responseGps = await dio.get(gpsUrl);
+
+    var rst = jsonDecode(responseGps.toString());
+
+    _lat = rst['results'][0]['geometry']['location']['lat'];
+    _lng = rst['results'][0]['geometry']['location']['lng'];
+    // print(response.data[0]['addr']);
+    // print ('========================================');
+    // print(_lat.toString());
+    // print('========================================');
+
+
+    try {
+      final response = await dio.post(
+          '$appServerURL/updatelatlng',
+          data: {
+            'id': id,
+            'lat': _lat,
+            'lng': _lng,
+          }
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     var f = NumberFormat('###,###,###,###');
+
+//    updateLatLng();
 
     return GestureDetector(
       onTap: () {
