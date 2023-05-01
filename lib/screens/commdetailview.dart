@@ -1,26 +1,56 @@
-import 'dart:convert';
-import 'dart:ffi';
-import 'package:flutter/gestures.dart';
+
+import 'dart:io';
+import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart' as getx;
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:dio/src/form_data.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kakao_login_test/screens/component/bottom_menu.dart';
+import 'package:http_parser/http_parser.dart';
 
 import '../common/commondata.dart';
-import '../map/maptest.dart';
 
 
-class CommDetailViewScreen extends StatelessWidget {
+
+class CommDetailViewScreen extends StatefulWidget {
   final int id;
-  double _lat = 0.0;
-  double _lng = 0.0;
+
+
   CommDetailViewScreen({
     required this.id,
     Key? key}) : super(key: key);
+
+
+
+  @override
+  State<CommDetailViewScreen> createState() => _CommDetailViewScreenState();
+}
+
+class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
+  double _lat = 0.0;
+
+  double _lng = 0.0;
+
+  final ImagePicker _picker = ImagePicker();
+
+  List<XFile> _pickedImgs = [];
+
+  Future<void> _pickImg() async {
+    final List<XFile>? images = await _picker.pickMultiImage();
+    if (images != null) {
+      setState(() {
+        _pickedImgs = images;
+
+      });
+    }
+  }
+
 
 
   Future<List> pagenationDetailData() async {
@@ -28,7 +58,7 @@ class CommDetailViewScreen extends StatelessWidget {
     final response = await dio.post(
         '$appServerURL/commdetail',
         data: {
-          'id': id,
+          'id': widget.id,
         }
     );
 
@@ -39,7 +69,7 @@ class CommDetailViewScreen extends StatelessWidget {
     return response.data;
   }
 
-
+  final _formKey = GlobalKey<FormState>();
 
 
   @override
@@ -48,6 +78,50 @@ class CommDetailViewScreen extends StatelessWidget {
     var f = NumberFormat('###,###,###,###');
     PageController _controller = PageController(initialPage: 0, keepPage: false);
     PageController _controllerMain = PageController(initialPage: 0, keepPage: false);
+    List<String> _imgList = [];
+    List<Widget> _boxContents = [
+      IconButton(
+        onPressed: () {
+          _pickImg();
+        },
+        icon: Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Theme.of(context).colorScheme.primary,
+              width: 1,
+            ),
+          ),
+          child: Icon(
+              Icons.add,
+              color: Colors.black,
+          ),
+        ),
+      ),
+      Container(),
+      Container(),
+      Container(),
+      Container(),
+      _pickedImgs.length <= 6 ? Container() : FittedBox(
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary,
+            shape: BoxShape.circle,
+          ),
+          child: Text(
+            '+${(_pickedImgs.length - 6).toString()}',
+            style: Theme.of(context).textTheme.subtitle2?.copyWith(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+        ),
+      ),
+    ];
+
+
+
+
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -57,7 +131,7 @@ class CommDetailViewScreen extends StatelessWidget {
           IconButton(
             onPressed: () {
               _authentication.signOut();
-              Get.back();
+              getx.Get.back();
             },
             icon: const Icon(Icons.logout),
           ),
@@ -73,6 +147,14 @@ class CommDetailViewScreen extends StatelessWidget {
               future: pagenationDetailData(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
+                  _imgList = [
+                    snapshot.data[0]['img_1'],
+                    snapshot.data[0]['img_2'],
+                    snapshot.data[0]['img_3'],
+                    snapshot.data[0]['img_4'],
+                    snapshot.data[0]['img_5'],
+                    snapshot.data[0]['img_6'],
+                  ];
                   return SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -292,6 +374,92 @@ class CommDetailViewScreen extends StatelessWidget {
                             color: Theme.of(context).colorScheme.onPrimaryContainer,
                           ),
                         ),
+                        Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.width/2.3,
+                          child : GridView.count(
+                            crossAxisCount: 3,
+                            mainAxisSpacing: 5.0,
+                            crossAxisSpacing: 5.0,
+                            childAspectRatio: 2/1.3,
+                            padding: EdgeInsets.all(5.0),
+                            children: List.generate(
+                                6,
+                                (index) => DottedBorder(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  strokeWidth: 1,
+                                  dashPattern: [5, 5],
+                                  child: Container(
+                                    decoration:
+                                      index <= _pickedImgs.length -1
+                                          ? BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            color: Theme.of(context).colorScheme.primaryContainer,
+                                             image: DecorationImage(
+                                                image: FileImage(File(_pickedImgs[index].path)),
+                                                fit: BoxFit.fitHeight,
+                                              ),
+                                        ) :
+                                        index <= _imgList.length -1
+                                          ? BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            color: Theme.of(context).colorScheme.primaryContainer,
+                                             image: DecorationImage(
+                                                image: _imgList[index] == '' ? NetworkImage('$appServerURL/sample.jpg',) :  NetworkImage('$appServerURL/$_imgList[index]',),
+                                                fit: BoxFit.fitHeight,
+                                              ),
+                                        ) : null,
+                                    child : Center(child: _boxContents[index]),
+
+                                   //  decoration: index <= _imgList.length -1
+                                   //    ? _imgList[index] == '' ? Image.network('$appServerURL/sample.jpg', fit: BoxFit.cover,) :  Image.network('$appServerURL/$_imgList[index]', fit: BoxFit.cover,)
+                                   //    : IconButton(
+                                   //      icon: Icon(Icons.add),
+                                   //      onPressed: () {
+                                   // //       _pickedImgs();
+                                   //      },
+                                   //    ),
+                                  ),
+                                ),
+                              ),
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Theme.of(context).colorScheme.primary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+
+                              onPressed: _pickedImgs.length == 0
+                                  ? null
+                                  : () async {
+                                        final List<MultipartFile> _files =  _pickedImgs.map((img) => MultipartFile.fromFileSync(img.path,  contentType: new MediaType("image", "jpg"))).toList();
+                                        FormData _formData = FormData.fromMap({"files": _files});
+
+                                        Dio dio = Dio();
+
+                                        // dio.options.headers["authorization"] = AuthProvider.token;                                        dio.options.contentType = 'multipart/form-data';
+                                        //
+                                        // final res = await dio.post(postNoteURL, data: _formData).then((res) {
+                                        //   getx.Get.back();
+                                        //   return res.data;
+                                        // });
+
+                                        dio.close();
+
+                                      },
+                              child: Text('사진 수정하기'),
+                            ),
+                          ]
+                        ),
+                        SizedBox(
+                          height: 6,
+                        ),
                       ],
                     ),
                   );
@@ -336,3 +504,5 @@ class CommDetailViewScreen extends StatelessWidget {
     );
   }
 }
+
+
