@@ -88,13 +88,14 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             border: Border.all(
-              color: Theme.of(context).colorScheme.primary,
-              width: 1,
+              color: Colors.red,
+              width: 3,
             ),
           ),
           child: Icon(
-              Icons.add,
-              color: Colors.black,
+              Icons.photo,
+              color: Colors.red,
+              size: 24,
           ),
         ),
       ),
@@ -102,7 +103,10 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
       Container(),
       Container(),
       Container(),
-      _pickedImgs.length <= 6 ? Container() : FittedBox(
+      Container(),
+      Container(),
+      Container(),
+      _pickedImgs.length <= 9 ? Container() : FittedBox(
         child: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
@@ -110,7 +114,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
             shape: BoxShape.circle,
           ),
           child: Text(
-            '+${(_pickedImgs.length - 6).toString()}',
+            '+${(_pickedImgs.length - 9).toString()}',
             style: Theme.of(context).textTheme.subtitle2?.copyWith(
               color: Theme.of(context).colorScheme.primary,
             ),
@@ -376,7 +380,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                         ),
                         Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
                         SizedBox(
-                          height: MediaQuery.of(context).size.width/2.3,
+                          height: MediaQuery.of(context).size.width/1.5,
                           child : GridView.count(
                             crossAxisCount: 3,
                             mainAxisSpacing: 5.0,
@@ -384,7 +388,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                             childAspectRatio: 2/1.3,
                             padding: EdgeInsets.all(5.0),
                             children: List.generate(
-                                6,
+                                9,
                                 (index) => DottedBorder(
                                   color: Theme.of(context).colorScheme.primary,
                                   strokeWidth: 1,

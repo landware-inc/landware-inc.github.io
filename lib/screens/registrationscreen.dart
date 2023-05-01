@@ -38,7 +38,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   double lng = 0;
   int _selectedPage = 0;
 
-  int canvasHeight = 230;
+  int canvasHeight = 285;
   final _AddressController = TextEditingController();
   final _AddressDetailController = TextEditingController();
   final _CallNameController = TextEditingController();
@@ -147,266 +147,267 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-                style: ButtonStyle(
-                  elevation: MaterialStateProperty.all(1.0),
-                  backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.primary),
-                  padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 10.0)),
-                ),
-                onPressed: () async {
-                  if(_selectedPage == 0) {
-                    if (!_isSales && !_isJeonse && !_isMonthly) {
-                      Get.snackbar('등록 오류', '거래유형을 최소 한가지 이상 선택해주세요.');
-                      return;
-                    }
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      print(formData);
-
-                      try {
-                        final dio = Dio();
-
-                        String gpsUrl =
-                            'https://maps.googleapis.com/maps/api/geocode/json?address=${formData['address']}&key=$googleMapKey&language=ko';
-                        try{
-                          final responseGps = await dio.get(gpsUrl);
-
-                          var rst = jsonDecode(responseGps.toString());
-
-                          lat = rst['results'][0]['geometry']['location']['lat'];
-                          lng = rst['results'][0]['geometry']['location']['lng'];
-                          // print(response.data[0]['addr']);
-                        } catch(e) {
-                          lat = 0;
-                          lng = 0;
-                        }
-
-
-                        final response = await dio.post(
-                            '$appServerURL/newasset',
-                            data: {
-                              'selectedpage': _selectedPage,
-                              'callname': formData['callName'],
-                              'addr1': formData['address'],
-                              'addr2': formData['addressDetail'] ?? '',
-                              'size': formData['size'],
-                              'sizetype': formData['sizeType'] ?? '',
-                              'indate': formData['inDate'],
-                              'indatetype': formData['inDateType'],
-                              'floor': formData['floor'],
-                              'totalfloor': formData['totalFloor'] ?? 0,
-                              'room': formData['room'],
-                              'bath': formData['bath'],
-                              'type': formData['Type'],
-                              'direction': formData['direction'],
-                              'name1': formData['name1'],
-                              'name2': formData['name2'] ?? '',
-                              'phone1': formData['tel1'],
-                              'phone2': formData['tel2'] ?? '',
-                              'sales': formData['sales'] == null
-                                  ? 0
-                                  : formData['sales']!.replaceAll('₩', '')
-                                  .replaceAll(',', ''),
-                              'jeonse': formData['jeonse'] == null
-                                  ? 0
-                                  : formData['jeonse']!.replaceAll('₩', '')
-                                  .replaceAll(',', ''),
-                              'deposit': formData['deposit'] == null
-                                  ? 0
-                                  : formData['deposit']!.replaceAll('₩', '')
-                                  .replaceAll(',', ''),
-                              'monthly': formData['monthly'] == null
-                                  ? 0
-                                  : formData['monthly']!.replaceAll('₩', '')
-                                  .replaceAll(',', ''),
-                              'loan': formData['loan'] == null
-                                  ? 0
-                                  : formData['loan']!.replaceAll('₩', '')
-                                  .replaceAll(',', ''),
-                              'depositnow': formData['depositNow'] == null
-                                  ? 0
-                                  : formData['depositNow']!.replaceAll('₩', '')
-                                  .replaceAll(',', ''),
-                              'monthlynow': formData['monthlyNow'] == null
-                                  ? 0
-                                  : formData['monthlyNow']!.replaceAll('₩', '')
-                                  .replaceAll(',', ''),
-                              'lat': lat,
-                              'lng': lng,
-                              'desc': formData['desc'] ?? '',
-                              'date': DateTime.now().toString(),
-                            }
-                        );
-
-                        print(response.data);
-
-                        dio.close();
-
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text('등록 완료'),
-                                content: Text('등록이 완료되었습니다.'),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () {
-                                        Get.off(AssetDetailViewScreen(id: response.data['insertId']));
-                                      },
-                                      child: Text('확인')
-                                  )
-                                ],
-                              );
-                            }
-                        );
-
-                        return response.data;
-                      } catch (e) {
-                        print(e);
-                      }
-                    }
-                  } else if(_selectedPage == 1) {
-                    if (!_isSalesComm && !_isJeonseComm && !_isMonthlyComm) {
-                      Get.snackbar('등록 오류', '거래유형을 최소 한가지 이상 선택해주세요.');
-                      return;
-                    }
-                    if (_formKeyComm.currentState!.validate()) {
-                      _formKeyComm.currentState!.save();
-                      print(formData);
-
-                      try {
-                        final dio = Dio();
-
-                        String gpsUrl =
-                            'https://maps.googleapis.com/maps/api/geocode/json?address=${formData['address']}&key=$googleMapKey&language=ko';
-
-                        try {
-                          final responseGps = await dio.get(gpsUrl);
-
-                          var rst = jsonDecode(responseGps.toString());
-
-                          lat = rst['results'][0]['geometry']['location']['lat'];
-                          lng = rst['results'][0]['geometry']['location']['lng'];
-                          // print(response.data[0]['addr']);
-                        } catch (e) {
-                          lat = 0;
-                          lng = 0;
-                        }
-
-
-                        final response = await dio.post(
-                            '$appServerURL/newasset',
-                            data: {
-                              'selectedpage': _selectedPage,
-                              'callname': formData['callName'],
-                              'division': formData['division'],
-                              'addr1': formData['address'],
-                              'addr2': formData['addressDetail'] ?? '',
-                              'size': formData['size'],
-                              'sizetype': formData['sizeType'] ?? '',
-                              'indate': formData['inDate'],
-                              'indatetype': formData['inDateType'],
-                              'floor': formData['floor'],
-                              'totalfloor': formData['totalFloor'] ?? 0,
-                              'room': formData['room'],
-                              'bath': formData['bath'],
-                              'elevator': _ElevatorController,
-                              'parking': formData['parking'] ?? 0,
-                              'admin': formData['admin'] == null
-                                  ? 0
-                                  : formData['admin']!.replaceAll('₩', '')
-                                  .replaceAll(',', ''),
-                              'entitleprice': formData['entitlePrice'] == null
-                                  ? 0
-                                  : formData['entitlePrice']!.replaceAll('₩', '')
-                                  .replaceAll(',', ''),
-                              'type': formData['Type'],
-                              'direction': formData['direction'],
-                              'name1': formData['name1'],
-                              'name2': formData['name2'] ?? '',
-                              'phone1': formData['tel1'],
-                              'phone2': formData['tel2'] ?? '',
-                              'sales': formData['sales'] == null
-                                  ? 0
-                                  : formData['sales']!.replaceAll('₩', '')
-                                  .replaceAll(',', ''),
-                              'jeonse': formData['jeonse'] == null
-                                  ? 0
-                                  : formData['jeonse']!.replaceAll('₩', '')
-                                  .replaceAll(',', ''),
-                              'deposit': formData['deposit'] == null
-                                  ? 0
-                                  : formData['deposit']!.replaceAll('₩', '')
-                                  .replaceAll(',', ''),
-                              'monthly': formData['monthly'] == null
-                                  ? 0
-                                  : formData['monthly']!.replaceAll('₩', '')
-                                  .replaceAll(',', ''),
-                              'loan': formData['loan'] == null
-                                  ? 0
-                                  : formData['loan']!.replaceAll('₩', '')
-                                  .replaceAll(',', ''),
-                              'depositnow': formData['depositNow'] == null
-                                  ? 0
-                                  : formData['depositNow']!.replaceAll('₩', '')
-                                  .replaceAll(',', ''),
-                              'monthlynow': formData['monthlyNow'] == null
-                                  ? 0
-                                  : formData['monthlyNow']!.replaceAll('₩', '')
-                                  .replaceAll(',', ''),
-                              'lat': lat,
-                              'lng': lng,
-                              'desc': formData['desc'] ?? '',
-                              'date': DateTime.now().toString(),
-                            }
-                        );
-                        
-                        dio.close();
-
-
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text('등록 완료'),
-                                content: Text('등록이 완료되었습니다.'),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () {
-                                        Get.off(CommDetailViewScreen(id: response.data['insertId']));
-                                      },
-                                      child: Text('확인')
-                                  )
-                                ],
-                              );
-                            }
-                        );
-                        
-                        return response.data;
-                      } catch (e) {
-                        print(e);
-                      }
-                    }
-                  }
-                },
-                child: Text(
-                  '등록하기',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                ),
-            ),
-          ),
-        ],
-      ),
+      bottomNavigationBar: BottomMenuBar(),
+      // bottomNavigationBar: Column(
+      //   mainAxisSize: MainAxisSize.min,
+      //   crossAxisAlignment: CrossAxisAlignment.stretch,
+      //   children: [
+      //     Padding(
+      //       padding: const EdgeInsets.all(8.0),
+      //       child: ElevatedButton(
+      //           style: ButtonStyle(
+      //             elevation: MaterialStateProperty.all(1.0),
+      //             backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.primary),
+      //             padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 10.0)),
+      //           ),
+      //           onPressed: () async {
+      //             if(_selectedPage == 0) {
+      //               if (!_isSales && !_isJeonse && !_isMonthly) {
+      //                 Get.snackbar('등록 오류', '거래유형을 최소 한가지 이상 선택해주세요.');
+      //                 return;
+      //               }
+      //               if (_formKey.currentState!.validate()) {
+      //                 _formKey.currentState!.save();
+      //                 print(formData);
+      //
+      //                 try {
+      //                   final dio = Dio();
+      //
+      //                   String gpsUrl =
+      //                       'https://maps.googleapis.com/maps/api/geocode/json?address=${formData['address']}&key=$googleMapKey&language=ko';
+      //                   try{
+      //                     final responseGps = await dio.get(gpsUrl);
+      //
+      //                     var rst = jsonDecode(responseGps.toString());
+      //
+      //                     lat = rst['results'][0]['geometry']['location']['lat'];
+      //                     lng = rst['results'][0]['geometry']['location']['lng'];
+      //                     // print(response.data[0]['addr']);
+      //                   } catch(e) {
+      //                     lat = 0;
+      //                     lng = 0;
+      //                   }
+      //
+      //
+      //                   final response = await dio.post(
+      //                       '$appServerURL/newasset',
+      //                       data: {
+      //                         'selectedpage': _selectedPage,
+      //                         'callname': formData['callName'],
+      //                         'addr1': formData['address'],
+      //                         'addr2': formData['addressDetail'] ?? '',
+      //                         'size': formData['size'],
+      //                         'sizetype': formData['sizeType'] ?? '',
+      //                         'indate': formData['inDate'],
+      //                         'indatetype': formData['inDateType'],
+      //                         'floor': formData['floor'],
+      //                         'totalfloor': formData['totalFloor'] ?? 0,
+      //                         'room': formData['room'],
+      //                         'bath': formData['bath'],
+      //                         'type': formData['Type'],
+      //                         'direction': formData['direction'],
+      //                         'name1': formData['name1'],
+      //                         'name2': formData['name2'] ?? '',
+      //                         'phone1': formData['tel1'],
+      //                         'phone2': formData['tel2'] ?? '',
+      //                         'sales': formData['sales'] == null
+      //                             ? 0
+      //                             : formData['sales']!.replaceAll('₩', '')
+      //                             .replaceAll(',', ''),
+      //                         'jeonse': formData['jeonse'] == null
+      //                             ? 0
+      //                             : formData['jeonse']!.replaceAll('₩', '')
+      //                             .replaceAll(',', ''),
+      //                         'deposit': formData['deposit'] == null
+      //                             ? 0
+      //                             : formData['deposit']!.replaceAll('₩', '')
+      //                             .replaceAll(',', ''),
+      //                         'monthly': formData['monthly'] == null
+      //                             ? 0
+      //                             : formData['monthly']!.replaceAll('₩', '')
+      //                             .replaceAll(',', ''),
+      //                         'loan': formData['loan'] == null
+      //                             ? 0
+      //                             : formData['loan']!.replaceAll('₩', '')
+      //                             .replaceAll(',', ''),
+      //                         'depositnow': formData['depositNow'] == null
+      //                             ? 0
+      //                             : formData['depositNow']!.replaceAll('₩', '')
+      //                             .replaceAll(',', ''),
+      //                         'monthlynow': formData['monthlyNow'] == null
+      //                             ? 0
+      //                             : formData['monthlyNow']!.replaceAll('₩', '')
+      //                             .replaceAll(',', ''),
+      //                         'lat': lat,
+      //                         'lng': lng,
+      //                         'desc': formData['desc'] ?? '',
+      //                         'date': DateTime.now().toString(),
+      //                       }
+      //                   );
+      //
+      //                   print(response.data);
+      //
+      //                   dio.close();
+      //
+      //                   showDialog(
+      //                       context: context,
+      //                       builder: (context) {
+      //                         return AlertDialog(
+      //                           title: Text('등록 완료'),
+      //                           content: Text('등록이 완료되었습니다.'),
+      //                           actions: [
+      //                             TextButton(
+      //                                 onPressed: () {
+      //                                   Get.off(AssetDetailViewScreen(id: response.data['insertId']));
+      //                                 },
+      //                                 child: Text('확인')
+      //                             )
+      //                           ],
+      //                         );
+      //                       }
+      //                   );
+      //
+      //                   return response.data;
+      //                 } catch (e) {
+      //                   print(e);
+      //                 }
+      //               }
+      //             } else if(_selectedPage == 1) {
+      //               if (!_isSalesComm && !_isJeonseComm && !_isMonthlyComm) {
+      //                 Get.snackbar('등록 오류', '거래유형을 최소 한가지 이상 선택해주세요.');
+      //                 return;
+      //               }
+      //               if (_formKeyComm.currentState!.validate()) {
+      //                 _formKeyComm.currentState!.save();
+      //                 print(formData);
+      //
+      //                 try {
+      //                   final dio = Dio();
+      //
+      //                   String gpsUrl =
+      //                       'https://maps.googleapis.com/maps/api/geocode/json?address=${formData['address']}&key=$googleMapKey&language=ko';
+      //
+      //                   try {
+      //                     final responseGps = await dio.get(gpsUrl);
+      //
+      //                     var rst = jsonDecode(responseGps.toString());
+      //
+      //                     lat = rst['results'][0]['geometry']['location']['lat'];
+      //                     lng = rst['results'][0]['geometry']['location']['lng'];
+      //                     // print(response.data[0]['addr']);
+      //                   } catch (e) {
+      //                     lat = 0;
+      //                     lng = 0;
+      //                   }
+      //
+      //
+      //                   final response = await dio.post(
+      //                       '$appServerURL/newasset',
+      //                       data: {
+      //                         'selectedpage': _selectedPage,
+      //                         'callname': formData['callName'],
+      //                         'division': formData['division'],
+      //                         'addr1': formData['address'],
+      //                         'addr2': formData['addressDetail'] ?? '',
+      //                         'size': formData['size'],
+      //                         'sizetype': formData['sizeType'] ?? '',
+      //                         'indate': formData['inDate'],
+      //                         'indatetype': formData['inDateType'],
+      //                         'floor': formData['floor'],
+      //                         'totalfloor': formData['totalFloor'] ?? 0,
+      //                         'room': formData['room'],
+      //                         'bath': formData['bath'],
+      //                         'elevator': _ElevatorController,
+      //                         'parking': formData['parking'] ?? 0,
+      //                         'admin': formData['admin'] == null
+      //                             ? 0
+      //                             : formData['admin']!.replaceAll('₩', '')
+      //                             .replaceAll(',', ''),
+      //                         'entitleprice': formData['entitlePrice'] == null
+      //                             ? 0
+      //                             : formData['entitlePrice']!.replaceAll('₩', '')
+      //                             .replaceAll(',', ''),
+      //                         'type': formData['Type'],
+      //                         'direction': formData['direction'],
+      //                         'name1': formData['name1'],
+      //                         'name2': formData['name2'] ?? '',
+      //                         'phone1': formData['tel1'],
+      //                         'phone2': formData['tel2'] ?? '',
+      //                         'sales': formData['sales'] == null
+      //                             ? 0
+      //                             : formData['sales']!.replaceAll('₩', '')
+      //                             .replaceAll(',', ''),
+      //                         'jeonse': formData['jeonse'] == null
+      //                             ? 0
+      //                             : formData['jeonse']!.replaceAll('₩', '')
+      //                             .replaceAll(',', ''),
+      //                         'deposit': formData['deposit'] == null
+      //                             ? 0
+      //                             : formData['deposit']!.replaceAll('₩', '')
+      //                             .replaceAll(',', ''),
+      //                         'monthly': formData['monthly'] == null
+      //                             ? 0
+      //                             : formData['monthly']!.replaceAll('₩', '')
+      //                             .replaceAll(',', ''),
+      //                         'loan': formData['loan'] == null
+      //                             ? 0
+      //                             : formData['loan']!.replaceAll('₩', '')
+      //                             .replaceAll(',', ''),
+      //                         'depositnow': formData['depositNow'] == null
+      //                             ? 0
+      //                             : formData['depositNow']!.replaceAll('₩', '')
+      //                             .replaceAll(',', ''),
+      //                         'monthlynow': formData['monthlyNow'] == null
+      //                             ? 0
+      //                             : formData['monthlyNow']!.replaceAll('₩', '')
+      //                             .replaceAll(',', ''),
+      //                         'lat': lat,
+      //                         'lng': lng,
+      //                         'desc': formData['desc'] ?? '',
+      //                         'date': DateTime.now().toString(),
+      //                       }
+      //                   );
+      //
+      //                   dio.close();
+      //
+      //
+      //                   showDialog(
+      //                       context: context,
+      //                       builder: (context) {
+      //                         return AlertDialog(
+      //                           title: Text('등록 완료'),
+      //                           content: Text('등록이 완료되었습니다.'),
+      //                           actions: [
+      //                             TextButton(
+      //                                 onPressed: () {
+      //                                   Get.off(CommDetailViewScreen(id: response.data['insertId']));
+      //                                 },
+      //                                 child: Text('확인')
+      //                             )
+      //                           ],
+      //                         );
+      //                       }
+      //                   );
+      //
+      //                   return response.data;
+      //                 } catch (e) {
+      //                   print(e);
+      //                 }
+      //               }
+      //             }
+      //           },
+      //           child: Text(
+      //             '등록하기',
+      //             style: TextStyle(
+      //               fontSize: 20,
+      //               fontWeight: FontWeight.w500,
+      //               color: Theme.of(context).colorScheme.onPrimary,
+      //             ),
+      //           ),
+      //       ),
+      //     ),
+      //   ],
+      // ),
     );
   }
 
@@ -858,9 +859,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       setState(() {
                         _isSales = value!;
                         if(_isSales) {
-                          canvasHeight = canvasHeight + 250;
+                          canvasHeight = canvasHeight + 270;
                         } else {
-                          canvasHeight = canvasHeight - 250;
+                          canvasHeight = canvasHeight - 270;
                         }
                       }
                     );
@@ -882,9 +883,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     setState(() {
                       _isJeonse = value!;
                       if(_isJeonse) {
-                        canvasHeight = canvasHeight + 170;
+                        canvasHeight = canvasHeight + 190;
                       } else {
-                        canvasHeight = canvasHeight - 170;
+                        canvasHeight = canvasHeight - 190;
                       }
                     });
                   },
@@ -1277,6 +1278,263 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 hintText: '기타 특이사항을 적어 주세요',
                 border: OutlineInputBorder(),
               ),
+            ),
+            SizedBox(height: 10,),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ElevatedButton(
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(1.0),
+                    backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.primary),
+                    padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 10.0)),
+                  ),
+                  onPressed: () async {
+                    if(_selectedPage == 0) {
+                      if (!_isSales && !_isJeonse && !_isMonthly) {
+                        Get.snackbar('등록 오류', '거래유형을 최소 한가지 이상 선택해주세요.');
+                        return;
+                      }
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        print(formData);
+
+                        try {
+                          final dio = Dio();
+
+                          String gpsUrl =
+                              'https://maps.googleapis.com/maps/api/geocode/json?address=${formData['address']}&key=$googleMapKey&language=ko';
+                          try{
+                            final responseGps = await dio.get(gpsUrl);
+
+                            var rst = jsonDecode(responseGps.toString());
+
+                            lat = rst['results'][0]['geometry']['location']['lat'];
+                            lng = rst['results'][0]['geometry']['location']['lng'];
+                            // print(response.data[0]['addr']);
+                          } catch(e) {
+                            lat = 0;
+                            lng = 0;
+                          }
+
+
+                          final response = await dio.post(
+                              '$appServerURL/newasset',
+                              data: {
+                                'selectedpage': _selectedPage,
+                                'callname': formData['callName'],
+                                'addr1': formData['address'],
+                                'addr2': formData['addressDetail'] ?? '',
+                                'size': formData['size'],
+                                'sizetype': formData['sizeType'] ?? '',
+                                'indate': formData['inDate'],
+                                'indatetype': formData['inDateType'],
+                                'floor': formData['floor'],
+                                'totalfloor': formData['totalFloor'] ?? 0,
+                                'room': formData['room'],
+                                'bath': formData['bath'],
+                                'type': formData['Type'],
+                                'direction': formData['direction'],
+                                'name1': formData['name1'],
+                                'name2': formData['name2'] ?? '',
+                                'phone1': formData['tel1'],
+                                'phone2': formData['tel2'] ?? '',
+                                'sales': formData['sales'] == null
+                                    ? 0
+                                    : formData['sales']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'jeonse': formData['jeonse'] == null
+                                    ? 0
+                                    : formData['jeonse']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'deposit': formData['deposit'] == null
+                                    ? 0
+                                    : formData['deposit']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'monthly': formData['monthly'] == null
+                                    ? 0
+                                    : formData['monthly']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'loan': formData['loan'] == null
+                                    ? 0
+                                    : formData['loan']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'depositnow': formData['depositNow'] == null
+                                    ? 0
+                                    : formData['depositNow']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'monthlynow': formData['monthlyNow'] == null
+                                    ? 0
+                                    : formData['monthlyNow']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'lat': lat,
+                                'lng': lng,
+                                'desc': formData['desc'] ?? '',
+                                'date': DateTime.now().toString(),
+                              }
+                          );
+
+                          print(response.data);
+
+                          dio.close();
+
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text('등록 완료'),
+                                  content: Text('등록이 완료되었습니다.'),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Get.off(AssetDetailViewScreen(id: response.data['insertId']));
+                                        },
+                                        child: Text('확인')
+                                    )
+                                  ],
+                                );
+                              }
+                          );
+
+                          return response.data;
+                        } catch (e) {
+                          print(e);
+                        }
+                      }
+                    } else if(_selectedPage == 1) {
+                      if (!_isSalesComm && !_isJeonseComm && !_isMonthlyComm) {
+                        Get.snackbar('등록 오류', '거래유형을 최소 한가지 이상 선택해주세요.');
+                        return;
+                      }
+                      if (_formKeyComm.currentState!.validate()) {
+                        _formKeyComm.currentState!.save();
+                        print(formData);
+
+                        try {
+                          final dio = Dio();
+
+                          String gpsUrl =
+                              'https://maps.googleapis.com/maps/api/geocode/json?address=${formData['address']}&key=$googleMapKey&language=ko';
+
+                          try {
+                            final responseGps = await dio.get(gpsUrl);
+
+                            var rst = jsonDecode(responseGps.toString());
+
+                            lat = rst['results'][0]['geometry']['location']['lat'];
+                            lng = rst['results'][0]['geometry']['location']['lng'];
+                            // print(response.data[0]['addr']);
+                          } catch (e) {
+                            lat = 0;
+                            lng = 0;
+                          }
+
+
+                          final response = await dio.post(
+                              '$appServerURL/newasset',
+                              data: {
+                                'selectedpage': _selectedPage,
+                                'callname': formData['callName'],
+                                'division': formData['division'],
+                                'addr1': formData['address'],
+                                'addr2': formData['addressDetail'] ?? '',
+                                'size': formData['size'],
+                                'sizetype': formData['sizeType'] ?? '',
+                                'indate': formData['inDate'],
+                                'indatetype': formData['inDateType'],
+                                'floor': formData['floor'],
+                                'totalfloor': formData['totalFloor'] ?? 0,
+                                'room': formData['room'],
+                                'bath': formData['bath'],
+                                'elevator': _ElevatorController,
+                                'parking': formData['parking'] ?? 0,
+                                'admin': formData['admin'] == null
+                                    ? 0
+                                    : formData['admin']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'entitleprice': formData['entitlePrice'] == null
+                                    ? 0
+                                    : formData['entitlePrice']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'type': formData['Type'],
+                                'direction': formData['direction'],
+                                'name1': formData['name1'],
+                                'name2': formData['name2'] ?? '',
+                                'phone1': formData['tel1'],
+                                'phone2': formData['tel2'] ?? '',
+                                'sales': formData['sales'] == null
+                                    ? 0
+                                    : formData['sales']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'jeonse': formData['jeonse'] == null
+                                    ? 0
+                                    : formData['jeonse']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'deposit': formData['deposit'] == null
+                                    ? 0
+                                    : formData['deposit']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'monthly': formData['monthly'] == null
+                                    ? 0
+                                    : formData['monthly']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'loan': formData['loan'] == null
+                                    ? 0
+                                    : formData['loan']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'depositnow': formData['depositNow'] == null
+                                    ? 0
+                                    : formData['depositNow']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'monthlynow': formData['monthlyNow'] == null
+                                    ? 0
+                                    : formData['monthlyNow']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'lat': lat,
+                                'lng': lng,
+                                'desc': formData['desc'] ?? '',
+                                'date': DateTime.now().toString(),
+                              }
+                          );
+
+                          dio.close();
+
+
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text('등록 완료'),
+                                  content: Text('등록이 완료되었습니다.'),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Get.off(CommDetailViewScreen(id: response.data['insertId']));
+                                        },
+                                        child: Text('확인')
+                                    )
+                                  ],
+                                );
+                              }
+                          );
+
+                          return response.data;
+                        } catch (e) {
+                          print(e);
+                        }
+                      }
+                    }
+                  },
+                  child: Text(
+                    '등록하기',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -2187,6 +2445,263 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 hintText: '기타 특이사항을 적어 주세요',
                 border: OutlineInputBorder(),
               ),
+            ),
+            SizedBox(height: 10,),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ElevatedButton(
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(1.0),
+                    backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.primary),
+                    padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 10.0)),
+                  ),
+                  onPressed: () async {
+                    if(_selectedPage == 0) {
+                      if (!_isSales && !_isJeonse && !_isMonthly) {
+                        Get.snackbar('등록 오류', '거래유형을 최소 한가지 이상 선택해주세요.');
+                        return;
+                      }
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        print(formData);
+
+                        try {
+                          final dio = Dio();
+
+                          String gpsUrl =
+                              'https://maps.googleapis.com/maps/api/geocode/json?address=${formData['address']}&key=$googleMapKey&language=ko';
+                          try{
+                            final responseGps = await dio.get(gpsUrl);
+
+                            var rst = jsonDecode(responseGps.toString());
+
+                            lat = rst['results'][0]['geometry']['location']['lat'];
+                            lng = rst['results'][0]['geometry']['location']['lng'];
+                            // print(response.data[0]['addr']);
+                          } catch(e) {
+                            lat = 0;
+                            lng = 0;
+                          }
+
+
+                          final response = await dio.post(
+                              '$appServerURL/newasset',
+                              data: {
+                                'selectedpage': _selectedPage,
+                                'callname': formData['callName'],
+                                'addr1': formData['address'],
+                                'addr2': formData['addressDetail'] ?? '',
+                                'size': formData['size'],
+                                'sizetype': formData['sizeType'] ?? '',
+                                'indate': formData['inDate'],
+                                'indatetype': formData['inDateType'],
+                                'floor': formData['floor'],
+                                'totalfloor': formData['totalFloor'] ?? 0,
+                                'room': formData['room'],
+                                'bath': formData['bath'],
+                                'type': formData['Type'],
+                                'direction': formData['direction'],
+                                'name1': formData['name1'],
+                                'name2': formData['name2'] ?? '',
+                                'phone1': formData['tel1'],
+                                'phone2': formData['tel2'] ?? '',
+                                'sales': formData['sales'] == null
+                                    ? 0
+                                    : formData['sales']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'jeonse': formData['jeonse'] == null
+                                    ? 0
+                                    : formData['jeonse']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'deposit': formData['deposit'] == null
+                                    ? 0
+                                    : formData['deposit']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'monthly': formData['monthly'] == null
+                                    ? 0
+                                    : formData['monthly']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'loan': formData['loan'] == null
+                                    ? 0
+                                    : formData['loan']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'depositnow': formData['depositNow'] == null
+                                    ? 0
+                                    : formData['depositNow']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'monthlynow': formData['monthlyNow'] == null
+                                    ? 0
+                                    : formData['monthlyNow']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'lat': lat,
+                                'lng': lng,
+                                'desc': formData['desc'] ?? '',
+                                'date': DateTime.now().toString(),
+                              }
+                          );
+
+                          print(response.data);
+
+                          dio.close();
+
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text('등록 완료'),
+                                  content: Text('등록이 완료되었습니다.'),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Get.off(AssetDetailViewScreen(id: response.data['insertId']));
+                                        },
+                                        child: Text('확인')
+                                    )
+                                  ],
+                                );
+                              }
+                          );
+
+                          return response.data;
+                        } catch (e) {
+                          print(e);
+                        }
+                      }
+                    } else if(_selectedPage == 1) {
+                      if (!_isSalesComm && !_isJeonseComm && !_isMonthlyComm) {
+                        Get.snackbar('등록 오류', '거래유형을 최소 한가지 이상 선택해주세요.');
+                        return;
+                      }
+                      if (_formKeyComm.currentState!.validate()) {
+                        _formKeyComm.currentState!.save();
+                        print(formData);
+
+                        try {
+                          final dio = Dio();
+
+                          String gpsUrl =
+                              'https://maps.googleapis.com/maps/api/geocode/json?address=${formData['address']}&key=$googleMapKey&language=ko';
+
+                          try {
+                            final responseGps = await dio.get(gpsUrl);
+
+                            var rst = jsonDecode(responseGps.toString());
+
+                            lat = rst['results'][0]['geometry']['location']['lat'];
+                            lng = rst['results'][0]['geometry']['location']['lng'];
+                            // print(response.data[0]['addr']);
+                          } catch (e) {
+                            lat = 0;
+                            lng = 0;
+                          }
+
+
+                          final response = await dio.post(
+                              '$appServerURL/newasset',
+                              data: {
+                                'selectedpage': _selectedPage,
+                                'callname': formData['callName'],
+                                'division': formData['division'],
+                                'addr1': formData['address'],
+                                'addr2': formData['addressDetail'] ?? '',
+                                'size': formData['size'],
+                                'sizetype': formData['sizeType'] ?? '',
+                                'indate': formData['inDate'],
+                                'indatetype': formData['inDateType'],
+                                'floor': formData['floor'],
+                                'totalfloor': formData['totalFloor'] ?? 0,
+                                'room': formData['room'],
+                                'bath': formData['bath'],
+                                'elevator': _ElevatorController,
+                                'parking': formData['parking'] ?? 0,
+                                'admin': formData['admin'] == null
+                                    ? 0
+                                    : formData['admin']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'entitleprice': formData['entitlePrice'] == null
+                                    ? 0
+                                    : formData['entitlePrice']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'type': formData['Type'],
+                                'direction': formData['direction'],
+                                'name1': formData['name1'],
+                                'name2': formData['name2'] ?? '',
+                                'phone1': formData['tel1'],
+                                'phone2': formData['tel2'] ?? '',
+                                'sales': formData['sales'] == null
+                                    ? 0
+                                    : formData['sales']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'jeonse': formData['jeonse'] == null
+                                    ? 0
+                                    : formData['jeonse']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'deposit': formData['deposit'] == null
+                                    ? 0
+                                    : formData['deposit']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'monthly': formData['monthly'] == null
+                                    ? 0
+                                    : formData['monthly']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'loan': formData['loan'] == null
+                                    ? 0
+                                    : formData['loan']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'depositnow': formData['depositNow'] == null
+                                    ? 0
+                                    : formData['depositNow']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'monthlynow': formData['monthlyNow'] == null
+                                    ? 0
+                                    : formData['monthlyNow']!.replaceAll('₩', '')
+                                    .replaceAll(',', ''),
+                                'lat': lat,
+                                'lng': lng,
+                                'desc': formData['desc'] ?? '',
+                                'date': DateTime.now().toString(),
+                              }
+                          );
+
+                          dio.close();
+
+
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text('등록 완료'),
+                                  content: Text('등록이 완료되었습니다.'),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Get.off(CommDetailViewScreen(id: response.data['insertId']));
+                                        },
+                                        child: Text('확인')
+                                    )
+                                  ],
+                                );
+                              }
+                          );
+
+                          return response.data;
+                        } catch (e) {
+                          print(e);
+                        }
+                      }
+                    }
+                  },
+                  child: Text(
+                    '등록하기',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
