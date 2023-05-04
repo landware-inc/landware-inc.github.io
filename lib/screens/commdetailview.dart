@@ -27,7 +27,6 @@ class CommDetailViewScreen extends StatefulWidget {
     Key? key}) : super(key: key);
 
 
-
   @override
   State<CommDetailViewScreen> createState() => _CommDetailViewScreenState();
 }
@@ -443,16 +442,18 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                                   ? null
                                   : () async {
                                         final List<MultipartFile> _files =  _pickedImgs.map((img) => MultipartFile.fromFileSync(img.path,  contentType: new MediaType("image", "jpg"))).toList();
-                                        FormData _formData = FormData.fromMap({"files": _files});
+                                        FormData _formData = FormData.fromMap({"uploadfile": _files});
 
                                         Dio dio = Dio();
 
-                                        // dio.options.headers["authorization"] = AuthProvider.token;                                        dio.options.contentType = 'multipart/form-data';
+                                        // dio.options.headers["authorization"] = AuthProvider.token;
+                                        dio.options.contentType = 'multipart/form-data';
+                                        dio.options.maxRedirects.isFinite;
                                         //
-                                        // final res = await dio.post(postNoteURL, data: _formData).then((res) {
-                                        //   getx.Get.back();
-                                        //   return res.data;
-                                        // });
+                                        final res = await dio.post('$appServerURL/upload', data: _formData).then((res) {
+                                          getx.Get.back();
+                                          return res.data;
+                                        });
 
                                         dio.close();
 
