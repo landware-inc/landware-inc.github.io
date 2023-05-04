@@ -450,11 +450,30 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                                         dio.options.contentType = 'multipart/form-data';
                                         dio.options.maxRedirects.isFinite;
                                         //
-                                        final res = await dio.post('$appServerURL/upload', data: _formData).then((res) {
-                                          getx.Get.back();
-                                          return res.data;
-                                        });
+                                        final res = await dio.post('$appServerURL/upload', data: _formData);
 
+                                        print(res.data.length);
+                                        print(res.data[0]['filename']);
+                                        print(snapshot.data[0]['id']);
+
+                                        if (res.data.length > 0) {
+                                          for(int i = 0; i < res.data.length; i++) {
+                                            Dio dio2 = Dio();
+                                            final response = await  dio2.post(
+                                                '$appServerURL/imgupdate',
+                                                data: {
+                                                  'id': '${snapshot.data[0]['id']}',
+                                                  'imgname': '${res.data[i]['filename']}',
+                                                  'no': '${i + 1}',
+                                                }
+                                            );
+                                            print(response.data);
+
+                                          }
+                                        }
+
+
+                                        getx.Get.back();
                                         dio.close();
 
                                       },
