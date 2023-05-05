@@ -130,7 +130,7 @@ class CommCard extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                fontSize: 15,
+                                fontSize: 17,
                                 fontWeight: FontWeight.bold,
                                 color: Theme.of(context).colorScheme.primaryContainer,
                               ),
@@ -138,7 +138,7 @@ class CommCard extends StatelessWidget {
                             Text(
                               '$size 평',
                               style: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 17,
                                   fontWeight: FontWeight.bold,
                                   color: Theme.of(context).colorScheme.primaryContainer
                               ),
@@ -154,7 +154,7 @@ class CommCard extends StatelessWidget {
                             children: [
                               if (price2 != 0)
                                 Text(
-                                  '${f.format(int.parse(price.toString()))}만원 / ${f.format(int.parse(price2.toString()))}만원',
+                                  '${f.format(int.parse(price.toString())/10000)}만원 / ${f.format(int.parse(price2.toString())/10000)}만원',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -163,7 +163,7 @@ class CommCard extends StatelessWidget {
                                 ),
                               if (price2 == 0)
                                 Text(
-                                  '${f.format(int.parse(price.toString()))}만원',
+                                  '${f.format(int.parse(price.toString())/10000)}만원',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -212,7 +212,7 @@ class CommCard extends StatelessWidget {
                       ),
                       if(entitleprice > 0)
                         Text(
-                          '권리금 : ${f.format(int.parse(entitleprice.toString()))}만원',
+                          '권리금 : ${f.format(int.parse(entitleprice.toString())/10000)}만원',
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,

@@ -53,6 +53,26 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
   }
 
 
+  Widget _SubTitle(String title) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.all(5),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.secondary,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Text(
+        title,
+        style: TextStyle(
+          fontSize: 22,
+          fontWeight: FontWeight.w400,
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
+      ),
+    );
+  }
+
 
   Future<List> pagenationDetailData() async {
     final dio = Dio();
@@ -131,7 +151,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        title: const Text('Detail View'),
+        title: const Text('물건 상세보기'),
         actions: [
           IconButton(
             onPressed: () {
@@ -168,6 +188,92 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        _SubTitle('물건개요'),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              snapshot.data[0]['division'],
+                              style: TextStyle(
+                                fontSize: 23,
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                              ),
+                            ),
+                            Text(
+                              snapshot.data[0]['type'] ?? '',
+                              style: TextStyle(
+                                fontSize: 23,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '면적 : ${snapshot.data[0]['size'] ?? ''}평',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                              ),
+                            ),
+                            Text(
+                              '${snapshot.data[0]['floor'] ?? ''}${snapshot.data[0]['totalfloor'] == 0 ? '' : '/'}${snapshot.data[0]['totalfloor'] == 0 ? '' : snapshot.data[0]['totalfloor']}층',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                              ),
+                            ),
+
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '주차 : ${snapshot.data[0]['parking'] == '' ? '0' : snapshot.data[0]['parking']}대',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                              ),
+                            ),
+                            Text(
+                              '엘베 : ${snapshot.data[0]['eliv'] == '1' ? '있음' : '없음'}',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          '${snapshot.data[0]['addr'] ?? ''}',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                        Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
                           height: (MediaQuery.of(context).size.width / 13) * 7,
@@ -258,103 +364,41 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                           ),
                         ),
                         Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              snapshot.data[0]['division'],
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.w600,
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                              ),
-                            ),
-                            Text(
-                              snapshot.data[0]['type'] ?? '',
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '면적 : ${snapshot.data[0]['size'] ?? ''} 평',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                              ),
-                            ),
-                            Text(
-                              '${snapshot.data[0]['floor'] ?? ''}층',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                              ),
-                            ),
-
-                          ],
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '주차 : ${snapshot.data[0]['parking'] == '' ? '0' : snapshot.data[0]['parking']}대',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                              ),
-                            ),
-                            Text(
-                              '엘베 : ${snapshot.data[0]['eliv'] == '1' ? '있음' : '없음'}',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
-                        if(snapshot.data[0]['deposit'] > 0)
-                          Row(
+                          Column(
                             children: [
-                              Text(
-                                '임대료 : ${f.format(int.parse(snapshot.data[0]['deposit'].toString()))}',
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w400,
-                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                                ),
+                              _SubTitle('거래비용'),
+                              SizedBox(
+                                height: 8,
                               ),
-                              Text(
-                                ' / ${f.format(int.parse(snapshot.data[0]['monthly'].toString()))}만원',
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w400,
-                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                                ),
+                              if(snapshot.data[0]['deposit'] > 0)
+                              Row(
+                                children: [
+                                  Text(
+                                    '임대료 : ${f.format(int.parse(snapshot.data[0]['deposit'].toString())/10000)}',
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w400,
+                                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                    ),
+                                  ),
+                                  Text(
+                                    ' / ${f.format(int.parse(snapshot.data[0]['monthly'].toString())/10000)}만원',
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w400,
+                                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                         SizedBox(
-                          height: 8,),
+                          height: 8,
+                        ),
                         if(snapshot.data[0]['salesprice'] > 0)
                           Text(
-                            '매매가 : ${f.format(int.parse(snapshot.data[0]['salesprice'].toString()))}만원',
+                            '매매가 : ${f.format(int.parse(snapshot.data[0]['salesprice'].toString())/10000)}만원',
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w400,
@@ -365,7 +409,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                           height: 8,
                         ),
                         Text(
-                          '관리비 : ${f.format(int.parse(snapshot.data[0]['adminprice'].toString()))}',
+                          '관리비 : ${snapshot.data[0]['adminprice']}',
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w400,
@@ -376,7 +420,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                           height: 8,
                         ),
                         Text(
-                          '권리금 : ${f.format(int.parse(snapshot.data[0]['entitleprice'].toString()))}',
+                          '권리금 : ${f.format(int.parse(snapshot.data[0]['entitleprice'].toString())/10000)}만원',
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w400,
@@ -384,13 +428,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                           ),
                         ),
                         Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
-                        Text('연락처 #1',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
-                          ),
-                        ),
+                        _SubTitle('연락처'),
                         SizedBox(
                           height: 8,
                         ),
@@ -405,13 +443,6 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                         SizedBox(
                           height: 8,
                         ),
-                        Text('연락처 #2',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
-                          ),
-                        ),
                         Text(
                           '${snapshot.data[0]['name2'] ?? ' : '}  ${snapshot.data[0]['tel2'] ?? ''}',
                           style: TextStyle(
@@ -423,8 +454,32 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                         SizedBox(
                           height: 8,
                         ),
+                        Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
+                        _SubTitle('기 타'),
+                        Text('접수일자 : ${DateFormat('yyyy/MM/dd').format(DateTime.parse(snapshot.data[0]['date']))}',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text('${snapshot.data[0]['etc'] ?? ''}',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                        Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
+                        _SubTitle('상세위치'),
+                        SizedBox(
+                          height: 8,
+                        ),
                         Text(
-                          '주소 : ${snapshot.data[0]['addr'] ?? ''}',
+                          '${snapshot.data[0]['addr'] ?? ''}',
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w400,
@@ -439,7 +494,9 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                             color: Theme.of(context).colorScheme.onPrimaryContainer,
                           ),
                         ),
-                        Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
+                        SizedBox(
+                          height: 8,
+                        ),
                         GestureDetector(
                           onTap: () {
                             _controllerMain.jumpToPage(1);
@@ -452,24 +509,10 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                           ),
                         ),
                         Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
-                        Text('접수일자 : ${DateFormat('yyyy/MM/dd').format(DateTime.parse(snapshot.data[0]['date']))}',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
-                          ),
-                        ),
+                        _SubTitle('사진편집'),
                         SizedBox(
                           height: 8,
                         ),
-                        Text('비고 : ${snapshot.data[0]['etc'] ?? ''}',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
-                          ),
-                        ),
-                        Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
                         SizedBox(
                           height: MediaQuery.of(context).size.width/1.5,
                           child : GridView.count(
@@ -569,7 +612,14 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                                         dio.close();
 
                                       },
-                              child: Text('사진 수정하기'),
+                              child: Text(
+                                  '사진 수정',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w400,
+                                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                  ),
+                              ),
                             ),
                           ]
                         ),

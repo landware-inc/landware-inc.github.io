@@ -61,7 +61,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
     // TODO: implement initState
 
     super.initState();
-    initRangeVlues();
+    initRangeVlues(0);
   }
 
 
@@ -210,6 +210,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                           isSelected[i] = false;
                         }
                       }
+                      initRangeVlues(index);
                     });
                   },
                   children: [
@@ -282,11 +283,16 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                           _textEditingControllerMax.text = f.format(controller.maxS.value);
                                           controller.minPrice(controller.minS.value.toInt());
                                           controller.maxPrice(controller.maxS.value.toInt());
+                                        } else if(index == 1) {
+                                          _textEditingControllerMin.text = '0';
+                                          _textEditingControllerMax.text = f.format(((index * 5000)*1.5).round());
+                                          controller.minPrice(1);
+                                          controller.maxPrice(((index * 5000)*1.5).round());
                                         } else {
-                                          _textEditingControllerMin.text = f.format(((index) * 5000 - 5000));
-                                          _textEditingControllerMax.text = f.format(((index + 1) * 5000));
-                                          controller.minPrice(((index) * 5000 -5000));
-                                          controller.maxPrice(((index + 1) * 5000));
+                                          _textEditingControllerMin.text = f.format((((index) * 5000)*0.7).round());
+                                          _textEditingControllerMax.text = f.format((((index) * 5000)*1.3).round());
+                                          controller.minPrice(((index * 5000)*0.7).round());
+                                          controller.maxPrice(((index * 5000)*1.3).round());
                                         }
                                       },
                                       children: _list,
@@ -333,29 +339,6 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                             ),
                           ]
                       ),
-
-
-/*                      GetX<Controller>( // init을 통해 Controller를 등록할 수 있지만 여기선 Get.put을 사용
-                          builder: (_) => Text(
-                            '최대: ${_.maxPrice.value}',
-                          ),
-                        ),
-                        RangeSlider(
-                            max: controller.maxS.value.toDouble(),
-                            min: controller.minS.value.toDouble(),
-                            values: values,
-                            divisions: 50,
-                            onChanged: onPickerChanged,
-                            labels: RangeLabels(
-                              values.start.round().toString(),
-                              values.end.round().toString(),
-                            ),
-                          ),
-                        GetX<Controller>( // init을 통해 Controller를 등록할 수 있지만 여기선 Get.put을 사용
-                          builder: (_) => Text(
-                            '최소: ${_.minPrice.value}',
-                          ),
-                        ), */
 
 
                     Column(
@@ -424,11 +407,16 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                     _textEditingControllerMaxJ.text = f.format(controller.maxJ.value);
                                     controller.minJeonse(controller.minJ.value.toInt());
                                     controller.maxJeonse(controller.maxJ.value.toInt());
+                                  } else if(index == 1) {
+                                    _textEditingControllerMinJ.text = '0';
+                                    _textEditingControllerMaxJ.text = f.format(((index * 5000)*1.5).round());
+                                    controller.minJeonse(1);
+                                    controller.maxJeonse(((index * 5000)*1.5).round());
                                   } else {
-                                    _textEditingControllerMinJ.text = f.format(((index) * 5000 - 5000));
-                                    _textEditingControllerMaxJ.text = f.format(((index + 1) * 5000));
-                                    controller.minJeonse(((index) * 5000 -5000));
-                                    controller.maxJeonse(((index + 1) * 5000));
+                                    _textEditingControllerMinJ.text = f.format((((index) * 5000)*0.7).round());
+                                    _textEditingControllerMaxJ.text = f.format((((index) * 5000)*1.3).round());
+                                    controller.minJeonse(((index * 5000)*0.7).round());
+                                    controller.maxJeonse(((index * 5000)*1.3).round());
                                   }
                                 },
                                 children: _listJ,
@@ -545,11 +533,16 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                                         _textEditingControllerMaxD.text = f.format(controller.maxD.value);
                                         controller.minDeposit(controller.minD.value.toInt());
                                         controller.maxDeposit(controller.maxD.value.toInt());
+                                      } else if(index == 1) {
+                                        _textEditingControllerMinD.text = '0';
+                                        _textEditingControllerMaxD.text = f.format(((index * 500)*1.5).round());
+                                        controller.minDeposit(1);
+                                        controller.maxDeposit(((index * 500)*1.5).round());
                                       } else {
-                                        _textEditingControllerMinD.text = f.format(((index) * 500 - 500));
-                                        _textEditingControllerMaxD.text = f.format(((index + 1) * 500));
-                                        controller.minDeposit(((index) * 500 -500));
-                                        controller.maxDeposit(((index + 1) * 500));
+                                        _textEditingControllerMinD.text = f.format((((index) * 500)*0.7).round());
+                                        _textEditingControllerMaxD.text = f.format((((index) * 500)*1.3).round());
+                                        controller.minDeposit(((index * 500)*0.7).round());
+                                        controller.maxDeposit(((index * 500)*1.3).round());
                                       }
                                     },
                                     children: _listD,
@@ -838,31 +831,6 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                 ),
               ),
 
-              // Column(
-              //   children : [
-              //     Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
-              //       return Text(
-              //         '최대: ${(controller.maxSize.value*0.3025).round()}',
-              //       );
-              //     }),
-              //     RangeSlider(
-              //       max: controller.maxZ.value.toDouble(),
-              //       min: controller.minZ.value.toDouble(),
-              //       values: values5,
-              //       divisions: 50,
-              //       onChanged: onPickerChanged5,
-              //       labels: RangeLabels(
-              //         (values5.start*0.3025).round().toString(),
-              //         (values5.end*0.3025).round().toString(),
-              //       ),
-              //     ),
-              //     Obx((){ // Obx 사용 시 따로 Controller 명시 X 보여줄 위젯만. 근데 Get.put을 반드시 사용
-              //       return Text(
-              //         '최소: ${(controller.minSize.value*0.3025).round()}',
-              //       );
-              //     }),
-              //   ],
-              // ),
               SizedBox(height: 40,),
               TextButton(
                 style: TextButton.styleFrom(
@@ -899,6 +867,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
             isSelected[i] = false;
           }
         }
+        initRangeVlues(index);
         _controller.jumpToPage(index);
       }
     );
@@ -941,13 +910,15 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
     });
   }
 
-  void   initRangeVlues() {
+  void   initRangeVlues(int index) {
     values = RangeValues(controller.minS.value.toDouble(), controller.maxS.value.toDouble());
     values2 = RangeValues(controller.minJ.value.toDouble(), controller.maxJ.value.toDouble());
     values3 = RangeValues(controller.minD.value.toDouble(), controller.maxD.value.toDouble());
     values4 = RangeValues(controller.minM.value.toDouble(), controller.maxM.value.toDouble());
     values5 = RangeValues(controller.minZ.value.toDouble(), controller.maxZ.value.toDouble());
-    controller.selectGubun('매매');
+    if(index == 0) controller.selectGubun('매매');
+    if(index == 1) controller.selectGubun('전세');
+    if(index == 2) controller.selectGubun('월세');
     controller.roomCount('0');
     controller.selectCallname('');
     _textEditingControllerMin.text = f.format(controller.minS.value).toString();
@@ -960,6 +931,16 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
     _textEditingControllerMaxM.text = f.format(controller.maxM.value).toString();
     _textEditingControllerMinSize.text = f.format(controller.minZ.value).toString();
     _textEditingControllerMaxSize.text = f.format(controller.maxZ.value).toString();
+    controller.minPrice(controller.minS.value.toInt());
+    controller.maxPrice(controller.maxS.value.toInt());
+    controller.minDeposit(controller.minD.value.toInt());
+    controller.maxDeposit(controller.maxD.value.toInt());
+    controller.minMonthly(controller.minM.value.toInt());
+    controller.maxMonthly(controller.maxM.value.toInt());
+    controller.minJeonse(controller.minJ.value.toInt());
+    controller.maxJeonse(controller.maxJ.value.toInt());
+    controller.minSize(controller.minZ.value.toInt());
+    controller.maxSize(controller.maxZ.value.toInt());
     _list.addAll(List.generate((controller.maxS.value.toInt()/5000).toInt(), (i) => ((i + 1) * 5000)).map((e) => Text('${f.format(e)}만원')).toList());
     _listJ.addAll(List.generate((controller.maxJ.value.toInt()/5000).toInt(), (i) => ((i + 1) * 5000)).map((e) => Text('${f.format(e)}만원')).toList());
     _listD.addAll(List.generate((controller.maxD.value.toInt()/500).toInt(), (i) => ((i + 1) * 500)).map((e) => Text('${f.format(e)}만원')).toList());
