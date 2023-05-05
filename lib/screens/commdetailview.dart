@@ -157,6 +157,9 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                     snapshot.data[0]['img_4'],
                     snapshot.data[0]['img_5'],
                     snapshot.data[0]['img_6'],
+                    snapshot.data[0]['img_7'],
+                    snapshot.data[0]['img_8'],
+                    snapshot.data[0]['img_9'],
                   ];
                   return SingleChildScrollView(
                     child: Column(
@@ -214,6 +217,30 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                                   snapshot.data[0]['img_6'] == ''
                                       ? '$appServerURL/sample.jpg'
                                       : '$appServerURL/${snapshot.data[0]['img_6']}',
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              ),
+                              ClipRRect(
+                                child: Image.network(
+                                  snapshot.data[0]['img_7'] == ''
+                                      ? '$appServerURL/sample.jpg'
+                                      : '$appServerURL/${snapshot.data[0]['img_7']}',
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              ),
+                              ClipRRect(
+                                child: Image.network(
+                                  snapshot.data[0]['img_8'] == ''
+                                      ? '$appServerURL/sample.jpg'
+                                      : '$appServerURL/${snapshot.data[0]['img_8']}',
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              ),
+                              ClipRRect(
+                                child: Image.network(
+                                  snapshot.data[0]['img_9'] == ''
+                                      ? '$appServerURL/sample.jpg'
+                                      : '$appServerURL/${snapshot.data[0]['img_9']}',
                                   fit: BoxFit.fitHeight,
                                 ),
                               ),
@@ -408,7 +435,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                                             borderRadius: BorderRadius.circular(10),
                                             color: Theme.of(context).colorScheme.primaryContainer,
                                              image: DecorationImage(
-                                                image: _imgList[index] == '' ? NetworkImage('$appServerURL/sample.jpg',) :  NetworkImage('$appServerURL/$_imgList[index]',),
+                                                image: _imgList[index] == '' ? NetworkImage('$appServerURL/sample.jpg',) :  NetworkImage('$appServerURL/${_imgList[index]}',),
                                                 fit: BoxFit.fitHeight,
                                               ),
                                         ) : null,
