@@ -41,11 +41,13 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
   List<XFile> _pickedImgs = [];
 
   Future<void> _pickImg() async {
-    final List<XFile>? images = await _picker.pickMultiImage();
+    final List<XFile>? images = await _picker.pickMultiImage(
+      imageQuality: 20,
+      maxWidth: 1024,
+    );
     if (images != null) {
       setState(() {
         _pickedImgs = images;
-
       });
     }
   }
@@ -180,14 +182,16 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                                   fit: BoxFit.fitHeight,
                                 ),
                               ),
-                              ClipRRect(
-                                child: Image.network(
-                                  snapshot.data[0]['img_2'] == ''
-                                      ? '$appServerURL/sample.jpg'
-                                      : '$appServerURL/${snapshot.data[0]['img_2']}',
-                                  fit: BoxFit.fitHeight,
+                              if(snapshot.data[0]['img_2'] != '')
+                                ClipRRect(
+                                  child: Image.network(
+                                    snapshot.data[0]['img_2'] == ''
+                                        ? '$appServerURL/sample.jpg'
+                                        : '$appServerURL/${snapshot.data[0]['img_2']}',
+                                    fit: BoxFit.fitHeight,
+                                  ),
                                 ),
-                              ),
+                              if(snapshot.data[0]['img_3'] != '')
                               ClipRRect(
                                 child: Image.network(
                                   snapshot.data[0]['img_3'] == ''
@@ -196,6 +200,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                                   fit: BoxFit.fitHeight,
                                 ),
                               ),
+                              if(snapshot.data[0]['img_4'] != '')
                               ClipRRect(
                                 child: Image.network(
                                   snapshot.data[0]['img_4'] == ''
@@ -204,6 +209,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                                   fit: BoxFit.fitHeight,
                                 ),
                               ),
+                              if(snapshot.data[0]['img_5'] != '')
                               ClipRRect(
                                 child: Image.network(
                                   snapshot.data[0]['img_5'] == ''
@@ -212,6 +218,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                                   fit: BoxFit.fitHeight,
                                 ),
                               ),
+                              if(snapshot.data[0]['img_6'] != '')
                               ClipRRect(
                                 child: Image.network(
                                   snapshot.data[0]['img_6'] == ''
@@ -220,6 +227,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                                   fit: BoxFit.fitHeight,
                                 ),
                               ),
+                              if(snapshot.data[0]['img_7'] != '')
                               ClipRRect(
                                 child: Image.network(
                                   snapshot.data[0]['img_7'] == ''
@@ -228,6 +236,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                                   fit: BoxFit.fitHeight,
                                 ),
                               ),
+                              if(snapshot.data[0]['img_8'] != '')
                               ClipRRect(
                                 child: Image.network(
                                   snapshot.data[0]['img_8'] == ''
@@ -236,6 +245,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                                   fit: BoxFit.fitHeight,
                                 ),
                               ),
+                              if(snapshot.data[0]['img_9'] != '')
                               ClipRRect(
                                 child: Image.network(
                                   snapshot.data[0]['img_9'] == ''
@@ -254,7 +264,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                             Text(
                               snapshot.data[0]['division'],
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 25,
                                 fontWeight: FontWeight.w600,
                                 color: Theme.of(context).colorScheme.onPrimaryContainer,
                               ),
@@ -262,7 +272,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                             Text(
                               snapshot.data[0]['type'] ?? '',
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 25,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context).colorScheme.onPrimaryContainer,
                               ),
@@ -270,7 +280,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                           ],
                         ),
                         SizedBox(
-                          height: 6,
+                          height: 8,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -278,7 +288,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                             Text(
                               '면적 : ${snapshot.data[0]['size'] ?? ''} 평',
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 22,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context).colorScheme.onPrimaryContainer,
                               ),
@@ -286,15 +296,32 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                             Text(
                               '${snapshot.data[0]['floor'] ?? ''}층',
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                              ),
+                            ),
+
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '주차 : ${snapshot.data[0]['parking'] == '' ? '0' : snapshot.data[0]['parking']}대',
+                              style: TextStyle(
+                                fontSize: 22,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context).colorScheme.onPrimaryContainer,
                               ),
                             ),
                             Text(
-                              '엘리베이터 : ${snapshot.data[0]['eliv'] == '1' ? 'O' : 'X'}',
+                              '엘베 : ${snapshot.data[0]['eliv'] == '1' ? '있음' : '없음'}',
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 22,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context).colorScheme.onPrimaryContainer,
                               ),
@@ -302,63 +329,112 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                           ],
                         ),
                         Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
-                        Text(
-                          '주차 : ${snapshot.data[0]['parking'] == '' ? '0' : snapshot.data[0]['parking']}대',
-                          style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 6,
-                        ),
-                        if(snapshot.data[0]['entitleprice'] > 0)
-                          Text(
-                            '권리금 : ${f.format(int.parse(snapshot.data[0]['entitleprice'].toString()))}만원',
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w400,
-                              color: Theme.of(context).colorScheme.onPrimaryContainer,
-                            ),
-                          ),
                         if(snapshot.data[0]['deposit'] > 0)
                           Row(
                             children: [
                               Text(
-                                '보증금 : ${f.format(int.parse(snapshot.data[0]['deposit'].toString()))}만원',
+                                '임대료 : ${f.format(int.parse(snapshot.data[0]['deposit'].toString()))}',
                                 style: TextStyle(
-                                  fontSize: 17,
+                                  fontSize: 22,
                                   fontWeight: FontWeight.w400,
                                   color: Theme.of(context).colorScheme.onPrimaryContainer,
                                 ),
                               ),
                               Text(
-                                ' / 월세 : ${f.format(int.parse(snapshot.data[0]['monthly'].toString()))}만원',
+                                ' / ${f.format(int.parse(snapshot.data[0]['monthly'].toString()))}만원',
                                 style: TextStyle(
-                                  fontSize: 17,
+                                  fontSize: 22,
                                   fontWeight: FontWeight.w400,
                                   color: Theme.of(context).colorScheme.onPrimaryContainer,
                                 ),
                               ),
                             ],
                           ),
+                        SizedBox(
+                          height: 8,),
                         if(snapshot.data[0]['salesprice'] > 0)
                           Text(
                             '매매가 : ${f.format(int.parse(snapshot.data[0]['salesprice'].toString()))}만원',
                             style: TextStyle(
-                              fontSize: 17,
+                              fontSize: 22,
                               fontWeight: FontWeight.w400,
                               color: Theme.of(context).colorScheme.onPrimaryContainer,
                             ),
                           ),
                         SizedBox(
-                          height: 6,
+                          height: 8,
                         ),
                         Text(
-                          '연락처 : ${snapshot.data[0]['tel'] ?? ''}',
+                          '관리비 : ${f.format(int.parse(snapshot.data[0]['adminprice'].toString()))}',
                           style: TextStyle(
-                            fontSize: 17,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          '권리금 : ${f.format(int.parse(snapshot.data[0]['entitleprice'].toString()))}',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                        Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
+                        Text('연락처 #1',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          '${snapshot.data[0]['name'] ?? ' : '}  ${snapshot.data[0]['tel'] ?? ''}',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text('연락처 #2',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                        Text(
+                          '${snapshot.data[0]['name2'] ?? ' : '}  ${snapshot.data[0]['tel2'] ?? ''}',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          '주소 : ${snapshot.data[0]['addr'] ?? ''}',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                        Text(
+                          '${snapshot.data[0]['addr2'] ?? ''}',
+                          style: TextStyle(
+                            fontSize: 22,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).colorScheme.onPrimaryContainer,
                           ),
@@ -378,28 +454,17 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                         Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
                         Text('접수일자 : ${DateFormat('yyyy/MM/dd').format(DateTime.parse(snapshot.data[0]['date']))}',
                           style: TextStyle(
-                            fontSize: 15,
+                            fontSize: 22,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).colorScheme.onPrimaryContainer,
                           ),
                         ),
                         SizedBox(
-                          height: 6,
+                          height: 8,
                         ),
                         Text('비고 : ${snapshot.data[0]['etc'] ?? ''}',
                           style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 6,
-                        ),
-                        Text(
-                          '상세주소 : ${snapshot.data[0]['addr'] ?? ''}',
-                          style: TextStyle(
-                            fontSize: 15,
+                            fontSize: 22,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).colorScheme.onPrimaryContainer,
                           ),
