@@ -36,8 +36,8 @@ class CommDetailViewScreen extends StatefulWidget {
 
 class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
   double _lat = 0.0;
-
   double _lng = 0.0;
+  List<Marker> _markers = [];
 
   final ImagePicker _picker = ImagePicker();
 
@@ -54,6 +54,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
       });
     }
   }
+
 
 
   Widget _SubTitle(String title) {
@@ -88,6 +89,42 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
 
     _lat = double.parse(response.data[0]['lat'].toString());
     _lng = double.parse(response.data[0]['lng'].toString());
+
+
+    final response2 = await dio.post(
+        '$appServerURL/nearlist',
+        data: {
+          'id': widget.id,
+          'lat': _lat,
+          'lng': _lng,
+          'type': 'C',
+        }
+    );
+
+    if(response2.data.length > 0) {
+      for(int i = 0; i < response2.data.length; i++) {
+        _markers.add(
+          Marker(
+            markerId: MarkerId('marker_${i + 1}'),
+            position: LatLng(response2.data[i]['lat'], response2.data[i]['lng']),
+            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+            infoWindow: InfoWindow(
+              title: response2.data[i]['sub_addr'],
+              snippet: '${(response2.data[i]['deposit']/10000).round()}/${(response2.data[i]['monthly']/10000).round()} ${response2.data[i]['size']}평',
+            ),
+            onTap: () {
+              print('marker_${i + 1} clicked');
+              getx.Get.to(
+                CommDetailViewScreen(
+                  id: response2.data[i]['id'],
+                ),);
+            },
+          ),
+        );
+      }
+    }
+
+
 
     dio.close();
     return response.data;
@@ -689,6 +726,20 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                 future: pagenationDetailData(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
+
+                    _markers.add(
+                      Marker(
+                        markerId: MarkerId('marker_0'),
+                        position: LatLng(_lat, _lng),
+                        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+                        infoWindow: InfoWindow(
+                          title: snapshot.data[0]['sub_addr'],
+                          snippet: snapshot.data[0]['sub_addr'],
+                        ),
+                      ),
+                    );
+
+
                     return GoogleMap(
                       mapType: MapType.normal,
                       myLocationEnabled: true,
@@ -697,12 +748,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                         target: LatLng(_lat, _lng),
                         zoom: 17,
                       ),
-                      markers: {
-                        Marker(
-                          markerId: MarkerId('marker_1'),
-                          position: LatLng(_lat, _lng),
-                        ),
-                      },
+                      markers: Set.from(_markers),
                     );
                   } else {
                     return const Center(
