@@ -49,7 +49,7 @@ class StartScreen extends StatelessWidget {
               return Text(
                 '${controller.userName.value} 회원님 환영합니다.',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.w500,
                 ),
               );
@@ -64,7 +64,7 @@ class StartScreen extends StatelessWidget {
                       primary: Theme.of(context).colorScheme.secondary,
                       padding: const EdgeInsets.all(40),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     onPressed: () async {
@@ -95,12 +95,12 @@ class StartScreen extends StatelessWidget {
 
                       dio.close();
 
-                      Get.to(() => ResidentialScreen());
+                      Get.offAll(() => ResidentialScreen());
                     },
                     child: Text(
                         '주거용 부동산',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 25,
                           fontWeight: FontWeight.w300,
                         ),
                      ),
@@ -110,7 +110,7 @@ class StartScreen extends StatelessWidget {
                       primary: Theme.of(context).colorScheme.secondary,
                       padding: const EdgeInsets.all(40),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     onPressed: () async {
@@ -140,11 +140,11 @@ class StartScreen extends StatelessWidget {
                       controller.maxZ(response.data[0]['maxz'].round());
 
                       dio.close();
-                      Get.to (() => CommercialScreen());
+                      Get.offAll (() => CommercialScreen());
                     },
                     child: const Text('상업용 부동산',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 25,
                         fontWeight: FontWeight.w300,
                       ),
                     ),
@@ -154,15 +154,15 @@ class StartScreen extends StatelessWidget {
                       primary: Theme.of(context).colorScheme.secondary,
                       padding: const EdgeInsets.all(40),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     onPressed: () {
-                      Get.to (() => RegistrationScreen());
+                      Get.offAll (() => RegistrationScreen());
                     },
                     child: const Text('신규 물건 등록',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 25,
                         fontWeight: FontWeight.w300,
                       ),
                     ),
@@ -172,15 +172,15 @@ class StartScreen extends StatelessWidget {
                       primary: Theme.of(context).colorScheme.secondary,
                       padding: const EdgeInsets.all(40),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     onPressed: () {
-                      Get.to (() => HomeBasketListViewScreen());
+                      Get.offAll (() => HomeBasketListViewScreen());
                     },
                     child: const Text('관심 물건 보기',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 25,
                         fontWeight: FontWeight.w300,
                       ),
                     ),

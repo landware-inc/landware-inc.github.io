@@ -2,6 +2,7 @@
 import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:get/get.dart' as getx;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -11,8 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:kakao_login_test/screens/commupdate.dart';
 import 'package:kakao_login_test/screens/component/bottom_menu.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../common/commondata.dart';
 
@@ -192,6 +195,17 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                         SizedBox(
                           height: 8,
                         ),
+                        Text(
+                          snapshot.data[0]['sub_addr'],
+                          style: TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -199,7 +213,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                               snapshot.data[0]['division'],
                               style: TextStyle(
                                 fontSize: 23,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w400,
                                 color: Theme.of(context).colorScheme.onPrimaryContainer,
                               ),
                             ),
@@ -271,6 +285,35 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                             fontSize: 22,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.all(8),
+                                primary: Theme.of(context).colorScheme.primary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                              onPressed: () {
+                                getx.Get.off(() => CommUpdateScreen(
+                                  id: widget.id,
+                                  type: 1
+                                ));
+                              },
+                              child: Text(
+                                  '자료수정',
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w400,
+                                    color: Theme.of(context).colorScheme.onPrimary,
+                                  ),
+                              )
                           ),
                         ),
                         Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
@@ -366,7 +409,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                         Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
                           Column(
                             children: [
-                              _SubTitle('거래비용'),
+                              _SubTitle('물건가격'),
                               SizedBox(
                                 height: 8,
                               ),
@@ -432,23 +475,35 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                         SizedBox(
                           height: 8,
                         ),
-                        Text(
-                          '${snapshot.data[0]['name'] ?? ' : '}  ${snapshot.data[0]['tel'] ?? ''}',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                        RichText(
+                          text : TextSpan(
+                            text: '${snapshot.data[0]['name'] ?? ''} : ${snapshot.data[0]['tel'] ?? ''}',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.blue,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () async {
+                                await launchUrl(Uri.parse('tel:${snapshot.data[0]['tel']}' ?? ''));
+                              },
                           ),
                         ),
                         SizedBox(
                           height: 8,
                         ),
-                        Text(
-                          '${snapshot.data[0]['name2'] ?? ' : '}  ${snapshot.data[0]['tel2'] ?? ''}',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                        RichText(
+                          text : TextSpan(
+                            text: '${snapshot.data[0]['name2'] ?? ''} : ${snapshot.data[0]['tel2'] ?? ''}',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.blue,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () async {
+                                await launchUrl(Uri.parse('tel:${snapshot.data[0]['tel2']}' ?? ''));
+                              },
                           ),
                         ),
                         SizedBox(
@@ -549,14 +604,6 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                                         ) : null,
                                     child : Center(child: _boxContents[index]),
 
-                                   //  decoration: index <= _imgList.length -1
-                                   //    ? _imgList[index] == '' ? Image.network('$appServerURL/sample.jpg', fit: BoxFit.cover,) :  Image.network('$appServerURL/$_imgList[index]', fit: BoxFit.cover,)
-                                   //    : IconButton(
-                                   //      icon: Icon(Icons.add),
-                                   //      onPressed: () {
-                                   // //       _pickedImgs();
-                                   //      },
-                                   //    ),
                                   ),
                                 ),
                               ),
@@ -608,7 +655,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                                         }
 
 
-                                        getx.Get.back();
+                                        getx.Get.off(() => CommDetailViewScreen(id: widget.id,));
                                         dio.close();
 
                                       },

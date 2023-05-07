@@ -120,6 +120,7 @@ class CommercialListViewScreen extends StatelessWidget {
                                   floor: snapshot.data[index]['floor'] ?? '',
                                   type: snapshot.data[index]['type'] ?? '',
                                   addr: snapshot.data[index]['addr'] ?? '',
+                                  callname: snapshot.data[index]['sub_addr'] ?? '',
                                 ),
                               );
                             },

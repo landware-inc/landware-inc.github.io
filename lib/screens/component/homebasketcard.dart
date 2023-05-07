@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:kakao_login_test/screens/commdetailview.dart';
 import 'package:kakao_login_test/screens/component/basket.dart';
 
 import '../../common/commondata.dart';
@@ -23,9 +24,10 @@ class AssetBasketCard extends StatelessWidget {
   final int size;
   final String direction;
   final String indate;
-  final int floor;
+  final String floor;
   final int totalfloor;
   final String type;
+  final String gubun;
 
   const AssetBasketCard({
     required this.price,
@@ -43,6 +45,7 @@ class AssetBasketCard extends StatelessWidget {
     required this.room,
     required this.size,
     required this.type,
+    required this.gubun,
     Key? key}) : super(key: key);
 
   @override
@@ -105,9 +108,10 @@ class AssetBasketCard extends StatelessWidget {
 
       child: GestureDetector(
         onTap: () {
-          Get.to(() => AssetDetailViewScreen(
-            id: id,
-          ));
+          if(gubun == 'H')
+            Get.to(() => AssetDetailViewScreen(id: id,));
+          else
+            Get.to(() => CommDetailViewScreen(id: id,));
         },
         child: Container(
           padding: const EdgeInsets.all(4),
@@ -212,11 +216,39 @@ class AssetBasketCard extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 4,),
-                        Row(
+                        gubun == 'H' ?
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '방$room/욕실$bath',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context).colorScheme.primaryContainer,
+                                  ),
+                                ),
+                                Text(
+                                  '$direction향',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context).colorScheme.primaryContainer,
+                                  ),
+                                ),
+                                Text(
+                                  '$floor/$totalfloor (층)',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context).colorScheme.primaryContainer,
+                                  ),
+                                ),]
+                          ) : Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                '방$room/욕실$bath',
+                                '층수 : $floor',
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
@@ -224,24 +256,17 @@ class AssetBasketCard extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '$direction향',
+                                '면적 : ${(size).round()}평',
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).colorScheme.primaryContainer,
                                 ),
                               ),
-                              Text(
-                                '$floor/$totalfloor (층)',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  color: Theme.of(context).colorScheme.primaryContainer,
-                                ),
-                              ),]
-                        ),
+                            ],
+                          )
 
-                        Text(
+                        ,Text(
                           '입주가능일 : $indate',
                           style: TextStyle(
                             fontSize: 13,

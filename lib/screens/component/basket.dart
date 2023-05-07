@@ -36,7 +36,7 @@ addData(int id, String gubun) async {
 //Read All
 Future<List<basketItems>> getAllItems() async {
   final db = await initDB();
-  var res = await db.rawQuery('SELECT id,gubun FROM $TableName');
+  var res = await db.rawQuery('SELECT id,gubun FROM $TableName where gubun != "C"');
   List<Map<String,dynamic>> list = res;
 
   if(list.length == 0) return [];
@@ -48,6 +48,19 @@ Future<List<basketItems>> getAllItems() async {
   });
 }
 
+Future<List<basketItems>> getAllCItems() async {
+  final db = await initDB();
+  var res = await db.rawQuery('SELECT id,gubun FROM $TableName where gubun == "C"');
+  List<Map<String,dynamic>> list = res;
+
+  if(list.length == 0) return [];
+  return List.generate(list.length, (i) {
+    return basketItems(
+      id: list[i]['id'],
+      gubun: list[i]['gubun'],
+    );
+  });
+}
 //Delete
 deleteItem(int id) async {
   final db = await initDB();

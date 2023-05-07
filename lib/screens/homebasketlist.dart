@@ -47,9 +47,13 @@ class HomeBasketListViewScreen extends StatelessWidget {
     try {
       final dio = Dio();
       List<basketItems> basketList = [];
-      homeBasket = [];
+      List<basketItems> basketCList = [];
+      var homeBasket = [];
+      var commBasket = [];
+
 
       basketList  = await getAllItems();
+      basketCList = await getAllCItems();
       // print('==============');
       // print(basketList[0].id);
 
@@ -59,21 +63,61 @@ class HomeBasketListViewScreen extends StatelessWidget {
         basketList.removeAt(0);
       }
 
-      if(homeBasket.length == 0) {
+      while (basketCList.length > 0) {
+        commBasket.add(basketCList[0].id);
+        basketCList.removeAt(0);
+      }
+
+
+      if(homeBasket.length == 0 && commBasket.length == 0) {
         return [];
       }
+
+      if(homeBasket.length == 0) {
+        final responseC = await dio.post(
+            '$appServerURL/baskethome',
+            data: {
+              'ids': '${commBasket.toSet().toString()}',
+              'type': 'C',
+            }
+        );
+        dio.close();
+        return responseC.data;
+      }
+
+      if(commBasket.length == 0) {
+        final response = await dio.post(
+            '$appServerURL/baskethome',
+            data: {
+              'ids': '${homeBasket.toSet().toString()}',
+              'type': 'H',
+            }
+        );
+        dio.close();
+        return response.data;
+      }
+
       final response = await dio.post(
           '$appServerURL/baskethome',
           data: {
             'ids': '${homeBasket.toSet().toString()}',
+            'type': 'H',
+          }
+      );
+
+
+      final responseC = await dio.post(
+          '$appServerURL/baskethome',
+          data: {
+            'ids': '${commBasket.toSet().toString()}',
+            'type': 'C',
           }
       );
 
 
       dio.close();
 
-      homeBasket = [];
-      return response.data;
+      return response.data + responseC.data;
 
 
     } catch(e) {
@@ -106,7 +150,7 @@ class HomeBasketListViewScreen extends StatelessWidget {
         color: Theme.of(context).colorScheme.background,
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.all(8),
             child: FutureBuilder(
               future: paginationAssetList(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -118,7 +162,8 @@ class HomeBasketListViewScreen extends StatelessWidget {
                               (context, index) {
                             return Padding(
                               padding: const EdgeInsets.only(top: 10.0),
-                              child: AssetBasketCard(
+                              child:
+                              AssetBasketCard(
                                 id: snapshot.data[index]['id'],
                                 image: Image.network(
                                   snapshot.data[index]['img1'] == ''
@@ -134,11 +179,12 @@ class HomeBasketListViewScreen extends StatelessWidget {
                                 room: snapshot.data[index]['room'] ?? 0,
                                 bath: snapshot.data[index]['bath'] ?? 0,
                                 size: snapshot.data[index]['size'],
-                                direction: snapshot.data[index]['direction'],
+                                direction: snapshot.data[index]['direction'] ?? '',
                                 indate: snapshot.data[index]['indate'],
-                                floor: snapshot.data[index]['floor'],
+                                floor:  snapshot.data[index]['floor'].toString(),
                                 totalfloor: snapshot.data[index]['totalfloor'] ?? 0,
                                 type: snapshot.data[index]['type'] ?? '',
+                                gubun: snapshot.data[index]['gubun'] ?? '',
                               ),
                             );
                           },

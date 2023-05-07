@@ -480,7 +480,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                               controller.userId(newUser.user!.uid);
                               controller.userName(newUser.user!.displayName!);
 
-                              Get.to(() => StartScreen());
+                              Get.off(() => StartScreen());
                             }
                           } catch(e) {
                             print(e);
@@ -544,7 +544,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
 
                             dio.close();
-                            Get.to (() => StartScreen());
+                            Get.off (() => StartScreen());
 
                           } catch(e) {
                             print(e);
@@ -646,7 +646,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
                             dio.close();
 
-                            Get.to(() => StartScreen());
+                            Get.off(() => StartScreen());
                           }
                         } catch(e) {
                           ScaffoldMessenger.of(context).showSnackBar(

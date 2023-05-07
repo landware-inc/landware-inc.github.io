@@ -23,6 +23,7 @@ dependencies:
   remedi_kopo: ^0.0.2
   image_picker: ^0.8.7+4
   dotted_border: ^2.0.0+3
+  url_launcher: ^6.1.10
 
 
 
