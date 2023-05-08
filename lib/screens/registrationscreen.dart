@@ -38,7 +38,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   double lng = 0;
   int _selectedPage = 0;
 
-  int canvasHeight = 285;
+  int canvasHeight = 350;
   final _AddressController = TextEditingController();
   final _AddressDetailController = TextEditingController();
   final _CallNameController = TextEditingController();
@@ -1261,6 +1261,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             SizedBox(height: 10,),
             Divider(thickness: 1, height: 1, color: Colors.indigo[300],),
+            SizedBox(height: 10,),
             TextFormField(
               controller: _DescController,
               keyboardType: TextInputType.multiline,
@@ -1787,8 +1788,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       formData['size'] = value!;
                     },
                     decoration: InputDecoration(
-                      labelText: '면적(㎡)',
-                      hintText: '면적(㎡)',
+                      labelText: '면적(평)',
+                      hintText: '면적(평)',
                       border: OutlineInputBorder(),
                       filled: true,
                       fillColor: Colors.red[50],
@@ -1799,7 +1800,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     maxLength: 7,
                     onChanged: (value) {
                       setState(() {
-                        pyeong = (int.parse(value) / 3.3058).toInt();
+                        pyeong = (int.parse(value) * 3.3058).toInt();
                       });
                     },
                   ),
@@ -1810,7 +1811,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     alignment: Alignment.centerRight,
                     height: 30,
                     child: Text(
-                      '약 $pyeong평',
+                      '약 $pyeong㎡',
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                     )
                 ),
@@ -2428,6 +2429,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             SizedBox(height: 10,),
             Divider(thickness: 1, height: 1, color: Colors.indigo[300],),
+            SizedBox(height: 10,),
             TextFormField(
               controller: _DescController,
               keyboardType: TextInputType.multiline,

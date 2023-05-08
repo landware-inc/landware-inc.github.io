@@ -89,13 +89,13 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
       body: SingleChildScrollView(
         child: Container(
           width: MediaQuery.of(context).size.width,
- //         height: MediaQuery.of(context).size.height - 120,
+          height: MediaQuery.of(context).size.height * 0.78,
           margin: EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 35,),
+              SizedBox(height: 20,),
               TextFormField(
                 key: ValueKey(1),
                 validator: (value) {
@@ -141,7 +141,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 40,),
+              SizedBox(height: 20,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -189,7 +189,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 25,),
+              SizedBox(height: 20,),
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height/3.2,
@@ -831,7 +831,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                 ),
               ),
 
-              SizedBox(height: 40,),
+              SizedBox(height: 20,),
               TextButton(
                 style: TextButton.styleFrom(
                   primary: Colors.white,
@@ -839,7 +839,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                 ),
                   onPressed: () async {
 
-                    Get.to(() => RegidentialListViewScreen());
+                    Get.offAll(() => RegidentialListViewScreen());
                   },
                   child: const Text(
                     '선택 완료',

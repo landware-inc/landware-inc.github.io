@@ -163,7 +163,7 @@ class AssetBasketCard extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '${(size * 0.3052).round()}평',
+                                '${(gubun == 'H' ? size * 0.3052 : size).round()}평',
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,

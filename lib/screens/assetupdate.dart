@@ -47,7 +47,7 @@ class _AssetUpdateScreenState extends State<AssetUpdateScreen> {
   int _selectedPage = 0;
   int _initvalue = 0;
 
-  int canvasHeight = 820;
+  int canvasHeight = 835;
   final _AddressController = TextEditingController();
   final _AddressDetailController = TextEditingController();
   final _CallNameController = TextEditingController();

@@ -611,32 +611,38 @@ class _AssetDetailViewScreenState extends State<AssetDetailViewScreen> {
                                   dio.options.contentType = 'multipart/form-data';
                                   dio.options.maxRedirects.isFinite;
                                   //
-                                  final res = await dio.post('$appServerURL/upload', data: _formData);
+                                  try {
+                                    final res = await dio.post('$appServerURL/upload', data: _formData);
 
-                                  print(res.data.length);
-                                  print(res.data[0]['filename']);
-                                  print(snapshot.data[0]['id']);
-
-                                  if (res.data.length > 0) {
-                                    for(int i = 0; i < res.data.length; i++) {
-                                      Dio dio2 = Dio();
-                                      final response = await  dio2.post(
-                                          '$appServerURL/imgupdatehome',
-                                          data: {
-                                            'id': '${snapshot.data[0]['id']}',
-                                            'imgname': '${res.data[i]['filename']}',
-                                            'no': '${i + 1}',
-                                          }
-                                      );
-                                      print(response.data);
-
+                                    if (res.data.length > 0) {
+                                      for(int i = 0; i < res.data.length; i++) {
+                                        Dio dio2 = Dio();
+                                        final response = await  dio2.post(
+                                            '$appServerURL/imgupdatehome',
+                                            data: {
+                                              'id': '${snapshot.data[0]['id']}',
+                                              'imgname': '${res.data[i]['filename']}',
+                                              'no': '${i + 1}',
+                                            }
+                                        );
+                                        dio2.close();
+                                      }
                                     }
+                                  } catch (e) {
+                                    print(e);
                                   }
 
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('사진이 수정되었습니다.'),
+                                      duration: Duration(seconds: 1),
+                                    ),
+                                  );
 
-                                  getx.Get.off(() => AssetDetailViewScreen(id: widget.id,));
                                   dio.close();
-
+                                  Future.delayed(const Duration(milliseconds: 600), () {
+                                    getx.Get.offAll(() => AssetDetailViewScreen(id: snapshot.data[0]['id'],));
+                                  });
                                 },
                                 child: Text(
                                   '사진 수정',

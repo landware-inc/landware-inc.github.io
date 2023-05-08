@@ -44,7 +44,7 @@ class _CommUpdateScreenState extends State<CommUpdateScreen> {
   int _selectedPage = 1;
   int _initvalue = 0;
 
-  int canvasHeight = 825;
+  int canvasHeight = 830;
   final _AddressController = TextEditingController();
   final _AddressDetailController = TextEditingController();
   final _CallNameController = TextEditingController();

@@ -38,7 +38,8 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
   double _lat = 0.0;
   double _lng = 0.0;
   List<Marker> _markers = [];
-
+  PageController _controller = PageController(initialPage: 0, keepPage: false);
+  PageController _controllerMain = PageController(initialPage: 0, keepPage: false);
   final ImagePicker _picker = ImagePicker();
 
   List<XFile> _pickedImgs = [];
@@ -109,16 +110,23 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
             position: LatLng(response2.data[i]['lat'], response2.data[i]['lng']),
             icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
             infoWindow: InfoWindow(
+              onTap: () {
+                print('marker_${i + 1} clicked');
+                  getx.Get.offAll(
+                    CommDetailViewScreen(
+                      id: response2.data[i]['id'],
+                    ),);
+              },
               title: response2.data[i]['sub_addr'],
               snippet: '${(response2.data[i]['deposit']/10000).round()}/${(response2.data[i]['monthly']/10000).round()} ${response2.data[i]['size']}평',
             ),
-            onTap: () {
-              print('marker_${i + 1} clicked');
-              getx.Get.to(
-                CommDetailViewScreen(
-                  id: response2.data[i]['id'],
-                ),);
-            },
+            // onTap: () {
+            //   print('marker_${i + 1} clicked');
+            //   getx.Get.to(
+            //     CommDetailViewScreen(
+            //       id: response2.data[i]['id'],
+            //     ),);
+            // },
           ),
         );
       }
@@ -137,8 +145,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
   Widget build(BuildContext context)  {
     final _authentication = FirebaseAuth.instance;
     var f = NumberFormat('###,###,###,###');
-    PageController _controller = PageController(initialPage: 0, keepPage: false);
-    PageController _controllerMain = PageController(initialPage: 0, keepPage: false);
+
     List<String> _imgList = [];
     List<Widget> _boxContents = [
       IconButton(
@@ -668,33 +675,39 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                                         // dio.options.headers["authorization"] = AuthProvider.token;
                                         dio.options.contentType = 'multipart/form-data';
                                         dio.options.maxRedirects.isFinite;
-                                        //
-                                        final res = await dio.post('$appServerURL/upload', data: _formData);
-
-                                        print(res.data.length);
-                                        print(res.data[0]['filename']);
-                                        print(snapshot.data[0]['id']);
-
-                                        if (res.data.length > 0) {
-                                          for(int i = 0; i < res.data.length; i++) {
-                                            Dio dio2 = Dio();
-                                            final response = await  dio2.post(
+                                        try {
+                                          final res = await dio.post('$appServerURL/upload', data: _formData);
+                                          if (res.data.length > 0) {
+                                            for(int i = 0; i < res.data.length; i++) {
+                                              Dio dio2 = Dio();
+                                              final response = await dio2.post(
                                                 '$appServerURL/imgupdate',
                                                 data: {
                                                   'id': '${snapshot.data[0]['id']}',
                                                   'imgname': '${res.data[i]['filename']}',
                                                   'no': '${i + 1}',
                                                 }
-                                            );
-                                            print(response.data);
-
+                                              );
+                                              dio2.close();
+                                            }
                                           }
+                                        } catch (e) {
+                                          print(e);
                                         }
 
 
-                                        getx.Get.off(() => CommDetailViewScreen(id: widget.id,));
-                                        dio.close();
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text('사진이 수정되었습니다.'),
+                                            duration: Duration(seconds: 1),
+                                          ),
+                                        );
 
+                                        Future.delayed(const Duration(milliseconds: 600), () {
+                                          getx.Get.offAll(() => CommDetailViewScreen(id: snapshot.data[0]['id'],));
+                                        });
+
+                                        dio.close();
                                       },
                               child: Text(
                                   '사진 수정',
