@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kakao_login_test/screens/component/bottom_menu.dart';
 import 'package:kakao_login_test/screens/component/comm_card.dart';
+import 'package:kakao_login_test/screens/mapscreen.dart';
 import '../common/commondata.dart';
 import '../status/controller.dart';
 import 'component/asset_card.dart';
@@ -75,10 +76,9 @@ class CommercialListViewScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              _authentication.signOut();
-              Get.back();
+              Get.to(() => const MapScreen());
             },
-            icon: const Icon(Icons.logout),
+            icon: const Icon(Icons.map),
           ),
         ],
       ),
