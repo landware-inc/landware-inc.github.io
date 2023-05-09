@@ -79,14 +79,14 @@ class _CommercialScreenState extends State<CommercialScreen> {
 
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.78,
+          height: MediaQuery.of(context).size.height * 0.81,
           width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 20,),
+              SizedBox(height: 8,),
               TextFormField(
                 key: ValueKey(1),
                 validator: (value) {
@@ -126,7 +126,7 @@ class _CommercialScreenState extends State<CommercialScreen> {
                 ),
               ),
 
-              SizedBox(height: 20,),
+              SizedBox(height: 8,),
 
               Column(
                 children: [
@@ -141,7 +141,7 @@ class _CommercialScreenState extends State<CommercialScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 20,),
+              SizedBox(height: 8,),
 
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -164,7 +164,7 @@ class _CommercialScreenState extends State<CommercialScreen> {
                     children: [
                       Column(
                           children: [
-                            SizedBox(height: 10,),
+                            SizedBox(height: 8,),
                             Text(
                               '매매 가격',
                               style: TextStyle(
@@ -172,7 +172,7 @@ class _CommercialScreenState extends State<CommercialScreen> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 10),
+                            SizedBox(height: 8),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -290,7 +290,7 @@ class _CommercialScreenState extends State<CommercialScreen> {
                         children: [
                           Column(
                             children: [
-                              SizedBox(height: 10,),
+                              SizedBox(height: 8,),
                               Text(
                                 '보증금',
                                 style: TextStyle(
@@ -298,7 +298,7 @@ class _CommercialScreenState extends State<CommercialScreen> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: 10),
+                              SizedBox(height: 8),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -412,7 +412,7 @@ class _CommercialScreenState extends State<CommercialScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 20,),
+                          SizedBox(height: 8,),
                           Text(
                             '월세',
                             style: TextStyle(
@@ -420,7 +420,7 @@ class _CommercialScreenState extends State<CommercialScreen> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: 8),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -544,7 +544,7 @@ class _CommercialScreenState extends State<CommercialScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 8,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -660,7 +660,7 @@ class _CommercialScreenState extends State<CommercialScreen> {
                 ),
               ),
 
-              SizedBox(height: 30,),
+              SizedBox(height: 12,),
               TextButton(
                 style: TextButton.styleFrom(
                   primary: Colors.white,

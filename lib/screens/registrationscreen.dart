@@ -38,7 +38,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   double lng = 0;
   int _selectedPage = 0;
 
-  int canvasHeight = 350;
+  int canvasHeight = 380;
   final _AddressController = TextEditingController();
   final _AddressDetailController = TextEditingController();
   final _CallNameController = TextEditingController();

@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:kakao_login_test/screens/component/basket.dart';
 
 const appServerURL = "http://34.64.86.84:8080";
@@ -15,7 +16,14 @@ const seedColor = Color(0xFF6F7974);
 
 List<int> homeBasket = [];
 
+class GeoLocatorService {
+  Future<Position> getLocation() async {
+    Position position =
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+    return position;
+  }
 
+}
 
 class NumberFormatter extends TextInputFormatter {
   @override
