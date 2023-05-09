@@ -1,8 +1,10 @@
 
+import 'dart:async';
 import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart' as getx;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -15,6 +17,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kakao_login_test/screens/commupdate.dart';
 import 'package:kakao_login_test/screens/component/bottom_menu.dart';
 import 'package:http_parser/http_parser.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 
 import '../common/commondata.dart';
@@ -41,6 +44,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
   PageController _controller = PageController(initialPage: 0, keepPage: false);
   PageController _controllerMain = PageController(initialPage: 0, keepPage: false);
   final ImagePicker _picker = ImagePicker();
+  late GoogleMapController _mapController;
 
   List<XFile> _pickedImgs = [];
 
@@ -107,7 +111,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
         _markers.add(
           Marker(
             markerId: MarkerId('marker_${i + 1}'),
-            position: LatLng(response2.data[i]['lat'], response2.data[i]['lng']),
+            position: LatLng((response2.data[i]['lat']/1.0), (response2.data[i]['lng']/1.0)),
             icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
             infoWindow: InfoWindow(
               onTap: () {
@@ -676,21 +680,24 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                                         dio.options.contentType = 'multipart/form-data';
                                         dio.options.maxRedirects.isFinite;
                                         try {
-                                          final res = await dio.post('$appServerURL/upload', data: _formData);
-                                          if (res.data.length > 0) {
-                                            for(int i = 0; i < res.data.length; i++) {
-                                              Dio dio2 = Dio();
-                                              final response = await dio2.post(
-                                                '$appServerURL/imgupdate',
-                                                data: {
-                                                  'id': '${snapshot.data[0]['id']}',
-                                                  'imgname': '${res.data[i]['filename']}',
-                                                  'no': '${i + 1}',
+                                          final res = await dio.post('$appServerURL/upload', data: _formData).then(
+                                              (res) async {
+                                                if (res.data.length > 0) {
+                                                  for(int i = 0; i < res.data.length; i++) {
+                                                    Dio dio2 = Dio();
+                                                    final response = await dio2.post(
+                                                        '$appServerURL/imgupdate',
+                                                        data: {
+                                                          'id': '${snapshot.data[0]['id']}',
+                                                          'imgname': '${res.data[i]['filename']}',
+                                                          'no': '${i + 1}',
+                                                        }
+                                                    );
+                                                    dio2.close();
+                                                  }
                                                 }
-                                              );
-                                              dio2.close();
-                                            }
-                                          }
+                                              }
+                                          );
                                         } catch (e) {
                                           print(e);
                                         }
@@ -753,15 +760,22 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                     );
 
 
-                    return GoogleMap(
-                      mapType: MapType.normal,
-                      myLocationEnabled: true,
-                      myLocationButtonEnabled: true,
-                      initialCameraPosition: CameraPosition(
-                        target: LatLng(_lat, _lng),
-                        zoom: 17,
+                    return Container(
+                      child: GoogleMap(
+                        mapType: MapType.normal,
+                        myLocationEnabled: true,
+                        myLocationButtonEnabled: true,
+                        zoomControlsEnabled: true,
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(_lat, _lng),
+                          zoom: 17,
+                        ),
+                        onMapCreated: (GoogleMapController controller) {
+                          _mapController = controller;
+                        },
+                        markers: Set.from(_markers),
                       ),
-                      markers: Set.from(_markers),
+
                     );
                   } else {
                     return const Center(
@@ -773,7 +787,77 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
           ),
         ],
       ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+        floatingActionButton: FloatingActionButton(
+
+          onPressed: () async {
+            var gps = await getCurrentLocation();
+
+            _mapController.animateCamera(
+                CameraUpdate.newLatLng(LatLng(gps.latitude, gps.longitude)));
+
+          },
+          child: Icon(
+            Icons.my_location,
+            color: Colors.black,
+          ),
+          backgroundColor: Colors.white,
+        ),
     );
+  }
+
+
+  Future<Position> getCurrentLocation() async {
+    LocationPermission permission = await Geolocator.requestPermission();
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
+
+    final dio = Dio();
+
+    final response2 = await dio.post(
+        '$appServerURL/nearlist',
+        data: {
+          'id': widget.id,
+          'lat': position.latitude,
+          'lng': position.longitude,
+          'type': 'C',
+        }
+    );
+
+    if(response2.data.length > 0) {
+      for(int i = 0; i < response2.data.length; i++) {
+        _markers.add(
+          Marker(
+            markerId: MarkerId('marker_${i + 1}'),
+            position: LatLng((response2.data[i]['lat']/1.0), (response2.data[i]['lng']/1.0)),
+            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+            infoWindow: InfoWindow(
+              onTap: () {
+                print('marker_${i + 1} clicked');
+                getx.Get.offAll(
+                  CommDetailViewScreen(
+                    id: response2.data[i]['id'],
+                  ),);
+              },
+              title: response2.data[i]['sub_addr'],
+              snippet: '${(response2.data[i]['deposit']/10000).round()}/${(response2.data[i]['monthly']/10000).round()} ${response2.data[i]['size']}평',
+            ),
+            // onTap: () {
+            //   print('marker_${i + 1} clicked');
+            //   getx.Get.to(
+            //     CommDetailViewScreen(
+            //       id: response2.data[i]['id'],
+            //     ),);
+            // },
+          ),
+        );
+      }
+      _mapController.reactive();
+    }
+
+    dio.close();
+
+    return position;
   }
 }
 

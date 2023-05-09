@@ -612,22 +612,24 @@ class _AssetDetailViewScreenState extends State<AssetDetailViewScreen> {
                                   dio.options.maxRedirects.isFinite;
                                   //
                                   try {
-                                    final res = await dio.post('$appServerURL/upload', data: _formData);
-
-                                    if (res.data.length > 0) {
-                                      for(int i = 0; i < res.data.length; i++) {
-                                        Dio dio2 = Dio();
-                                        final response = await  dio2.post(
-                                            '$appServerURL/imgupdatehome',
-                                            data: {
-                                              'id': '${snapshot.data[0]['id']}',
-                                              'imgname': '${res.data[i]['filename']}',
-                                              'no': '${i + 1}',
+                                    final res = await dio.post('$appServerURL/upload', data: _formData).then(
+                                        (res) async {
+                                          if (res.data.length > 0) {
+                                            for(int i = 0; i < res.data.length; i++) {
+                                              Dio dio2 = Dio();
+                                              final response = await  dio2.post(
+                                                  '$appServerURL/imgupdatehome',
+                                                  data: {
+                                                    'id': '${snapshot.data[0]['id']}',
+                                                    'imgname': '${res.data[i]['filename']}',
+                                                    'no': '${i + 1}',
+                                                  }
+                                              );
+                                              dio2.close();
                                             }
-                                        );
-                                        dio2.close();
-                                      }
-                                    }
+                                          }
+                                        }
+                                    );
                                   } catch (e) {
                                     print(e);
                                   }
