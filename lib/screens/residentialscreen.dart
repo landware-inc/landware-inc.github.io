@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:kakao_login_test/screens/main_screen.dart';
+import 'package:kakao_login_test/screens/mapscreen.dart';
 import 'package:kakao_login_test/screens/regidentiallistview.dart';
 
 import '../status/controller.dart';
@@ -76,10 +77,9 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              _authentication.signOut();
-              Get.to(() => LoginSignupScreen());
+              Get.to(() => const MapScreen());
             },
-            icon: const Icon(Icons.logout),
+            icon: const Icon(Icons.map),
           ),
         ],
       ),

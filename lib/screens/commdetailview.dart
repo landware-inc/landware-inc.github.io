@@ -17,6 +17,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kakao_login_test/screens/commupdate.dart';
 import 'package:kakao_login_test/screens/component/bottom_menu.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:kakao_login_test/screens/mapscreen.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
@@ -84,6 +85,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
 
 
   Future<List> pagenationDetailData() async {
+
     final dio = Dio();
     final response = await dio.post(
         '$appServerURL/commdetail',
@@ -206,10 +208,9 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              _authentication.signOut();
-              getx.Get.back();
+              getx.Get.to(() => const MapScreen());
             },
-            icon: const Icon(Icons.logout),
+            icon: const Icon(Icons.map),
           ),
         ],
       ),
@@ -787,22 +788,22 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
           ),
         ],
       ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-        floatingActionButton: FloatingActionButton(
-
-          onPressed: () async {
-            var gps = await getCurrentLocation();
-
-            _mapController.animateCamera(
-                CameraUpdate.newLatLng(LatLng(gps.latitude, gps.longitude)));
-
-          },
-          child: Icon(
-            Icons.my_location,
-            color: Colors.black,
-          ),
-          backgroundColor: Colors.white,
-        ),
+        // floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+        // floatingActionButton: FloatingActionButton(
+        //
+        //   onPressed: () async {
+        //     var gps = await getCurrentLocation();
+        //
+        //     _mapController.animateCamera(
+        //         CameraUpdate.newLatLng(LatLng(gps.latitude, gps.longitude)));
+        //
+        //   },
+        //   child: Icon(
+        //     Icons.my_location,
+        //     color: Colors.black,
+        //   ),
+        //   backgroundColor: Colors.white,
+        // ),
     );
   }
 

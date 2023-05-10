@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kakao_login_test/screens/component/bottom_menu.dart';
+import 'package:kakao_login_test/screens/mapscreen.dart';
 import 'package:kakao_login_test/screens/regidentiallistview.dart';
 import 'package:intl/intl.dart';
 import '../status/controller.dart';
@@ -67,10 +68,9 @@ class _CommercialScreenState extends State<CommercialScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              _authentication.signOut();
-              Get.back();
+              Get.to(() => const MapScreen());
             },
-            icon: const Icon(Icons.logout),
+            icon: const Icon(Icons.map),
           ),
         ],
       ),

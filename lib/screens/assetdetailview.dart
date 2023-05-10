@@ -16,6 +16,7 @@ import 'package:kakao_login_test/screens/assetupdate.dart';
 import 'package:kakao_login_test/screens/component/bottom_menu.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:kakao_login_test/screens/main_screen.dart';
+import 'package:kakao_login_test/screens/mapscreen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../common/commondata.dart';
@@ -156,11 +157,10 @@ class _AssetDetailViewScreenState extends State<AssetDetailViewScreen> {
           actions: [
             IconButton(
               onPressed: () {
-                _authentication.signOut();
-                getx.Get.off(LoginSignupScreen());
+                getx.Get.to(() => const MapScreen());
               },
-            icon: const Icon(Icons.logout),
-          ),
+              icon: const Icon(Icons.map),
+            ),
         ],
       ),
       body: PageView(
