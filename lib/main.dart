@@ -10,7 +10,19 @@ import 'package:kakao_login_test/screens/main_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   KakaoSdk.init(nativeAppKey: '45ce62ef8ac5361d8994f2a9ca50a1ed');
-  await Firebase.initializeApp();
+  KakaoSdk.init(javaScriptAppKey: kakaoJsKey);
+  await Firebase.initializeApp(
+//      name: 'kakao_login_test',
+      options: FirebaseOptions(
+          apiKey: "AIzaSyCWyKObSmj6xrjVqwYpI-vzsNGkLfi-2-I",
+          authDomain: "smilerealestate-e93fd.firebaseapp.com",
+          projectId: "smilerealestate-e93fd",
+          storageBucket: "smilerealestate-e93fd.appspot.com",
+          messagingSenderId: "600825662425",
+          appId: "1:600825662425:web:05a4d055d272c0c45b27c8",
+//          measurementId: "G-TM4G73DX95"
+      )
+  );
 
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([

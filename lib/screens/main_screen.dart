@@ -655,6 +655,8 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                               backgroundColor: Colors.blue,
                             ),
                           );
+                          print(e);
+                          Get.off(() => StartScreen());
                         }
                       },
                       style: TextButton.styleFrom(
