@@ -35,7 +35,6 @@ class AssetDetailViewScreen extends StatefulWidget {
 
 class _AssetDetailViewScreenState extends State<AssetDetailViewScreen> {
   double _lat = 0.0;
-
   double _lng = 0.0;
 
   Future<List> pagenationDetailData() async {

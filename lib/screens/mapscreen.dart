@@ -17,6 +17,7 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   late GoogleMapController _mapController;
+  final _listController = ScrollController();
 
   List<Marker> _markers = [];
   double _lat = 35.1645654;
@@ -62,7 +63,15 @@ class _MapScreenState extends State<MapScreen> {
               title: response2.data[i]['sub_addr'],
               snippet: '${(response2.data[i]['deposit']/10000).round()}/${(response2.data[i]['monthly']/10000).round()} ${response2.data[i]['size']}평',
             ),
-            // onTap: () {
+            onTap: () {
+              // _listController.animateTo(
+              //   i * 100.0,
+              //   duration: const Duration(milliseconds: 900),
+              //   curve: Curves.fastOutSlowIn,
+              // );
+              _listController.jumpTo(i*110.0);
+            },
+
             //   print('marker_${i + 1} clicked');
             //   getx.Get.to(
             //     CommDetailViewScreen(
@@ -73,7 +82,6 @@ class _MapScreenState extends State<MapScreen> {
         );
       }
     }
-
 
 
     dio.close();
@@ -105,27 +113,69 @@ class _MapScreenState extends State<MapScreen> {
         ],
       ),
       body:FutureBuilder(
-        future: pagenationMapData(),
-        builder: (context, snapshot) {
-          return Container(
-            child: GoogleMap(
-              mapType: MapType.normal,
-              mapToolbarEnabled: true,
-              minMaxZoomPreference: MinMaxZoomPreference(1, 20),
-              myLocationEnabled: true,
-              myLocationButtonEnabled: true,
-              zoomControlsEnabled: true,
-              initialCameraPosition: CameraPosition(
-                target: LatLng(_lat, _lng),
-                zoom: 17,
-              ),
-              onMapCreated: (GoogleMapController controller) {
-                _mapController = controller;
-              },
-              markers: Set.from(_markers),
-            ),
-          );
-        }
+          future: pagenationMapData(),
+          builder: (context, snapshot) {
+            if(snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return Column(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  child: GoogleMap(
+                    mapType: MapType.normal,
+                    mapToolbarEnabled: true,
+                    minMaxZoomPreference: MinMaxZoomPreference(1, 20),
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: true,
+                    zoomControlsEnabled: true,
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(_lat, _lng),
+                      zoom: 18,
+                    ),
+                    onMapCreated: (GoogleMapController controller) {
+                      _mapController = controller;
+                    },
+                    markers: Set.from(_markers),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    child: ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      controller: _listController,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(snapshot.data![index]['sub_addr']),
+                          key: Key('marker_${index + 1}'),
+                          subtitle: Text('${(snapshot.data![index]['deposit']/10000).round()}/${(snapshot.data![index]['monthly']/10000).round()} ${snapshot.data![index]['size']}평'),
+                          onLongPress: () {
+                            Get.offAll(
+                              CommDetailViewScreen(
+                                id: snapshot.data![index]['id'],
+                              ),
+                            );
+                          },
+                          onTap: () {
+                            _mapController.animateCamera(
+                              CameraUpdate.newCameraPosition(
+                                CameraPosition(
+                                  target: LatLng((snapshot.data![index]['lat']/1.0), (snapshot.data![index]['lng']/1.0)),
+                                  zoom: 17,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }
       ),
       bottomNavigationBar: BottomMenuBar(),
     );

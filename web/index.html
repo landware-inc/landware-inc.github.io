@@ -31,6 +31,10 @@
 
   <title>kakao_login_test</title>
   <link rel="manifest" href="manifest.json">
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+
 
   <script>
     // The value below is injected by flutter build, do not touch.
@@ -38,11 +42,26 @@
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
+  <script defer src="main.dart.js" type="application/javascript"></script>
 </head>
 <body>
   <script>
+  import { initializeApp } from "firebase/app";
+
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCWyKObSmj6xrjVqwYpI-vzsNGkLfi-2-I",
+      authDomain: "smilerealestate-e93fd.firebaseapp.com",
+      projectId: "smilerealestate-e93fd",
+      storageBucket: "smilerealestate-e93fd.appspot.com",
+      messagingSenderId: "600825662425",
+      appId: "1:600825662425:web:05a4d055d272c0c45b27c8",
+      measurementId: "G-TM4G73DX95"
+    };
+    const app = initializeApp(firebaseConfig);
+
     window.addEventListener('load', function(ev) {
-      // Download main.dart.js
+       Download main.dart.js
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
