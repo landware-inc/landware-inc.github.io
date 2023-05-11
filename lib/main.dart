@@ -7,10 +7,6 @@ import 'package:kakao_login_test/common/commondata.dart';
 import 'package:kakao_login_test/screens/regidentiallistview.dart';
 import 'package:kakao_login_test/screens/main_screen.dart';
 
-
-
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   KakaoSdk.init(nativeAppKey: '45ce62ef8ac5361d8994f2a9ca50a1ed');
