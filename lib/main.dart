@@ -49,12 +49,12 @@ class MainApp extends StatelessWidget {
             brightness: Brightness.light,
           )
       ),
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: seedColor,
-            brightness: Brightness.dark,
-          )
-      ),
+      // darkTheme: ThemeData(
+      //   colorScheme: ColorScheme.fromSeed(
+      //       seedColor: seedColor,
+      //       brightness: Brightness.dark,
+      //     )
+      // ),
       themeMode: ThemeMode.system,
       home: LoginSignupScreen(),
 //      home: ListViewScreen(),
