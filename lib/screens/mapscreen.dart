@@ -37,7 +37,15 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
 
-
+  Map<String, String> formData = {};
+  final _searchController = TextEditingController();
+  String _floor = '0';
+  String _type = 'C';
+  final _size = TextEditingController();
+  final _deposit = TextEditingController();
+  final _monthly = TextEditingController();
+  final _salesprice = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   Future<List> pagenationMapData() async {
     LocationPermission permission = await Geolocator.requestPermission();
@@ -336,15 +344,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Widget _searchForm() {
-    Map<String, String> formData = {};
-    final _searchController = TextEditingController();
-    String _floor = '0';
-    String _type = 'C';
-    final _size = TextEditingController();
-    final _deposit = TextEditingController();
-    final _monthly = TextEditingController();
-    final _salesprice = TextEditingController();
-    final _formKey = GlobalKey<FormState>();
+
 
     return  Expanded(
       child: Container(
