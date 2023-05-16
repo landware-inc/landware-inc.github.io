@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
@@ -488,23 +489,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                   ),
                 ),
-                Container(
-                  width: 100,
-                  height: 60,
-                  child: ElevatedButton(
-                       onPressed: (){
-                         _addressAPI();
-                       },
-                       child: Text(
-                          '주소검색',
-                          style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context).colorScheme.onPrimary,
-                          )
-                       ),
+                if(!kIsWeb)
+                  Container(
+                    width: 100,
+                    height: 60,
+                    child: ElevatedButton(
+                         onPressed: (){
+                           _addressAPI();
+                         },
+                         child: Text(
+                            '주소검색',
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w600,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            )
+                         ),
+                    ),
                   ),
-                ),
               ],
             ),
             SizedBox(height: 10,),
@@ -1669,23 +1671,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                   ),
                 ),
-                Container(
-                  width: 100,
-                  height: 60,
-                  child: ElevatedButton(
-                    onPressed: (){
-                      _addressAPI();
-                    },
-                    child: Text(
-                        '주소검색',
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(context).colorScheme.onPrimary,
-                        )
+                if(!kIsWeb)
+                  Container(
+                    width: 100,
+                    height: 60,
+                    child: ElevatedButton(
+                      onPressed: (){
+                        _addressAPI();
+                      },
+                      child: Text(
+                          '주소검색',
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          )
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
             SizedBox(height: 10,),
