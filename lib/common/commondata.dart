@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:kakao_login_test/screens/component/basket.dart';
 
-const appServerURL = "http://34.64.86.84:8080";
-const fileServerURL = "http://34.64.86.84:3000";
+const appServerURL = "https://www.smilersa.com:8080";
+const fileServerURL = "http://www.smilersa.com:3000";
 
 const kakaoJsKey ='c3361ae36d0992d3958730f46e1e61ab';
 

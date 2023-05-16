@@ -60,24 +60,36 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
 
-
+ if(kIsWeb)
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: AppBar(
-        title: Text('지도'),
-        centerTitle: true,
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        elevation: 0,
-      ),
       body: SingleChildScrollView(
         child: Container(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height - 160,
+          height: MediaQuery.of(context).size.height - 70,
           child: kIsWeb ? _webMap() : _androidMap(),
         ),
       ),
       bottomNavigationBar: BottomMenuBar(),
     );
+  else
+   return Scaffold(
+     backgroundColor: Theme.of(context).colorScheme.background,
+     appBar: AppBar(
+       title: Text('지도'),
+       centerTitle: true,
+       backgroundColor: Theme.of(context).colorScheme.primary,
+       elevation: 0,
+     ),
+     body: SingleChildScrollView(
+       child: Container(
+         width: MediaQuery.of(context).size.width,
+         height: MediaQuery.of(context).size.height - 140,
+         child: kIsWeb ? _webMap() : _androidMap(),
+       ),
+     ),
+     bottomNavigationBar: BottomMenuBar(),
+   );
   }
 
 
@@ -87,8 +99,8 @@ class _MapScreenState extends State<MapScreen> {
         Row(
           children: [
             Container(
-              width: MediaQuery.of(context).size.width - 330,
-              height: MediaQuery.of(context).size.height - 390,
+              width: MediaQuery.of(context).size.width - 370,
+              height: MediaQuery.of(context).size.height - 280,
               child: GoogleMap(
                 mapType: MapType.normal,
                 mapToolbarEnabled: true,
@@ -107,8 +119,8 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
             Container(
-              width: 330,
-              height: MediaQuery.of(context).size.height - 390,
+              width: 370,
+              height: MediaQuery.of(context).size.height - 280,
               child: CustomScrollView(
                 slivers: [
                   SliverList(
@@ -263,6 +275,13 @@ class _MapScreenState extends State<MapScreen> {
                                   ],
                                 ),
                               ),
+                              onDoubleTap: () {
+                                Get.to(
+                                  CommDetailViewScreen(
+                                    id:_result[index]['id'],
+                                  ),
+                                );
+                              },
                               onTap: () {
                                 _mapController.animateCamera(
                                   CameraUpdate.newCameraPosition(
@@ -295,7 +314,7 @@ class _MapScreenState extends State<MapScreen> {
     return Column(
       children: [
         Container(
-          height: MediaQuery.of(context).size.height  - 460,
+          height: MediaQuery.of(context).size.height  - 440,
           child: GoogleMap(
             mapType: MapType.normal,
             mapToolbarEnabled: true,
@@ -322,11 +341,11 @@ class _MapScreenState extends State<MapScreen> {
     return  Container(
       padding: const EdgeInsets.all(8.0),
       width: MediaQuery.of(context).size.width,
-      height: 230,
+      height: 210,
       child: Form(
         key: _formKey,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -777,7 +796,6 @@ class _MapScreenState extends State<MapScreen> {
                   onPressed: (){
                     if(_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      print(formData);
                     }
                     _search(
                         _searchController.text,
@@ -808,6 +826,9 @@ class _MapScreenState extends State<MapScreen> {
       String _monthly,
       ) async {
     _result = [];
+
+
+
     final dio = Dio();
 
     LocationPermission permission = await Geolocator.requestPermission();
@@ -859,6 +880,7 @@ class _MapScreenState extends State<MapScreen> {
         );
       }
     }
+
 
     dio.close();
 
