@@ -105419,7 +105419,7 @@ o=A.T(k,k,4)
 n=t.p
 m=A.a([A.O(J.i(J.i($.eH,b),"sub_addr"),k,k,k,A.a5(k,k,k,k,k,k,k,k,k,k,k,14,k,k,B.C,k,k,!0,k,k,k,k,k,k,k,k),k,k),A.O("\ubcf4:"+A.f(J.b0(J.fO(J.i(J.i($.eH,b),"deposit"),j)))+"/"+A.f(J.b0(J.fO(J.i(J.i($.eH,b),"monthly"),j)))+"    "+A.f(J.i(J.i($.eH,b),"size"))+"\ud3c9 "+A.f(J.i(J.i($.eH,b),"floor"))+"\uce35",k,k,k,A.a5(k,k,k,k,k,k,k,k,k,k,k,12,k,k,k,k,k,!0,k,k,k,k,k,k,k,k),k,k),A.O("\uad00\ub9ac\ube44:"+A.f(J.i(J.i($.eH,b),"adminprice"))+"  \uad8c\ub9ac\uae08:"+A.f(J.b0(J.fO(J.i(J.i($.eH,b),"entitleprice"),j))),k,k,k,A.a5(k,k,k,k,k,k,k,k,k,k,k,12,k,k,k,k,k,!0,k,k,k,k,k,k,k,k),k,k)],n)
 if(J.hU(J.i(J.i($.eH,b),i),0))m.push(A.O("\ub9e4\ub9e4\uac00:"+A.f(J.b0(J.fO(J.i(J.i($.eH,b),i),j))),k,k,k,A.a5(k,k,k,k,k,k,k,k,k,k,k,12,k,k,k,k,k,!0,k,k,k,k,k,k,k,k),k,k))
-l=J.j(J.i(J.i($.eH,b),"eliv"),0)?"\uc788\uc74c":"\uc5c6\uc74c"
+l=J.j(J.i(J.i($.eH,b),"eliv"),"1")?" O":" X"
 m.push(A.O("\uc5d8\ub9ac\ubca0\uc774\ud130:"+l+"  \uc8fc\ucc28:"+A.f(J.i(J.i($.eH,b),"parking"))+"\ub300",k,k,k,A.a5(k,k,k,k,k,k,k,k,k,k,k,12,k,k,k,k,k,!0,k,k,k,k,k,k,k,k),k,k))
 return A.Gc(r,A.ft(k,A.W(k,A.aY(A.a([p,o,A.W(k,A.bg(m,B.bl,B.w,B.h,B.r),B.f,k,k,k,k,88,k,k,k,k,k,270)],n),B.l,B.w,B.h),B.f,k,k,k,k,k,k,k,B.fT,k,k,k),B.a3,!1,k,new A.aTA(b),k,k,k,k,k,k,k,k,k,new A.aTB(b),k,k,k,k,k,k),new A.aTC(a,b),B.fP,new A.cE(s,t.kK),k,B.bM,q)}},
 $S:619}
