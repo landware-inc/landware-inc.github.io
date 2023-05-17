@@ -1168,6 +1168,7 @@ class _AssetUpdateScreenState extends State<AssetUpdateScreen> {
                                 'lng': lng,
                                 'desc': formData['desc'] ?? '',
                                 'date': DateTime.now().toString(),
+                                'owner': controller.userName.value,
                               }
                           );
 

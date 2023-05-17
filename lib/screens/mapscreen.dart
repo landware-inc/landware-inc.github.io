@@ -314,7 +314,7 @@ class _MapScreenState extends State<MapScreen> {
     return Column(
       children: [
         Container(
-          height: MediaQuery.of(context).size.height  - 440,
+          height: MediaQuery.of(context).size.height  - 460,
           child: GoogleMap(
             mapType: MapType.normal,
             mapToolbarEnabled: true,

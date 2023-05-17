@@ -2543,6 +2543,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 'lng': lng,
                                 'desc': formData['desc'] ?? '',
                                 'date': DateTime.now().toString(),
+                                'owner': controller.userName.value,
                               }
                           );
 
