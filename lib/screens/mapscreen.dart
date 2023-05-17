@@ -122,6 +122,7 @@ class _MapScreenState extends State<MapScreen> {
               width: 370,
               height: MediaQuery.of(context).size.height - 280,
               child: CustomScrollView(
+                controller: _listController,
                 slivers: [
                   SliverList(
                       delegate: SliverChildBuilderDelegate (
