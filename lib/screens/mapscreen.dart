@@ -232,7 +232,7 @@ class _MapScreenState extends State<MapScreen> {
                                     SizedBox(width: 4),
                                     Container(
                                       height: 88,
-                                      width: MediaQuery.of(context).size.width * 0.25 - 100,
+                                      width: 270,
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
@@ -263,7 +263,7 @@ class _MapScreenState extends State<MapScreen> {
                                               ),
                                             ),
                                           Text(
-                                            '엘리베이터:${_result[index]['eliv'] == 0? '있음' : '없음' }  주차:${_result[index]['parking']}대',
+                                            '엘리베이터:${_result[index]['eliv'] == '1' ? 'O' : 'X' }  주차:${_result[index]['parking']}대                     ${_result[index]['owner']}',
                                             style: TextStyle(
                                               fontSize: 12,
                                             ),
