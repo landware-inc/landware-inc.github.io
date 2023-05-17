@@ -1261,9 +1261,9 @@ class _CommUpdateScreenState extends State<CommUpdateScreen> {
                                     ? 0
                                     : formData['admin']!.replaceAll('₩', '')
                                     .replaceAll(',', ''),
-                                'entitleprice': formData['entitlePrice'] == null
+                                'entitleprice': formData['entitleprice'] == null
                                     ? 0
-                                    : formData['entitlePrice']!.replaceAll(
+                                    : formData['entitleprice']!.replaceAll(
                                     '₩', '')
                                     .replaceAll(',', ''),
                                 'type': formData['Type'],
