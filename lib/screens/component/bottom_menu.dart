@@ -1,10 +1,12 @@
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:kakao_login_test/screens/commercialscreen.dart';
 import 'package:kakao_login_test/screens/homebasketlist.dart';
+import 'package:kakao_login_test/screens/mapscreen.dart';
 import 'package:kakao_login_test/screens/registrationscreen.dart';
 import 'package:kakao_login_test/screens/residentialscreen.dart';
 import 'package:kakao_login_test/screens/startingscreen.dart';
@@ -93,6 +95,8 @@ class _BottomMenuBarState extends State<BottomMenuBar> {
           Get.to(() => const HomeBasketListViewScreen());
         } else if (index == 4) {
           Get.to(() => const RegistrationScreen());
+        } else if (index == 5) {
+          Get.to(() => const MapScreen());
         }
       },
       items: const [
@@ -116,6 +120,11 @@ class _BottomMenuBarState extends State<BottomMenuBar> {
           icon: Icon(Icons.add_circle),
           label: '신규',
         ),
+        if(kIsWeb)
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: '지도',
+          ),
       ],
     );
   }

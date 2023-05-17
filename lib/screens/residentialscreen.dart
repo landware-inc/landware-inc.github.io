@@ -835,6 +835,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
               TextButton(
                 style: TextButton.styleFrom(
                   primary: Colors.white,
+                  fixedSize: Size(MediaQuery.of(context).size.width, 50),
                   backgroundColor: Theme.of(context).colorScheme.primary,
                 ),
                   onPressed: () async {

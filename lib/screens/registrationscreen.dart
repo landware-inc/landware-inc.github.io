@@ -926,12 +926,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   width: 100,
                   child : TextFormField(
                     controller: _Name1Controller,
-                    validator: (value) {
-                      if(value!.isEmpty) {
-                        return '필수 입력 항목입니다.';
-                      }
-                      return null;
-                    },
                     onSaved: (value) {
                       formData['name1'] = value!;
                     },
@@ -939,8 +933,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       labelText: '이름1',
                       hintText: '연락처 이름1',
                       border: OutlineInputBorder(),
-                      filled: true,
-                      fillColor: Colors.red[50],
                     ),
                   ),
                 ),
@@ -1374,6 +1366,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 'lng': lng,
                                 'desc': formData['desc'] ?? '',
                                 'date': DateTime.now().toString(),
+                                'owner': controller.userName.value,
                               }
                           );
 
@@ -1497,6 +1490,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 'lng': lng,
                                 'desc': formData['desc'] ?? '',
                                 'date': DateTime.now().toString(),
+                                'owner': controller.userName.value,
                               }
                           );
 
@@ -2045,12 +2039,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   width: 100,
                   child : TextFormField(
                     controller: _Name1Controller,
-                    validator: (value) {
-                      if(value!.isEmpty) {
-                        return '필수 입력 항목입니다.';
-                      }
-                      return null;
-                    },
                     onSaved: (value) {
                       formData['name1'] = value!;
                     },
@@ -2058,8 +2046,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       labelText: '이름1',
                       hintText: '연락처 이름1',
                       border: OutlineInputBorder(),
-                      filled: true,
-                      fillColor: Colors.red[50],
                     ),
                   ),
                 ),
@@ -2667,6 +2653,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 'lng': lng,
                                 'desc': formData['desc'] ?? '',
                                 'date': DateTime.now().toString(),
+                                'owner': controller.userName.value,
                               }
                           );
 
