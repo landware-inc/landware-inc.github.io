@@ -245,18 +245,20 @@ class _MapScreenState extends State<MapScreen> {
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
-                                              Text(
-                                                '보:${(_result[index]['deposit'] / 10000).round()}/${(_result[index]['monthly'] / 10000).round()}    ${_result[index]['size']}평 ${_result[index]['floor']}층',
-                                                style: TextStyle(
-                                                  fontSize: 12,
+                                              if(_result[index]['deposit'] > 0)
+                                                Text(
+                                                  '보:${(_result[index]['deposit'] / 10000).round()}/${(_result[index]['monthly'] / 10000).round()}    ${_result[index]['size']}평 ${_result[index]['floor']}층',
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                  ),
                                                 ),
-                                              ),
-                                              Text(
-                                                '관리비:${_result[index]['adminprice']}  권리금:${(_result[index]['entitleprice'] / 10000).round()}',
-                                                style: TextStyle(
-                                                  fontSize: 12,
+                                              if(_type == 'C')
+                                                Text(
+                                                  '관리비:${_result[index]['adminprice']}  권리금:${(_result[index]['entitleprice'] / 10000).round()}',
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                  ),
                                                 ),
-                                              ),
                                               if(_result[index]['salesprice'] > 0)
                                                 Text(
                                                   '매매가:${(_result[index]['salesprice'] / 10000).round()}',
