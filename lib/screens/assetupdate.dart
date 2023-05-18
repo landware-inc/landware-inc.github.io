@@ -8,12 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kakao_login_test/common/commondata.dart';
 import 'package:kakao_login_test/screens/assetdetailview.dart';
-import 'package:kakao_login_test/screens/commdetailview.dart';
 import 'package:remedi_kopo/remedi_kopo.dart';
-
-
 import '../status/controller.dart';
 import 'component/bottom_menu.dart';
+
+
+
 
 class AssetUpdateScreen extends StatefulWidget {
   final int id;
@@ -26,7 +26,6 @@ class AssetUpdateScreen extends StatefulWidget {
   @override
   State<AssetUpdateScreen> createState() => _AssetUpdateScreenState();
 }
-
 
 
 

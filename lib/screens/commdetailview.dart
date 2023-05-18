@@ -290,579 +290,646 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
         ],
       ),
       bottomNavigationBar: BottomMenuBar(),
-      body: PageView(
-        controller: _controllerMain,
-        children: [
-          Container(
-            margin: const EdgeInsets.all(8),
-            child: FutureBuilder(
-              future: pagenationDetailData(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData) {
-                  _imgList = [
-                    snapshot.data[0]['img_1'],
-                    snapshot.data[0]['img_2'],
-                    snapshot.data[0]['img_3'],
-                    snapshot.data[0]['img_4'],
-                    snapshot.data[0]['img_5'],
-                    snapshot.data[0]['img_6'],
-                    snapshot.data[0]['img_7'],
-                    snapshot.data[0]['img_8'],
-                    snapshot.data[0]['img_9'],
-                  ];
-                  return SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+      body: Container(
+        margin: const EdgeInsets.all(8),
+        child: FutureBuilder(
+          future: pagenationDetailData(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              _imgList = [
+                snapshot.data[0]['img_1'],
+                snapshot.data[0]['img_2'],
+                snapshot.data[0]['img_3'],
+                snapshot.data[0]['img_4'],
+                snapshot.data[0]['img_5'],
+                snapshot.data[0]['img_6'],
+                snapshot.data[0]['img_7'],
+                snapshot.data[0]['img_8'],
+                snapshot.data[0]['img_9'],
+              ];
+              return SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _SubTitle('물건개요'),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      snapshot.data[0]['sub_addr'],
+                      style: TextStyle(
+                        fontSize: 23,
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _SubTitle('물건개요'),
-                        SizedBox(
-                          height: 8,
-                        ),
                         Text(
-                          snapshot.data[0]['sub_addr'],
+                          snapshot.data[0]['division'],
                           style: TextStyle(
                             fontSize: 23,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w400,
                             color: Theme.of(context).colorScheme.onPrimaryContainer,
                           ),
                         ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              snapshot.data[0]['division'],
-                              style: TextStyle(
-                                fontSize: 23,
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                              ),
-                            ),
-                            Text(
-                              snapshot.data[0]['type'] ?? '',
-                              style: TextStyle(
-                                fontSize: 23,
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '면적 : ${snapshot.data[0]['size'] ?? ''}평',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                              ),
-                            ),
-                            Text(
-                              '${snapshot.data[0]['floor'] ?? ''}${snapshot.data[0]['totalfloor'] == 0 ? '' : '/'}${snapshot.data[0]['totalfloor'] == 0 ? '' : snapshot.data[0]['totalfloor']}층',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                              ),
-                            ),
-
-                          ],
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '주차 : ${snapshot.data[0]['parking'] == '' ? '0' : snapshot.data[0]['parking']}대',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                              ),
-                            ),
-                            Text(
-                              '엘베 : ${snapshot.data[0]['eliv'] == '1' ? '있음' : '없음'}',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
                         Text(
-                          '${snapshot.data[0]['addr'] ?? ''}',
+                          snapshot.data[0]['type'] ?? '',
+                          style: TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '면적 : ${snapshot.data[0]['size'] ?? ''}평',
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).colorScheme.onPrimaryContainer,
                           ),
                         ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.all(8),
-                                primary: Theme.of(context).colorScheme.primary,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                              ),
-                              onPressed: () {
-                                getx.Get.off(() => CommUpdateScreen(
-                                  id: widget.id,
-                                  type: 1
-                                ));
-                              },
-                              child: Text(
-                                  '자료수정',
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w400,
-                                    color: Theme.of(context).colorScheme.onPrimary,
-                                  ),
-                              )
+                        Text(
+                          '${snapshot.data[0]['floor'] ?? ''}${snapshot.data[0]['totalfloor'] == 0 ? '' : '/'}${snapshot.data[0]['totalfloor'] == 0 ? '' : snapshot.data[0]['totalfloor']}층',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,
                           ),
                         ),
-                        Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: (MediaQuery.of(context).size.width / 13) * 7,
-                          child: PageView(
-                            controller: _controller,
-                            children: [
+
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '주차 : ${snapshot.data[0]['parking'] == '' ? '0' : snapshot.data[0]['parking']}대',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                        Text(
+                          '엘베 : ${snapshot.data[0]['eliv'] == '1' ? '있음' : '없음'}',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      '${snapshot.data[0]['addr'] ?? ''}',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.all(8),
+                            primary: Theme.of(context).colorScheme.primary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          onPressed: () {
+                            getx.Get.off(() => CommUpdateScreen(
+                              id: widget.id,
+                              type: 1
+                            ));
+                          },
+                          child: Text(
+                              '자료수정',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                          )
+                      ),
+                    ),
+                    Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
+
+                    if(!kIsWeb)
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: (MediaQuery.of(context).size.width / 13) * 7,
+                        child: PageView(
+                          controller: _controller,
+                          children: [
+                            ClipRRect(
+                              child: Image.network(
+                                snapshot.data[0]['img_1'] == ''
+                                    ? '$appServerURL/sample.jpg'
+                                    : '$appServerURL/${snapshot.data[0]['img_1']}',
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                            if(snapshot.data[0]['img_2'] != '')
                               ClipRRect(
                                 child: Image.network(
-                                  snapshot.data[0]['img_1'] == ''
+                                  snapshot.data[0]['img_2'] == ''
                                       ? '$appServerURL/sample.jpg'
-                                      : '$appServerURL/${snapshot.data[0]['img_1']}',
+                                      : '$appServerURL/${snapshot.data[0]['img_2']}',
                                   fit: BoxFit.fitHeight,
                                 ),
                               ),
-                              if(snapshot.data[0]['img_2'] != '')
-                                ClipRRect(
-                                  child: Image.network(
-                                    snapshot.data[0]['img_2'] == ''
-                                        ? '$appServerURL/sample.jpg'
-                                        : '$appServerURL/${snapshot.data[0]['img_2']}',
+                            if(snapshot.data[0]['img_3'] != '')
+                            ClipRRect(
+                              child: Image.network(
+                                snapshot.data[0]['img_3'] == ''
+                                    ? '$appServerURL/sample.jpg'
+                                    : '$appServerURL/${snapshot.data[0]['img_3']}',
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                            if(snapshot.data[0]['img_4'] != '')
+                            ClipRRect(
+                              child: Image.network(
+                                snapshot.data[0]['img_4'] == ''
+                                    ? '$appServerURL/sample.jpg'
+                                    : '$appServerURL/${snapshot.data[0]['img_4']}',
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                            if(snapshot.data[0]['img_5'] != '')
+                            ClipRRect(
+                              child: Image.network(
+                                snapshot.data[0]['img_5'] == ''
+                                    ? '$appServerURL/sample.jpg'
+                                    : '$appServerURL/${snapshot.data[0]['img_5']}',
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                            if(snapshot.data[0]['img_6'] != '')
+                            ClipRRect(
+                              child: Image.network(
+                                snapshot.data[0]['img_6'] == ''
+                                    ? '$appServerURL/sample.jpg'
+                                    : '$appServerURL/${snapshot.data[0]['img_6']}',
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                            if(snapshot.data[0]['img_7'] != '')
+                            ClipRRect(
+                              child: Image.network(
+                                snapshot.data[0]['img_7'] == ''
+                                    ? '$appServerURL/sample.jpg'
+                                    : '$appServerURL/${snapshot.data[0]['img_7']}',
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                            if(snapshot.data[0]['img_8'] != '')
+                            ClipRRect(
+                              child: Image.network(
+                                snapshot.data[0]['img_8'] == ''
+                                    ? '$appServerURL/sample.jpg'
+                                    : '$appServerURL/${snapshot.data[0]['img_8']}',
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                            if(snapshot.data[0]['img_9'] != '')
+                            ClipRRect(
+                              child: Image.network(
+                                snapshot.data[0]['img_9'] == ''
+                                    ? '$appServerURL/sample.jpg'
+                                    : '$appServerURL/${snapshot.data[0]['img_9']}',
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    if(kIsWeb)
+                      SizedBox(
+                        height: MediaQuery.of(context).size.width/1.5,
+                        child : GridView.count(
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 5.0,
+                          crossAxisSpacing: 5.0,
+                          childAspectRatio: 2/1.3,
+                          padding: EdgeInsets.all(5.0),
+                          children: List.generate(
+                            9,
+                                (index) => DottedBorder(
+                              color: Theme.of(context).colorScheme.primary,
+                              strokeWidth: 1,
+                              dashPattern: [5, 5],
+                              child: Container(
+                                decoration:
+                                index <= _pickedImgs.length -1
+                                    ? BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Theme.of(context).colorScheme.primaryContainer,
+                                  image: DecorationImage(
+                                    image: FileImage(File(_pickedImgs[index].path)),
                                     fit: BoxFit.fitHeight,
                                   ),
-                                ),
-                              if(snapshot.data[0]['img_3'] != '')
-                              ClipRRect(
-                                child: Image.network(
-                                  snapshot.data[0]['img_3'] == ''
-                                      ? '$appServerURL/sample.jpg'
-                                      : '$appServerURL/${snapshot.data[0]['img_3']}',
-                                  fit: BoxFit.fitHeight,
-                                ),
-                              ),
-                              if(snapshot.data[0]['img_4'] != '')
-                              ClipRRect(
-                                child: Image.network(
-                                  snapshot.data[0]['img_4'] == ''
-                                      ? '$appServerURL/sample.jpg'
-                                      : '$appServerURL/${snapshot.data[0]['img_4']}',
-                                  fit: BoxFit.fitHeight,
-                                ),
-                              ),
-                              if(snapshot.data[0]['img_5'] != '')
-                              ClipRRect(
-                                child: Image.network(
-                                  snapshot.data[0]['img_5'] == ''
-                                      ? '$appServerURL/sample.jpg'
-                                      : '$appServerURL/${snapshot.data[0]['img_5']}',
-                                  fit: BoxFit.fitHeight,
-                                ),
-                              ),
-                              if(snapshot.data[0]['img_6'] != '')
-                              ClipRRect(
-                                child: Image.network(
-                                  snapshot.data[0]['img_6'] == ''
-                                      ? '$appServerURL/sample.jpg'
-                                      : '$appServerURL/${snapshot.data[0]['img_6']}',
-                                  fit: BoxFit.fitHeight,
-                                ),
-                              ),
-                              if(snapshot.data[0]['img_7'] != '')
-                              ClipRRect(
-                                child: Image.network(
-                                  snapshot.data[0]['img_7'] == ''
-                                      ? '$appServerURL/sample.jpg'
-                                      : '$appServerURL/${snapshot.data[0]['img_7']}',
-                                  fit: BoxFit.fitHeight,
-                                ),
-                              ),
-                              if(snapshot.data[0]['img_8'] != '')
-                              ClipRRect(
-                                child: Image.network(
-                                  snapshot.data[0]['img_8'] == ''
-                                      ? '$appServerURL/sample.jpg'
-                                      : '$appServerURL/${snapshot.data[0]['img_8']}',
-                                  fit: BoxFit.fitHeight,
-                                ),
-                              ),
-                              if(snapshot.data[0]['img_9'] != '')
-                              ClipRRect(
-                                child: Image.network(
-                                  snapshot.data[0]['img_9'] == ''
-                                      ? '$appServerURL/sample.jpg'
-                                      : '$appServerURL/${snapshot.data[0]['img_9']}',
-                                  fit: BoxFit.fitHeight,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
-                          Column(
-                            children: [
-                              _SubTitle('물건가격'),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              if(snapshot.data[0]['deposit'] > 0)
-                              Row(
-                                children: [
-                                  Text(
-                                    '임대료 : ${f.format(int.parse(snapshot.data[0]['deposit'].toString())/10000)}',
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w400,
-                                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                                    ),
-                                  ),
-                                  Text(
-                                    ' / ${f.format(int.parse(snapshot.data[0]['monthly'].toString())/10000)}만원',
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w400,
-                                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        if(snapshot.data[0]['salesprice'] > 0)
-                          Text(
-                            '매매가 : ${f.format(int.parse(snapshot.data[0]['salesprice'].toString())/10000)}만원',
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w400,
-                              color: Theme.of(context).colorScheme.onPrimaryContainer,
-                            ),
-                          ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          '관리비 : ${snapshot.data[0]['adminprice']}',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          '권리금 : ${f.format(int.parse(snapshot.data[0]['entitleprice'].toString())/10000)}만원',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
-                          ),
-                        ),
-                        Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
-                        _SubTitle('연락처'),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        RichText(
-                          text : TextSpan(
-                            text: '${snapshot.data[0]['name'] ?? ''} : ${snapshot.data[0]['tel'] ?? ''}',
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.blue,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () async {
-                                await launchUrl(Uri.parse('tel:${snapshot.data[0]['tel']}' ?? ''));
-                              },
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        RichText(
-                          text : TextSpan(
-                            text: '${snapshot.data[0]['name2'] ?? ''} : ${snapshot.data[0]['tel2'] ?? ''}',
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.blue,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () async {
-                                await launchUrl(Uri.parse('tel:${snapshot.data[0]['tel2']}' ?? ''));
-                              },
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
-                        _SubTitle('기 타'),
-                        Text('접수일자 : ${DateFormat('yyyy/MM/dd').format(DateTime.parse(snapshot.data[0]['date']))}',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text('${snapshot.data[0]['etc'] ?? ''}',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
-                          ),
-                        ),
-                        Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
-                        _SubTitle('상세위치'),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          '${snapshot.data[0]['addr'] ?? ''}',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
-                          ),
-                        ),
-                        Text(
-                          '${snapshot.data[0]['addr2'] ?? ''}',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onPrimaryContainer,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            _controllerMain.jumpToPage(1);
-                          },
-                          child: Container(
-                            margin: EdgeInsets.all(3.0),
-                            height: 200,
-                            width: MediaQuery.of(context).size.width,
-                            child: Image.network('https://maps.googleapis.com/maps/api/staticmap?center=&{$_lat,$_lng},zoom=13&size=${(MediaQuery.of(context).size.width*0.97).round()}x197&maptype=roadmap&markers=color:red%7C$_lat,$_lng&key=$googleMapKey'),
-                          ),
-                        ),
-                        Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
-                        _SubTitle('사진편집'),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.width/1.5,
-                          child : GridView.count(
-                            crossAxisCount: 3,
-                            mainAxisSpacing: 5.0,
-                            crossAxisSpacing: 5.0,
-                            childAspectRatio: 2/1.3,
-                            padding: EdgeInsets.all(5.0),
-                            children: List.generate(
-                                9,
-                                (index) => DottedBorder(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  strokeWidth: 1,
-                                  dashPattern: [5, 5],
-                                  child: Container(
-                                    decoration:
-                                      index <= _pickedImgs.length -1
-                                          ? BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
-                                            color: Theme.of(context).colorScheme.primaryContainer,
-                                             image: DecorationImage(
-                                                image: FileImage(File(_pickedImgs[index].path)),
-                                                fit: BoxFit.fitHeight,
-                                              ),
-                                        ) :
-                                        index <= _imgList.length -1
-                                          ? BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
-                                            color: Theme.of(context).colorScheme.primaryContainer,
-                                             image: DecorationImage(
-                                                image: _imgList[index] == '' ? NetworkImage('$appServerURL/sample.jpg',) :  NetworkImage('$appServerURL/${_imgList[index]}',),
-                                                fit: BoxFit.fitHeight,
-                                              ),
-                                        ) : null,
-                                    child : Center(child: _boxContents[index]),
-
-                                  ),
-                                ),
-                              ),
-                          ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Theme.of(context).colorScheme.primary,
-                                shape: RoundedRectangleBorder(
+                                ) :
+                                index <= _imgList.length -1
+                                    ? BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-
-                              onPressed: _pickedImgs.length == 0
-                                  ? null
-                                  : () async {
-                                        final List<MultipartFile> _files =  _pickedImgs.map((img) => MultipartFile.fromFileSync(img.path,  contentType: new MediaType("image", "jpg"))).toList();
-                                        FormData _formData = FormData.fromMap({"uploadfile": _files});
-
-                                        Dio dio = Dio();
-
-                                        // dio.options.headers["authorization"] = AuthProvider.token;
-                                        dio.options.contentType = 'multipart/form-data';
-                                        dio.options.maxRedirects.isFinite;
-                                        try {
-                                          final res = await dio.post('$appServerURL/upload', data: _formData).then(
-                                              (res) async {
-                                                if (res.data.length > 0) {
-                                                  for(int i = 0; i < res.data.length; i++) {
-                                                    Dio dio2 = Dio();
-                                                    final response = await dio2.post(
-                                                        '$appServerURL/imgupdate',
-                                                        data: {
-                                                          'id': '${snapshot.data[0]['id']}',
-                                                          'imgname': '${res.data[i]['filename']}',
-                                                          'no': '${i + 1}',
-                                                        }
-                                                    );
-                                                    dio2.close();
-                                                  }
-                                                }
-                                              }
-                                          );
-                                        } catch (e) {
-                                          print(e);
-                                        }
-
-
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text('사진이 수정되었습니다.'),
-                                            duration: Duration(seconds: 1),
-                                          ),
-                                        );
-
-                                        Future.delayed(const Duration(milliseconds: 600), () {
-                                          getx.Get.offAll(() => CommDetailViewScreen(id: snapshot.data[0]['id'],));
-                                        });
-
-                                        dio.close();
-                                      },
-                              child: Text(
-                                  '사진 수정',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w400,
-                                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                  color: Theme.of(context).colorScheme.primaryContainer,
+                                  image: DecorationImage(
+                                    image: _imgList[index] == '' ? NetworkImage('$appServerURL/sample.jpg',) :  NetworkImage('$appServerURL/${_imgList[index]}',),
+                                    fit: BoxFit.fitHeight,
                                   ),
+                                ) : null,
+                                child : Center(child: _boxContents[index]),
+
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      if(kIsWeb)
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: Theme.of(context).colorScheme.primary,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+
+                                onPressed: _pickedImgs.length == 0
+                                    ? null
+                                    : () async {
+                                  final List<MultipartFile> _files =  _pickedImgs.map((img) => MultipartFile.fromFileSync(img.path,  contentType: new MediaType("image", "jpg"))).toList();
+                                  FormData _formData = FormData.fromMap({"uploadfile": _files});
+
+                                  Dio dio = Dio();
+
+                                  // dio.options.headers["authorization"] = AuthProvider.token;
+                                  dio.options.contentType = 'multipart/form-data';
+                                  dio.options.maxRedirects.isFinite;
+                                  try {
+                                    final res = await dio.post('$appServerURL/upload', data: _formData).then(
+                                            (res) async {
+                                          if (res.data.length > 0) {
+                                            for(int i = 0; i < res.data.length; i++) {
+                                              Dio dio2 = Dio();
+                                              final response = await dio2.post(
+                                                  '$appServerURL/imgupdate',
+                                                  data: {
+                                                    'id': '${snapshot.data[0]['id']}',
+                                                    'imgname': '${res.data[i]['filename']}',
+                                                    'no': '${i + 1}',
+                                                  }
+                                              );
+                                              dio2.close();
+                                            }
+                                          }
+                                        }
+                                    );
+                                  } catch (e) {
+                                    print(e);
+                                  }
+
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('사진이 수정되었습니다.'),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+
+                                Future.delayed(const Duration(milliseconds: 600), () {
+                                  getx.Get.offAll(() => CommDetailViewScreen(id: snapshot.data[0]['id'],));
+                                });
+
+                                dio.close();
+                              },
+                              child: Text(
+                                '사진 수정',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                ),
                               ),
                             ),
                           ]
                         ),
-                        SizedBox(
-                          height: 6,
-                        ),
-                      ],
+                    Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
+                      Column(
+                        children: [
+                          _SubTitle('물건가격'),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          if(snapshot.data[0]['deposit'] > 0)
+                          Row(
+                            children: [
+                              Text(
+                                '임대료 : ${f.format(int.parse(snapshot.data[0]['deposit'].toString())/10000)}',
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w400,
+                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                ),
+                              ),
+                              Text(
+                                ' / ${f.format(int.parse(snapshot.data[0]['monthly'].toString())/10000)}만원',
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w400,
+                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    SizedBox(
+                      height: 8,
                     ),
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            ),
-          ),
-          Container(
-            child: FutureBuilder(
-                future: pagenationDetailData(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-
-                    _markers.add(
-                      Marker(
-                        markerId: MarkerId('marker_0'),
-                        position: LatLng(_lat, _lng),
-                        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-                        infoWindow: InfoWindow(
-                          title: snapshot.data[0]['sub_addr'],
-                          snippet: snapshot.data[0]['sub_addr'],
+                    if(snapshot.data[0]['salesprice'] > 0)
+                      Text(
+                        '매매가 : ${f.format(int.parse(snapshot.data[0]['salesprice'].toString())/10000)}만원',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w400,
+                          color: Theme.of(context).colorScheme.onPrimaryContainer,
                         ),
                       ),
-                    );
-
-
-                    return Container(
-                      child: GoogleMap(
-                        mapType: MapType.normal,
-                        myLocationEnabled: true,
-                        myLocationButtonEnabled: true,
-                        zoomControlsEnabled: true,
-                        initialCameraPosition: CameraPosition(
-                          target: LatLng(_lat, _lng),
-                          zoom: 17,
-                        ),
-                        onMapCreated: (GoogleMapController controller) {
-                          _mapController = controller;
-                        },
-                        markers: Set.from(_markers),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      '관리비 : ${snapshot.data[0]['adminprice']}',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
                       ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      '권리금 : ${f.format(int.parse(snapshot.data[0]['entitleprice'].toString())/10000)}만원',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
+                    ),
+                    Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
+                    _SubTitle('연락처'),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    RichText(
+                      text : TextSpan(
+                        text: '${snapshot.data[0]['name'] ?? ''} : ${snapshot.data[0]['tel'] ?? ''}',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.blue,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () async {
+                            await launchUrl(Uri.parse('tel:${snapshot.data[0]['tel']}' ?? ''));
+                          },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    RichText(
+                      text : TextSpan(
+                        text: '${snapshot.data[0]['name2'] ?? ''} : ${snapshot.data[0]['tel2'] ?? ''}',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.blue,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () async {
+                            await launchUrl(Uri.parse('tel:${snapshot.data[0]['tel2']}' ?? ''));
+                          },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
+                    _SubTitle('기 타'),
+                    Text('접수일자 : ${DateFormat('yyyy/MM/dd').format(DateTime.parse(snapshot.data[0]['date']))}',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text('${snapshot.data[0]['etc'] ?? ''}',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
+                    ),
+                    Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
+                    _SubTitle('상세위치'),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      '${snapshot.data[0]['addr'] ?? ''}',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
+                    ),
+                    Text(
+                      '${snapshot.data[0]['addr2'] ?? ''}',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        _controllerMain.jumpToPage(1);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(3.0),
+                        height: 200,
+                        width: MediaQuery.of(context).size.width,
+                        child: Image.network('https://maps.googleapis.com/maps/api/staticmap?center=&{$_lat,$_lng},zoom=13&size=${(MediaQuery.of(context).size.width*0.97).round()}x197&maptype=roadmap&markers=color:red%7C$_lat,$_lng&key=$googleMapKey'),
+                      ),
+                    ),
+                    Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
+                    if(!kIsWeb)
+                      _SubTitle('사진편집'),
+                      SizedBox(
+                        height: 8,
+                      ),
+                    if(!kIsWeb)
+                      SizedBox(
+                        height: MediaQuery.of(context).size.width/1.5,
+                        child : GridView.count(
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 5.0,
+                          crossAxisSpacing: 5.0,
+                          childAspectRatio: 2/1.3,
+                          padding: EdgeInsets.all(5.0),
+                          children: List.generate(
+                              9,
+                              (index) => DottedBorder(
+                                color: Theme.of(context).colorScheme.primary,
+                                strokeWidth: 1,
+                                dashPattern: [5, 5],
+                                child: Container(
+                                  decoration:
+                                    index <= _pickedImgs.length -1
+                                        ? BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Theme.of(context).colorScheme.primaryContainer,
+                                           image: DecorationImage(
+                                              image: FileImage(File(_pickedImgs[index].path)),
+                                              fit: BoxFit.fitHeight,
+                                            ),
+                                      ) :
+                                      index <= _imgList.length -1
+                                        ? BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Theme.of(context).colorScheme.primaryContainer,
+                                           image: DecorationImage(
+                                              image: _imgList[index] == '' ? NetworkImage('$appServerURL/sample.jpg',) :  NetworkImage('$appServerURL/${_imgList[index]}',),
+                                              fit: BoxFit.fitHeight,
+                                            ),
+                                      ) : null,
+                                  child : Center(child: _boxContents[index]),
 
-                    );
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                }
-            ),
-          ),
-        ],
-      ),
+                                ),
+                              ),
+                            ),
+                        ),
+                      ),
+                    if(!kIsWeb)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Theme.of(context).colorScheme.primary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+
+                            onPressed: _pickedImgs.length == 0
+                                ? null
+                                : () async {
+                                      final List<MultipartFile> _files =  _pickedImgs.map((img) => MultipartFile.fromFileSync(img.path,  contentType: new MediaType("image", "jpg"))).toList();
+                                      FormData _formData = FormData.fromMap({"uploadfile": _files});
+
+                                      Dio dio = Dio();
+
+                                      // dio.options.headers["authorization"] = AuthProvider.token;
+                                      dio.options.contentType = 'multipart/form-data';
+                                      dio.options.maxRedirects.isFinite;
+                                      final res = await dio.post('$appServerURL/upload', data: _formData).then(
+                                          (res) async {
+                                            if (res.data.length > 0) {
+                                              for(int i = 0; i < res.data.length; i++) {
+                                                Dio dio2 = Dio();
+                                                final response = await dio2.post(
+                                                    '$appServerURL/imgupdate',
+                                                    data: {
+                                                      'id': '${snapshot.data[0]['id']}',
+                                                      'imgname': '${res.data[i]['filename']}',
+                                                      'no': '${i + 1}',
+                                                    }
+                                                );
+                                                dio2.close();
+                                              }
+                                            }
+                                          }
+                                        ).then(
+                                            (value) {
+                                              ScaffoldMessenger.of(context).showSnackBar(
+                                                SnackBar(
+                                                  content: Text('사진이 수정되었습니다.'),
+                                                  duration: Duration(seconds: 1),
+                                                ),
+                                              );
+
+                                              Future.delayed(const Duration(milliseconds: 300), () {
+                                                getx.Get.offAll(() => CommDetailViewScreen(id: snapshot.data[0]['id'],));
+                                              });
+                                            }
+                                        ).catchError((e) {
+                                            print(e);
+                                        });
+                                      dio.close();
+                                    },
+                            child: Text(
+                                '사진 수정',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                ),
+                            ),
+                          ),
+                        ]
+                      ),
+                      SizedBox(
+                        height: 6,
+                      ),
+                    ],
+                  ),
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+       ),
     );
   }
 
