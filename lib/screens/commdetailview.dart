@@ -25,9 +25,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../common/commondata.dart';
 
-
-
-
 class CommDetailViewScreen extends StatefulWidget {
   final int id;
 
