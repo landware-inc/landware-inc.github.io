@@ -2530,6 +2530,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 'desc': formData['desc'] ?? '',
                                 'date': DateTime.now().toString(),
                                 'owner': controller.userName.value == '' ? '-' : controller.userName.value,
+                                'naver_no' : '',
                               }
                           );
 
@@ -2654,6 +2655,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 'desc': formData['desc'] ?? '',
                                 'date': DateTime.now().toString(),
                                 'owner': controller.userName.value,
+                                'naver_no' : '',
                               }
                           );
 
