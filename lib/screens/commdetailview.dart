@@ -870,12 +870,13 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                                       // dio.options.headers["authorization"] = AuthProvider.token;
                                       dio.options.contentType = 'multipart/form-data';
                                       dio.options.maxRedirects.isFinite;
-                                      final res = await dio.post('$appServerURL/upload', data: _formData).then(
+                                      await dio.post('$appServerURL/upload', data: _formData).then(
                                           (res) async {
                                             if (res.data.length > 0) {
+                                              Dio dio2 = Dio();
                                               for(int i = 0; i < res.data.length; i++) {
-                                                Dio dio2 = Dio();
-                                                final response = await dio2.post(
+
+                                                await dio2.post(
                                                     '$appServerURL/imgupdate',
                                                     data: {
                                                       'id': '${snapshot.data[0]['id']}',
@@ -883,8 +884,9 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                                                       'no': '${i + 1}',
                                                     }
                                                 );
-                                                dio2.close();
+
                                               }
+                                              dio2.close();
                                             }
                                           }
                                         ).then(
@@ -896,7 +898,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                                                 ),
                                               );
 
-                                              Future.delayed(const Duration(milliseconds: 300), () {
+                                              Future.delayed(const Duration(milliseconds: 600), () {
                                                 getx.Get.offAll(() => CommDetailViewScreen(id: snapshot.data[0]['id'],));
                                               });
                                             }
