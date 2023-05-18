@@ -14,6 +14,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kakao_login_test/screens/assetupdate.dart';
 import 'package:kakao_login_test/screens/component/bottom_menu.dart';
+import 'package:kakao_flutter_sdk_share/kakao_flutter_sdk_share.dart';
+import 'package:kakao_flutter_sdk_talk/kakao_flutter_sdk_talk.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:kakao_login_test/screens/main_screen.dart';
 import 'package:kakao_login_test/screens/mapscreen.dart';
@@ -37,6 +39,8 @@ class _AssetDetailViewScreenState extends State<AssetDetailViewScreen> {
   double _lat = 0.0;
 
   double _lng = 0.0;
+  var f = NumberFormat('###,###,###,###');
+  List<dynamic> _data = [];
 
   Future<List> pagenationDetailData() async {
     final dio = Dio();
@@ -47,6 +51,7 @@ class _AssetDetailViewScreenState extends State<AssetDetailViewScreen> {
         }
     );
 
+    _data = response.data;
 
     dio.close();
 
@@ -54,6 +59,84 @@ class _AssetDetailViewScreenState extends State<AssetDetailViewScreen> {
     _lng = double.parse(response.data[0]['lng'].toString());
     return response.data;
   }
+
+
+
+  void _kakaoMsg () async {
+    final FeedTemplate defaultFeed = FeedTemplate(
+      content: Content(
+        title: _data[0]["callname"],
+        // description: _data[0]["etc"],
+        imageUrl: Uri.parse(
+            _data[0]['img1'] == ''
+                ? '$appServerURL/sample.jpg'
+                : '$appServerURL/${_data[0]['img1']}'),
+        link: Link(
+            webUrl: Uri.parse(''),
+            mobileWebUrl: Uri.parse('')),
+      ),
+      itemContent: ItemContent(
+        // profileText: 'Kakao',
+        // profileImageUrl: Uri.parse(
+        //     'https://mud-kage.kakao.com/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png'),
+        titleImageUrl: Uri.parse(
+            _data[0]['img1'] == ''
+                ? '$appServerURL/sample.jpg'
+                : '$appServerURL/${_data[0]['img1']}'),
+        titleImageText: _data[0]["callname"],
+        titleImageCategory: '${_data[0]["floor"].toString()}층',
+        items: [
+          ItemInfo(item: '매매가', itemOp: '${f.format(int.parse(_data[0]['salesprice'].toString())/10000)}만'),
+          ItemInfo(item: '전세금', itemOp: '${f.format(int.parse(_data[0]['jeonse'].toString())/10000)}만'),
+          ItemInfo(item: '월세보증금', itemOp: '${f.format(int.parse(_data[0]['deposit'].toString())/10000)}만'),
+          ItemInfo(item: '월세', itemOp: '${f.format(int.parse(_data[0]['monthly'].toString())/10000)}만'),
+          ItemInfo(item: '방/화', itemOp: '${_data[0]['room'].toString()}/${_data[0]['bath'].toString()}')
+        ],
+        // sum: 'total',
+        // sumOp: '15000원',
+      ),
+//      social: Social(likeCount: 286, commentCount: 45, sharedCount: 845),
+      buttons: [
+        // Button(
+        //   title: '웹으로 보기',
+        //   link: Link(
+        //     webUrl: Uri.parse('https: //developers.kakao.com'),
+        //     mobileWebUrl: Uri.parse('https: //developers.kakao.com'),
+        //   ),
+        // ),
+        // Button(
+        //   title: '앱으로보기',
+        //   link: Link(
+        //     androidExecutionParams: {'key1': 'value1', 'key2': 'value2'},
+        //     iosExecutionParams: {'key1': 'value1', 'key2': 'value2'},
+        //   ),
+        // ),
+      ],
+    );
+
+    bool isKakaoTalkSharingAvailable = await ShareClient.instance.isKakaoTalkSharingAvailable();
+
+    if (isKakaoTalkSharingAvailable) {
+      try {
+        Uri uri =
+        await ShareClient.instance.shareDefault(template: defaultFeed);
+        await ShareClient.instance.launchKakaoTalk(uri);
+        print('카카오톡 공유 완료');
+      } catch (error) {
+        print('카카오톡 공유 실패 $error');
+      }
+    } else {
+      try {
+        Uri shareUrl = await WebSharerClient.instance
+            .makeDefaultUrl(template: defaultFeed);
+        await launchBrowserTab(shareUrl, popupOpen: true);
+      } catch (error) {
+        print('카카오톡 공유 실패 $error');
+      }
+    }
+  }
+
+
 
   final ImagePicker _picker = ImagePicker();
 
@@ -98,7 +181,7 @@ class _AssetDetailViewScreenState extends State<AssetDetailViewScreen> {
   @override
   Widget build(BuildContext context)  {
     final _authentication = FirebaseAuth.instance;
-    var f = NumberFormat('###,###,###,###');
+
     PageController _controller = PageController(initialPage: 0, keepPage: false);
     PageController _controllerMain = PageController(initialPage: 0, keepPage: false);
     List<String> _imgList = [];
@@ -155,6 +238,12 @@ class _AssetDetailViewScreenState extends State<AssetDetailViewScreen> {
         appBar: AppBar(
           title: const Text('주거 상세보기'),
           actions: [
+            IconButton(
+              onPressed: () {
+                _kakaoMsg();
+              },
+              icon: const Icon(Icons.share),
+            ),
             IconButton(
               onPressed: () {
                 getx.Get.to(() => const MapScreen());

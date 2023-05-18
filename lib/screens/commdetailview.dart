@@ -87,48 +87,52 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
   void _kakaoMsg () async {
     final FeedTemplate defaultFeed = FeedTemplate(
       content: Content(
-        title: '딸기 치즈 케익',
-        description: '#케익 #딸기 #삼평동 #카페 #분위기 #소개팅',
+        title: _data[0]["division"],
+        description: _data[0]["etc"],
         imageUrl: Uri.parse(
-            'https://mud-kage.kakao.com/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png'),
+            _data[0]['img_1'] == ''
+                ? '$appServerURL/sample.jpg'
+                : '$appServerURL/${_data[0]['img_1']}'),
         link: Link(
-            webUrl: Uri.parse('https://developers.kakao.com'),
-            mobileWebUrl: Uri.parse('https://developers.kakao.com')),
+            webUrl: Uri.parse(''),
+            mobileWebUrl: Uri.parse('')),
       ),
       itemContent: ItemContent(
-        profileText: 'Kakao',
-        profileImageUrl: Uri.parse(
-            'https://mud-kage.kakao.com/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png'),
+        // profileText: 'Kakao',
+        // profileImageUrl: Uri.parse(
+        //     'https://mud-kage.kakao.com/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png'),
         titleImageUrl: Uri.parse(
-            'https://mud-kage.kakao.com/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png'),
-        titleImageText: 'Cheese cake',
-        titleImageCategory: 'cake',
+            _data[0]['img_1'] == ''
+                ? '$appServerURL/sample.jpg'
+                : '$appServerURL/${_data[0]['img_1']}'),
+        titleImageText: _data[0]["division"],
+        titleImageCategory: '${_data[0]["floor"]}층',
         items: [
-          ItemInfo(item: 'cake1', itemOp: '1000원'),
-          ItemInfo(item: 'cake2', itemOp: '2000원'),
-          ItemInfo(item: 'cake3', itemOp: '3000원'),
-          ItemInfo(item: 'cake4', itemOp: '4000원'),
-          ItemInfo(item: 'cake5', itemOp: '5000원')
+          ItemInfo(item: '매매가', itemOp: '${f.format(int.parse(_data[0]['salesprice'].toString())/10000)}만'),
+          ItemInfo(item: '보증금/월세', itemOp: '${f.format(int.parse(_data[0]['deposit'].toString())/10000)}/${f.format(int.parse(_data[0]['monthly'].toString())/10000)}만'),
+          ItemInfo(item: '관리비', itemOp: _data[0]['adminprice']),
+          ItemInfo(item: '권리금', itemOp: '${f.format(int.parse(_data[0]['entitleprice'].toString())/10000)}만'),
+          ItemInfo(item: '엘베/주차', itemOp: '${_data[0]['eliv'] == '1' ? '있음' : '없음'}/ ${_data[0]['parking'] == '' ? '0' : _data[0]['parking']}대')
         ],
-        sum: 'total',
-        sumOp: '15000원',
+        // sum: 'total',
+        // sumOp: '15000원',
       ),
-      social: Social(likeCount: 286, commentCount: 45, sharedCount: 845),
+//      social: Social(likeCount: 286, commentCount: 45, sharedCount: 845),
       buttons: [
-        Button(
-          title: '웹으로 보기',
-          link: Link(
-            webUrl: Uri.parse('https: //developers.kakao.com'),
-            mobileWebUrl: Uri.parse('https: //developers.kakao.com'),
-          ),
-        ),
-        Button(
-          title: '앱으로보기',
-          link: Link(
-            androidExecutionParams: {'key1': 'value1', 'key2': 'value2'},
-            iosExecutionParams: {'key1': 'value1', 'key2': 'value2'},
-          ),
-        ),
+        // Button(
+        //   title: '웹으로 보기',
+        //   link: Link(
+        //     webUrl: Uri.parse('https: //developers.kakao.com'),
+        //     mobileWebUrl: Uri.parse('https: //developers.kakao.com'),
+        //   ),
+        // ),
+        // Button(
+        //   title: '앱으로보기',
+        //   link: Link(
+        //     androidExecutionParams: {'key1': 'value1', 'key2': 'value2'},
+        //     iosExecutionParams: {'key1': 'value1', 'key2': 'value2'},
+        //   ),
+        // ),
       ],
     );
 
@@ -198,13 +202,6 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
               title: response2.data[i]['sub_addr'],
               snippet: '${(response2.data[i]['deposit']/10000).round()}/${(response2.data[i]['monthly']/10000).round()} ${response2.data[i]['size']}평',
             ),
-            // onTap: () {
-            //   print('marker_${i + 1} clicked');
-            //   getx.Get.to(
-            //     CommDetailViewScreen(
-            //       id: response2.data[i]['id'],
-            //     ),);
-            // },
           ),
         );
       }
@@ -866,22 +863,6 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
           ),
         ],
       ),
-        // floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-        // floatingActionButton: FloatingActionButton(
-        //
-        //   onPressed: () async {
-        //     var gps = await getCurrentLocation();
-        //
-        //     _mapController.animateCamera(
-        //         CameraUpdate.newLatLng(LatLng(gps.latitude, gps.longitude)));
-        //
-        //   },
-        //   child: Icon(
-        //     Icons.my_location,
-        //     color: Colors.black,
-        //   ),
-        //   backgroundColor: Colors.white,
-        // ),
     );
   }
 
@@ -921,13 +902,6 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
               title: response2.data[i]['sub_addr'],
               snippet: '${(response2.data[i]['deposit']/10000).round()}/${(response2.data[i]['monthly']/10000).round()} ${response2.data[i]['size']}평',
             ),
-            // onTap: () {
-            //   print('marker_${i + 1} clicked');
-            //   getx.Get.to(
-            //     CommDetailViewScreen(
-            //       id: response2.data[i]['id'],
-            //     ),);
-            // },
           ),
         );
       }
