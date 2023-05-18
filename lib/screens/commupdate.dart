@@ -43,7 +43,7 @@ class _CommUpdateScreenState extends State<CommUpdateScreen> {
   int _selectedPage = 1;
   int _initvalue = 0;
 
-  int canvasHeight = 830;
+  int canvasHeight = 900;
   final _AddressController = TextEditingController();
   final _AddressDetailController = TextEditingController();
   final _CallNameController = TextEditingController();
@@ -233,6 +233,19 @@ class _CommUpdateScreenState extends State<CommUpdateScreen> {
                 border: OutlineInputBorder(),
                 filled: true,
                 fillColor: Colors.red[50],
+              ),
+            ),
+            SizedBox(height: 10,),
+            TextFormField(
+//              controller: _CallNameController,
+              initialValue: snapshot.data[0]['naver_no'],
+              onSaved: (value) {
+                formData['naver_no'] = value!;
+              },
+              decoration: InputDecoration(
+                labelText: '네이버광고번호',
+                hintText: '네이버 광고 번호',
+                border: OutlineInputBorder(),
               ),
             ),
             SizedBox(height: 10,),
@@ -1299,6 +1312,7 @@ class _CommUpdateScreenState extends State<CommUpdateScreen> {
                                 'desc': formData['desc'] ?? '',
                                 'date': DateTime.now().toString(),
                                 'owner': controller.userName.value == '' ? '-' : controller.userName.value,
+                                'naver_no': formData['naver_no'] ?? '',
                               }
                           );
 

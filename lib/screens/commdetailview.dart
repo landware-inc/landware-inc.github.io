@@ -411,6 +411,17 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                     SizedBox(
                       height: 8,
                     ),
+                    Text(
+                      '네이버 매물번호 : ${snapshot.data[0]['naver_no'] ?? ''}',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
                     Container(
                       width: MediaQuery.of(context).size.width,
                       child: ElevatedButton(

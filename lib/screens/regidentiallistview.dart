@@ -138,6 +138,7 @@ class RegidentialListViewScreen extends StatelessWidget {
                                   type: snapshot.data[index]['type'] ?? '',
                                   gubun: controller.selectGubun.value,
                                   addr: snapshot.data[index]['addr'],
+                                  naver_no: snapshot.data[index]['naver_no'],
                                 ),
                               );
                             },

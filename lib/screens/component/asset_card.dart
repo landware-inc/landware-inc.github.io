@@ -26,6 +26,7 @@ class AssetCard extends StatelessWidget {
   final String type;
   final String gubun;
   final String addr;
+  final String naver_no;
 
   const AssetCard({
     required this.price,
@@ -43,6 +44,7 @@ class AssetCard extends StatelessWidget {
     required this.type,
     required this.gubun,
     required this.addr,
+    required this.naver_no,
     Key? key}) : super(key: key);
 
 
@@ -334,13 +336,27 @@ class AssetCard extends StatelessWidget {
                             ),]
                         ),
 
-                        Text(
-                          '입주가능일 : $indate',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).colorScheme.primaryContainer,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '입주가능일 : $indate',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).colorScheme.primaryContainer,
+                              ),
+                            ),
+                            if(naver_no != '')
+                              Text(
+                                '네이버 : $naver_no',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.red,
+                                ),
+                              ),
+                          ],
                         ),
                       ],
                     ),

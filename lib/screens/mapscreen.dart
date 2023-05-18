@@ -238,13 +238,23 @@ class _MapScreenState extends State<MapScreen> {
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text(
-                                                _result[index]['sub_addr'],
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
+                                              if(_result[index]['naver_no'] != '')
+                                                Text(
+                                                  _result[index]['sub_addr'],
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.blue,
+                                                  ),
                                                 ),
-                                              ),
+                                              if(_result[index]['naver_no'] == '')
+                                                Text(
+                                                  _result[index]['sub_addr'],
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
                                               if(_result[index]['deposit'] > 0)
                                                 Text(
                                                   '보:${(_result[index]['deposit'] / 10000).round()}/${(_result[index]['monthly'] / 10000).round()}    ${_result[index]['size']}평 ${_result[index]['floor']}층',

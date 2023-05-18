@@ -45,7 +45,7 @@ class _AssetUpdateScreenState extends State<AssetUpdateScreen> {
   int _selectedPage = 0;
   int _initvalue = 0;
 
-  int canvasHeight = 835;
+  int canvasHeight = 905;
   final _AddressController = TextEditingController();
   final _AddressDetailController = TextEditingController();
   final _CallNameController = TextEditingController();
@@ -236,6 +236,19 @@ class _AssetUpdateScreenState extends State<AssetUpdateScreen> {
                 border: OutlineInputBorder(),
                 filled: true,
                 fillColor: Colors.red[50],
+              ),
+            ),
+            SizedBox(height: 10,),
+            TextFormField(
+//              controller: _CallNameController,
+              initialValue: snapshot.data[0]['naver_no'],
+              onSaved: (value) {
+                formData['naver_no'] = value!;
+              },
+              decoration: InputDecoration(
+                labelText: '네이버 매물번호',
+                hintText: '네이버 매물번호를 입력하세요',
+                border: OutlineInputBorder(),
               ),
             ),
             SizedBox(height: 10,),
@@ -1162,6 +1175,7 @@ class _AssetUpdateScreenState extends State<AssetUpdateScreen> {
                                 'desc': formData['desc'] ?? '',
                                 'date': DateTime.now().toString(),
                                 'owner': controller.userName.value == '' ? '-' : controller.userName.value,
+                                'naver_no': formData['naver_no'] ?? '',
                               }
                           );
 

@@ -25,6 +25,7 @@ class CommCard extends StatelessWidget {
   final String type;
   final String addr;
   final String callname;
+  final String naver_no;
 
   const CommCard({
     required this.price,
@@ -41,6 +42,7 @@ class CommCard extends StatelessWidget {
     required this.type,
     required this.addr,
     required this.callname,
+    required this.naver_no,
     Key? key}) : super(key: key);
 
 
@@ -314,15 +316,39 @@ class CommCard extends StatelessWidget {
                               ),
                               ]
                         ),
-                        if(entitleprice > 0)
-                          Text(
-                            '권리금 : ${f.format(int.parse(entitleprice.toString())/10000)}만원',
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).colorScheme.primaryContainer,
-                            ),
-                          ),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            if(entitleprice > 0)
+                              Text(
+                                '권리금 : ${f.format(int.parse(entitleprice.toString())/10000)}만원',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).colorScheme.primaryContainer,
+                                ),
+                              ),
+                            if(entitleprice == 0)
+                              Text(
+                                '권리금 : -',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).colorScheme.primaryContainer,
+                                ),
+                              ),
+                            if(naver_no != '')
+                              Text(
+                                '네이버 : $naver_no',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.red,
+                                ),
+                              ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
