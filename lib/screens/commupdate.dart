@@ -762,12 +762,6 @@ class _CommUpdateScreenState extends State<CommUpdateScreen> {
                   child: TextFormField(
 //                    controller: _Name1Controller,
                   initialValue: snapshot.data[0]['name'] ?? '',
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return '필수 입력 항목입니다.';
-                      }
-                      return null;
-                    },
                     onSaved: (value) {
                       formData['name1'] = value!;
                     },
@@ -775,10 +769,8 @@ class _CommUpdateScreenState extends State<CommUpdateScreen> {
                       labelText: '이름1',
                       hintText: '연락처 이름1',
                       border: OutlineInputBorder(),
-                      filled: true,
-                      fillColor: Colors.red[50],
                     ),
-                  ),
+                  )
                 ),
                 SizedBox(width: 10,),
                 Container(
