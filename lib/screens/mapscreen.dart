@@ -124,182 +124,183 @@ class _MapScreenState extends State<MapScreen> {
               child: CustomScrollView(
                 controller: _listController,
                 slivers: [
-                  SliverList(
-                      delegate: SliverChildBuilderDelegate (
-                        (context, index) {
-                          if(_result.length > 0) {
-                              return Dismissible(
-                              key: Key(_result[index]['id'].toString()),
-                              background: Container(
-                                margin: const EdgeInsets.all(8),
-                                padding: const EdgeInsets.all(20),
-                                alignment: Alignment.centerLeft,
-                                color: Colors.red,
-                                child: const Icon(Icons.delete,size: 36,),
-                              ),
-                              secondaryBackground: Container(
-                                margin: const EdgeInsets.all(8),
-                                padding: const EdgeInsets.all(20),
-                                alignment: Alignment.centerRight,
-                                color: Colors.blue,
-                                child: const Icon(Icons.archive,size: 36,),
-                              ),
-                              confirmDismiss: (direction) async {
-                                if(direction == DismissDirection.endToStart) {
-                                  return await showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text("관심 물건 추가"),
-                                        content: const Text("관심 물건으로 추가하시겠습니까?"),
-                                        actions: <Widget>[
-                                          TextButton(
-                                              onPressed: () async {
-                                                addData(_result[index]['id'],'C');
-                                                // basketList  = await getAllItems();
-                                                // print('==============');
-                                                // print(basketList[0].id);
-                                                Navigator.of(context).pop(false);
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(SnackBar(content: Text("$_result[index]['callname'] 관심 물건으로 추가됨")));
-                                              },
-                                              child: const Text("예")
-                                          ),
-                                          TextButton(
-                                              onPressed: () => Navigator.of(context).pop(false),
-                                              child: const Text("아니오")
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                } else {
-                                  return await showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text("거래 완료"),
-                                        content: const Text("거래가 완료되었습니까?"),
-                                        actions: <Widget>[
-                                          TextButton(
-                                              onPressed: () async{
-                                                final dio = Dio();
-                                                try {
-                                                  final response = await dio.post(
-                                                      '$appServerURL/setstatuscomm',
-                                                      data: {
-                                                        'uuid': _result[index]['id'],
-                                                      }
-                                                  );
+                  if(_result.length > 0)
+                    SliverList(
+                        delegate: SliverChildBuilderDelegate (
+                          (context, index) {
+                            if(_result.length > 0) {
+                                return Dismissible(
+                                key: Key(_result[index]['id'].toString()),
+                                background: Container(
+                                  margin: const EdgeInsets.all(8),
+                                  padding: const EdgeInsets.all(20),
+                                  alignment: Alignment.centerLeft,
+                                  color: Colors.red,
+                                  child: const Icon(Icons.delete,size: 36,),
+                                ),
+                                secondaryBackground: Container(
+                                  margin: const EdgeInsets.all(8),
+                                  padding: const EdgeInsets.all(20),
+                                  alignment: Alignment.centerRight,
+                                  color: Colors.blue,
+                                  child: const Icon(Icons.archive,size: 36,),
+                                ),
+                                confirmDismiss: (direction) async {
+                                  if(direction == DismissDirection.endToStart) {
+                                    return await showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text("관심 물건 추가"),
+                                          content: const Text("관심 물건으로 추가하시겠습니까?"),
+                                          actions: <Widget>[
+                                            TextButton(
+                                                onPressed: () async {
+                                                  addData(_result[index]['id'],'C');
+                                                  // basketList  = await getAllItems();
+                                                  // print('==============');
+                                                  // print(basketList[0].id);
+                                                  Navigator.of(context).pop(false);
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(SnackBar(content: Text("$_result[index]['callname'] 관심 물건으로 추가됨")));
+                                                },
+                                                child: const Text("예")
+                                            ),
+                                            TextButton(
+                                                onPressed: () => Navigator.of(context).pop(false),
+                                                child: const Text("아니오")
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    return await showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text("거래 완료"),
+                                          content: const Text("거래가 완료되었습니까?"),
+                                          actions: <Widget>[
+                                            TextButton(
+                                                onPressed: () async{
+                                                  final dio = Dio();
+                                                  try {
+                                                    final response = await dio.post(
+                                                        '$appServerURL/setstatuscomm',
+                                                        data: {
+                                                          'uuid': _result[index]['id'],
+                                                        }
+                                                    );
 
 
 
-                                                } catch (e) {
-                                                  print(e);
-                                                }
+                                                  } catch (e) {
+                                                    print(e);
+                                                  }
 
-                                                dio.close();
-                                                Navigator.of(context).pop(true);
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(SnackBar(content: Text("$_result[index]['callname'] 거래 완료됨")));
-                                              },
-                                              child: const Text("예")
+                                                  dio.close();
+                                                  Navigator.of(context).pop(true);
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(SnackBar(content: Text("$_result[index]['callname'] 거래 완료됨")));
+                                                },
+                                                child: const Text("예")
+                                            ),
+                                            TextButton(
+                                                onPressed: () => Navigator.of(context).pop(false),
+                                                child: const Text("아니오")
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  }
+                                },
+                                child: GestureDetector(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(4),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: 88,
+                                          height: 88,
+                                          child: Image.network(
+                                            _result[index]['${_type == 'C' ? "img_1" : "img1"}'] == ''
+                                                ? '$appServerURL/sample.jpg'
+                                                : '$appServerURL/${_result[index]['${_type == 'C' ? "img_1" : "img1"}']}',
+                                            fit: BoxFit.cover,
                                           ),
-                                          TextButton(
-                                              onPressed: () => Navigator.of(context).pop(false),
-                                              child: const Text("아니오")
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                }
-                              },
-                              child: GestureDetector(
-                                child: Container(
-                                  padding: const EdgeInsets.all(4),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 88,
-                                        height: 88,
-                                        child: Image.network(
-                                          _result[index]['${_type == 'C' ? "img_1" : "img1"}'] == ''
-                                              ? '$appServerURL/sample.jpg'
-                                              : '$appServerURL/${_result[index]['${_type == 'C' ? "img_1" : "img1"}']}',
-                                          fit: BoxFit.cover,
                                         ),
-                                      ),
-                                      SizedBox(width: 4),
-                                      Container(
-                                        height: 88,
-                                        width: 270,
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              _result[index]['sub_addr'],
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            Text(
-                                              '보:${(_result[index]['deposit'] / 10000).round()}/${(_result[index]['monthly'] / 10000).round()}    ${_result[index]['size']}평 ${_result[index]['floor']}층',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                            Text(
-                                              '관리비:${_result[index]['adminprice']}  권리금:${(_result[index]['entitleprice'] / 10000).round()}',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                            if(_result[index]['salesprice'] > 0)
+                                        SizedBox(width: 4),
+                                        Container(
+                                          height: 88,
+                                          width: 270,
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
                                               Text(
-                                                '매매가:${(_result[index]['salesprice'] / 10000).round()}',
+                                                _result[index]['sub_addr'],
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Text(
+                                                '보:${(_result[index]['deposit'] / 10000).round()}/${(_result[index]['monthly'] / 10000).round()}    ${_result[index]['size']}평 ${_result[index]['floor']}층',
                                                 style: TextStyle(
                                                   fontSize: 12,
                                                 ),
                                               ),
-                                            Text(
-                                              '엘리베이터:${_result[index]['eliv'] == '1' ? 'O' : 'X' }  주차:${_result[index]['parking']}대                     ${_result[index]['owner']}',
-                                              style: TextStyle(
-                                                fontSize: 12,
+                                              Text(
+                                                '관리비:${_result[index]['adminprice']}  권리금:${(_result[index]['entitleprice'] / 10000).round()}',
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                ),
                                               ),
-                                            ),
-                                            // ${_result[index]['salesprice'] > 0 ? (_result[index]['salesprice'] / 10000).round() : ''}
-                                          ],
+                                              if(_result[index]['salesprice'] > 0)
+                                                Text(
+                                                  '매매가:${(_result[index]['salesprice'] / 10000).round()}',
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              Text(
+                                                '엘리베이터:${_result[index]['eliv'] == '1' ? 'O' : 'X' }  주차:${_result[index]['parking']}대                     ${_result[index]['owner']}',
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                              // ${_result[index]['salesprice'] > 0 ? (_result[index]['salesprice'] / 10000).round() : ''}
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  onDoubleTap: () {
+                                    Get.to(
+                                      CommDetailViewScreen(
+                                        id:_result[index]['id'],
+                                      ),
+                                    );
+                                  },
+                                  onTap: () {
+                                    _mapController.animateCamera(
+                                      CameraUpdate.newCameraPosition(
+                                        CameraPosition(
+                                          target: LatLng((_type == 'C' ? _result[index]['lat'] / 1.0 : _result[index]['lat']),
+                                              (_type == 'C' ? _result[index]['lng'] / 1.0 : _result[index]['lng'])),
+                                          zoom: 17,
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    );
+                                  }
                                 ),
-                                onDoubleTap: () {
-                                  Get.to(
-                                    CommDetailViewScreen(
-                                      id:_result[index]['id'],
-                                    ),
-                                  );
-                                },
-                                onTap: () {
-                                  _mapController.animateCamera(
-                                    CameraUpdate.newCameraPosition(
-                                      CameraPosition(
-                                        target: LatLng((_type == 'C' ? _result[index]['lat'] / 1.0 : _result[index]['lat']),
-                                            (_type == 'C' ? _result[index]['lng'] / 1.0 : _result[index]['lng'])),
-                                        zoom: 17,
-                                      ),
-                                    ),
-                                  );
-                                }
-                              ),
-                            );
-                          }
-                        },
+                              );
+                            }
+                          },
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),
