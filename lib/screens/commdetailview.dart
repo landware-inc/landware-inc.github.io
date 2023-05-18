@@ -27,6 +27,7 @@ import '../common/commondata.dart';
 
 
 
+
 class CommDetailViewScreen extends StatefulWidget {
   final int id;
 
