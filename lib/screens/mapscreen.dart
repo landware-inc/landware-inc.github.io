@@ -21,6 +21,7 @@ List<Marker> _markers = [];
 double _lat = 35.1419004;
 double _lng = 129.0628395;
 List<dynamic> _result = [];
+String _type2 = 'c';
 
 
 
@@ -225,9 +226,9 @@ class _MapScreenState extends State<MapScreen> {
                                           width: 88,
                                           height: 88,
                                           child: Image.network(
-                                            _result[index]['${_type == 'C' ? "img_1" : "img1"}'] == ''
+                                            _result[index]['${_type2 == 'C' ? "img_1" : "img1"}'] == ''
                                                 ? '$appServerURL/sample.jpg'
-                                                : '$appServerURL/${_result[index]['${_type == 'C' ? "img_1" : "img1"}']}',
+                                                : '$appServerURL/${_result[index]['${_type2 == 'C' ? "img_1" : "img1"}']}',
                                             fit: BoxFit.cover,
                                           ),
                                         ),
@@ -256,32 +257,55 @@ class _MapScreenState extends State<MapScreen> {
                                                   ),
                                                 ),
                                               if(_result[index]['deposit'] > 0)
+                                                  Text(
+                                                    '보:${(_result[index]['deposit'] / 10000).round()}/${(_result[index]['monthly'] / 10000).round()}             ${_result[index]['size'].round()}평   ${_result[index]['floor']}층',
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                              if(_result[index]['deposit'] == 0)
                                                 Text(
-                                                  '보:${(_result[index]['deposit'] / 10000).round()}/${(_result[index]['monthly'] / 10000).round()}    ${_result[index]['size']}평 ${_result[index]['floor']}층',
+                                                  '                             ${(_type2 == 'C' ? _result[index]['size'] : _result[index]['size']).round()}평   ${_result[index]['floor']}층',
                                                   style: TextStyle(
                                                     fontSize: 12,
                                                   ),
                                                 ),
-                                              if(_type == 'C')
+                                              if(_type2 == 'C')
                                                 Text(
                                                   '관리비:${_result[index]['adminprice']}  권리금:${(_result[index]['entitleprice'] / 10000).round()}',
                                                   style: TextStyle(
                                                     fontSize: 12,
                                                   ),
                                                 ),
+                                              if(_type2 != 'C')
+                                                if(_result[index]['entitleprice'] > 0)
+                                                  Text(
+                                                    '전:${(_result[index]['entitleprice'] / 10000).round()}',
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
                                               if(_result[index]['salesprice'] > 0)
                                                 Text(
-                                                  '매매가:${(_result[index]['salesprice'] / 10000).round()}',
+                                                  '매:${(_result[index]['salesprice'] / 10000).round()}',
                                                   style: TextStyle(
                                                     fontSize: 12,
                                                   ),
                                                 ),
-                                              Text(
-                                                '엘리베이터:${_result[index]['eliv'] == '1' ? 'O' : 'X' }  주차:${_result[index]['parking']}대                     ${_result[index]['owner']}',
-                                                style: TextStyle(
-                                                  fontSize: 12,
+                                              if(_type2 == 'C')
+                                                Text(
+                                                  '엘베:${_result[index]['eliv'] == '1' ? 'O' : 'X' }  주차:${_result[index]['parking']}대                 ${_result[index]['owner']}',
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                  ),
                                                 ),
-                                              ),
+                                              if(_type2 != 'C')
+                                                Text(
+                                                  '방/화 : ${_result[index]['eliv']}/${_result[index]['parking']}      ${_result[index]['division']}향            ${_result[index]['owner']}',
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
                                               // ${_result[index]['salesprice'] > 0 ? (_result[index]['salesprice'] / 10000).round() : ''}
                                             ],
                                           ),
@@ -300,8 +324,8 @@ class _MapScreenState extends State<MapScreen> {
                                     _mapController.animateCamera(
                                       CameraUpdate.newCameraPosition(
                                         CameraPosition(
-                                          target: LatLng((_type == 'C' ? _result[index]['lat'] / 1.0 : _result[index]['lat']),
-                                              (_type == 'C' ? _result[index]['lng'] / 1.0 : _result[index]['lng'])),
+                                          target: LatLng((_type2 == 'C' ? _result[index]['lat'] / 1.0 : _result[index]['lat']),
+                                              (_type2 == 'C' ? _result[index]['lng'] / 1.0 : _result[index]['lng'])),
                                           zoom: 17,
                                         ),
                                       ),
@@ -565,6 +589,7 @@ class _MapScreenState extends State<MapScreen> {
                   onPressed: (){
                     if(_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
+                      _type2 = _type;
                       print(formData);
                     }
                     _search(
@@ -870,8 +895,8 @@ class _MapScreenState extends State<MapScreen> {
         _markers.add(
           Marker(
             markerId: MarkerId('marker_${i + 1}'),
-            position: LatLng((_type == 'C' ? response.data[i]['lat'] / 1.0 : response.data[i]['lat']),
-                (_type == 'C' ? response.data[i]['lng'] / 1.0 : response.data[i]['lng'])),
+            position: LatLng((_type2 == 'C' ? response.data[i]['lat'] / 1.0 : response.data[i]['lat']),
+                (_type2 == 'C' ? response.data[i]['lng'] / 1.0 : response.data[i]['lng'])),
             icon: BitmapDescriptor.defaultMarkerWithHue(
                 BitmapDescriptor.hueGreen),
             infoWindow: InfoWindow(

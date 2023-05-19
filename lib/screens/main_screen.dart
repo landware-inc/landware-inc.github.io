@@ -656,7 +656,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                             ),
                           );
                           print(e);
-                          Get.off(() => StartScreen());
+//                          Get.off(() => StartScreen());
                         }
                       },
                       style: TextButton.styleFrom(

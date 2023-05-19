@@ -340,7 +340,7 @@ class CommCard extends StatelessWidget {
                               ),
                             if(naver_no != '')
                               Text(
-                                '네이버 : $naver_no',
+                                '$naver_no',
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w800,
