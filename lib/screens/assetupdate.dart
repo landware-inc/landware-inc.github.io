@@ -721,12 +721,7 @@ class _AssetUpdateScreenState extends State<AssetUpdateScreen> {
                   child : TextFormField(
 //                    controller: _Name1Controller,
 
-                    validator: (value) {
-                      if(value!.isEmpty) {
-                        return '필수 입력 항목입니다.';
-                      }
-                      return null;
-                    },
+
                     onSaved: (value) {
                       formData['name1'] = value!;
                     },
@@ -734,8 +729,7 @@ class _AssetUpdateScreenState extends State<AssetUpdateScreen> {
                       labelText: '이름1',
                       hintText: '연락처 이름1',
                       border: OutlineInputBorder(),
-                      filled: true,
-                      fillColor: Colors.red[50],
+
                     ),
                     initialValue: snapshot.data[0]['name1'],
                   ),
@@ -746,7 +740,12 @@ class _AssetUpdateScreenState extends State<AssetUpdateScreen> {
                   child : TextFormField(
 //                    controller: _Tel1Controller,
                   initialValue: snapshot.data[0]['phone1'],
-
+                    validator: (value) {
+                      if(value!.isEmpty) {
+                        return '필수 입력 항목입니다.';
+                      }
+                      return null;
+                    },
                     onSaved: (value) {
                       formData['tel1'] = value!;
                     },
@@ -760,7 +759,8 @@ class _AssetUpdateScreenState extends State<AssetUpdateScreen> {
                       labelText: '연락처1',
                       hintText: '연락처1',
                       border: OutlineInputBorder(),
-
+                      filled: true,
+                      fillColor: Colors.red[50],
                     ),
                   ),
                 ),
