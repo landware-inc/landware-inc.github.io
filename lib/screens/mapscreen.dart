@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:kakao_login_test/model/asset_model.dart';
+import 'package:kakao_login_test/screens/assetdetailview.dart';
 import 'package:kakao_login_test/screens/commdetailview.dart';
 import 'package:kakao_login_test/screens/component/bottom_menu.dart';
 
@@ -21,7 +23,7 @@ List<Marker> _markers = [];
 double _lat = 35.1419004;
 double _lng = 129.0628395;
 List<dynamic> _result = [];
-String _type2 = 'c';
+String _type2 = 'C';
 
 
 
@@ -314,11 +316,18 @@ class _MapScreenState extends State<MapScreen> {
                                     ),
                                   ),
                                   onDoubleTap: () {
-                                    Get.to(
-                                      CommDetailViewScreen(
-                                        id:_result[index]['id'],
-                                      ),
-                                    );
+                                    if(_type == 'C')
+                                      Get.to(
+                                        CommDetailViewScreen(
+                                          id:_result[index]['id'],
+                                        ),
+                                      );
+                                    else
+                                      Get.to(
+                                        AssetDetailViewScreen(
+                                          id:_result[index]['id'],
+                                        ),
+                                      );
                                   },
                                   onTap: () {
                                     _mapController.animateCamera(
@@ -333,6 +342,8 @@ class _MapScreenState extends State<MapScreen> {
                                   }
                                 ),
                               );
+                            } else {
+                              return Center(child: CircularProgressIndicator());
                             }
                           },
                       ),
@@ -590,7 +601,6 @@ class _MapScreenState extends State<MapScreen> {
                     if(_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
                       _type2 = _type;
-                      print(formData);
                     }
                     _search(
                         _searchController.text,
@@ -895,18 +905,25 @@ class _MapScreenState extends State<MapScreen> {
         _markers.add(
           Marker(
             markerId: MarkerId('marker_${i + 1}'),
-            position: LatLng((_type2 == 'C' ? response.data[i]['lat'] / 1.0 : response.data[i]['lat']),
-                (_type2 == 'C' ? response.data[i]['lng'] / 1.0 : response.data[i]['lng'])),
+            position: LatLng((_type2 == 'C' ? (response.data[i]['lat'] / 1.0) : response.data[i]['lat']),
+                (_type2 == 'C' ? (response.data[i]['lng'] / 1.0) : response.data[i]['lng'])),
             icon: BitmapDescriptor.defaultMarkerWithHue(
                 BitmapDescriptor.hueGreen),
             infoWindow: InfoWindow(
               onTap: () {
                 print('marker_${i + 1} clicked');
-                Get.to(
-                  CommDetailViewScreen(
-                    id: response.data[i]['id'],
-                  ),
-                );
+                if(_type2 == 'C')
+                  Get.to(
+                    CommDetailViewScreen(
+                      id: response.data[i]['id'],
+                    ),
+                  );
+                else
+                  Get.to(
+                    AssetDetailViewScreen(
+                      id: response.data[i]['id'],
+                    ),
+                  );
               },
               title: response.data[i]['sub_addr'],
               snippet:
