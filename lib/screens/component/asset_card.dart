@@ -119,7 +119,7 @@ class AssetCard extends StatelessWidget {
                 actions: <Widget>[
                   TextButton(
                       onPressed: () async {
-                        addData(id,gubun);
+                        addData(id,'H');
                         // basketList  = await getAllItems();
                         // print('==============');
                         // print(basketList[0].id);

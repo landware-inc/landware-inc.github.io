@@ -163,7 +163,7 @@ class _MapScreenState extends State<MapScreen> {
                                                   // print(basketList[0].id);
                                                   Navigator.of(context).pop(false);
                                                   ScaffoldMessenger.of(context)
-                                                      .showSnackBar(SnackBar(content: Text("$_result[index]['callname'] 관심 물건으로 추가됨")));
+                                                      .showSnackBar(SnackBar(content: Text("관심 물건으로 추가됨")));
                                                 },
                                                 child: const Text("예")
                                             ),

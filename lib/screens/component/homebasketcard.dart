@@ -75,7 +75,7 @@ class AssetBasketCard extends StatelessWidget {
                 actions: <Widget>[
                   TextButton(
                       onPressed: () {
-                        deleteItem(id);
+                        deleteItem(id,gubun);
                         Navigator.of(context).pop(true);
                         ScaffoldMessenger.of(context)
                             .showSnackBar(SnackBar(content: Text("$callname 관심등록 삭제됨")));

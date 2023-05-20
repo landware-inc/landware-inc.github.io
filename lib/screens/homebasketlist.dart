@@ -47,25 +47,28 @@ class HomeBasketListViewScreen extends StatelessWidget {
 
     try {
       final dio = Dio();
-      List<basketItems> basketList = [];
-      List<basketItems> basketCList = [];
+      List<dynamic> basketList = [];
+      List<dynamic> basketCList = [];
       var homeBasket = [];
       var commBasket = [];
 
 
-      basketList  = await getAllItems();
-      basketCList = await getAllCItems();
+      basketList  = await getAllItems('H');
+      basketCList = await getAllItems('C');
       // print('==============');
       // print(basketList[0].id);
-
+      print('==============');
+      print(basketList);
+      print('--------------');
+      print(basketCList);
 
       while (basketList.length > 0) {
-        homeBasket.add(basketList[0].id);
+        homeBasket.add(basketList[0]['id']);
         basketList.removeAt(0);
       }
 
       while (basketCList.length > 0) {
-        commBasket.add(basketCList[0].id);
+        commBasket.add(basketCList[0]['id']);
         basketCList.removeAt(0);
       }
 
@@ -117,6 +120,8 @@ class HomeBasketListViewScreen extends StatelessWidget {
 
 
       dio.close();
+
+      print(response.data);
 
       return response.data + responseC.data;
 
