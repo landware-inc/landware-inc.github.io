@@ -202,6 +202,9 @@ class _CommUpdateScreenState extends State<CommUpdateScreen> {
       _AddressController.text = snapshot.data[0]['addr'];
     }
 
+    if(_initvalue == 0) {
+      _ElevatorController = snapshot.data[0]['eliv'] == '1' ? true : false;
+    }
     _initvalue = 1;
 
     return Form(
@@ -525,7 +528,7 @@ class _CommUpdateScreenState extends State<CommUpdateScreen> {
                           .of(context)
                           .colorScheme
                           .secondary,
-                      value: snapshot.data[0]['eliv'] == '1' ? true : false,
+                      value: _ElevatorController,
                       onChanged: (value) {
                         setState(() {
                           _ElevatorController = value;

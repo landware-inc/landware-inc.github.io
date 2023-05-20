@@ -50,7 +50,7 @@ class _AssetDetailViewScreenState extends State<AssetDetailViewScreen> {
           'id': widget.id,
         }
     );
-
+    print(response.data);
     _data = response.data;
 
     dio.close();

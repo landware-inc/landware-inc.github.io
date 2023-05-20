@@ -127,6 +127,12 @@ class _MapScreenState extends State<MapScreen> {
               child: CustomScrollView(
                 controller: _listController,
                 slivers: [
+                  if(_result.length == 0) SliverToBoxAdapter(
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text('검색된 데이터가 없습니다.'),
+                    ),
+                  ),
                   if(_result.length > 0)
                     SliverList(
                         delegate: SliverChildBuilderDelegate (
@@ -598,6 +604,7 @@ class _MapScreenState extends State<MapScreen> {
               height: 70,
               child: ElevatedButton(
                   onPressed: (){
+                    const CircularNotchedRectangle();
                     if(_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
                       _type2 = _type;
