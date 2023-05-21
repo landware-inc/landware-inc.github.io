@@ -568,6 +568,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   child: TextFormField(
                     controller: _TotalFloorController,
                     keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if(value!.isEmpty) {
+                        return '필수 입력 항목입니다.';
+                      }
+                      return null;
+                    },
                     onSaved: (value) {
                       if(value!.isEmpty) {
                         formData['totalFloor'] = '0';
@@ -582,6 +588,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       labelText: '총층',
                       hintText: '총층',
                       border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.red[50],
                       counterText: '',
                     ),
                   ),
@@ -1744,6 +1752,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   child: TextFormField(
                     controller: _TotalFloorController,
                     keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if(value!.isEmpty) {
+                        return '필수 입력 항목입니다.';
+                      }
+                      return null;
+                    },
                     onSaved: (value) {
                       if(value!.isEmpty) {
                         formData['totalFloor'] = '0';
@@ -1758,6 +1772,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       labelText: '총층',
                       hintText: '총층',
                       border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.red[50],
                       counterText: '',
                     ),
                   ),
