@@ -24,6 +24,7 @@ double _lat = 35.1419004;
 double _lng = 129.0628395;
 List<dynamic> _result = [];
 String _type2 = 'C';
+bool _isloading = false;
 
 
 
@@ -97,7 +98,7 @@ class _MapScreenState extends State<MapScreen> {
 
 
   Widget _webMap() {
-    return Column(
+    return _isloading ? Container(child: Center( child: CircularProgressIndicator())) : Column(
       children: [
         Row(
           children: [
@@ -885,6 +886,9 @@ class _MapScreenState extends State<MapScreen> {
     _result = [];
 
 
+    setState(() {
+      _isloading = true;
+    });
 
     final dio = Dio();
 
@@ -906,6 +910,7 @@ class _MapScreenState extends State<MapScreen> {
     });
 
     if (response.data.length > 0) {
+      _isloading = false;
       _result = response.data;
       _markers.clear();
       for (int i = 0; i < response.data.length; i++) {

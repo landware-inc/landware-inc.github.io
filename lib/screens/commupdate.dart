@@ -56,6 +56,7 @@ class _CommUpdateScreenState extends State<CommUpdateScreen> {
   final _EntitlePriceController = TextEditingController();
   bool _ElevatorController = false;
   String _DirectionController = '남';
+  bool _isLoading = false;
   final _InDateController = TextEditingController();
   String _InDateTypeController = '협의';
   final _FloorController = TextEditingController();
@@ -107,8 +108,6 @@ class _CommUpdateScreenState extends State<CommUpdateScreen> {
         future: pagenationDetailData(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData == false) {
-
-
             return Center(child: CircularProgressIndicator());
           } else {
 
