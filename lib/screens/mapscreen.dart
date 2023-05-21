@@ -368,7 +368,7 @@ class _MapScreenState extends State<MapScreen> {
 
   Widget _androidMap()  {
 
-    return Column(
+    return _isloading ? Container(child: Center( child: CircularProgressIndicator())) : Column(
       children: [
         Container(
           height: MediaQuery.of(context).size.height  - 460,
