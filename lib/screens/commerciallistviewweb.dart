@@ -1071,119 +1071,7 @@ class _CommDetailState extends State<_CommDetail> {
                         ),
                       ),
                       Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
-                      _SubTitle('사진'),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width - 510,
-                        height: (MediaQuery.of(context).size.width - 510) * 0.65,
-                        child : GridView.count(
-                          crossAxisCount: 3,
-                          mainAxisSpacing: 5.0,
-                          crossAxisSpacing: 5.0,
-                          childAspectRatio: 2/1.3,
-                          padding: EdgeInsets.all(5.0),
-                          children: List.generate(
-                            9,
-                                (index) => DottedBorder(
-                              color: Theme.of(context).colorScheme.primary,
-                              strokeWidth: 1,
-                              dashPattern: [5, 5],
-                              child: Container(
-                                decoration:
-                                index <= _pickedImgs.length -1
-                                    ? BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Theme.of(context).colorScheme.primaryContainer,
-                                  image: DecorationImage(
-                                    image: FileImage(File(_pickedImgs[index].path)),
-                                    fit: BoxFit.fitHeight,
-                                  ),
-                                ) :
-                                index <= _imgList.length -1
-                                    ? BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Theme.of(context).colorScheme.primaryContainer,
-                                  image: DecorationImage(
-                                    image: _imgList[index] == '' ? NetworkImage('$appServerURL/sample.jpg',) :  NetworkImage('$appServerURL/${_imgList[index]}',),
-                                    fit: BoxFit.fitHeight,
-                                  ),
-                                ) : null,
-                                child : Center(child: _boxContents[index]),
 
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Theme.of(context).colorScheme.primary,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-
-                              onPressed: _pickedImgs.length == 0
-                                  ? null
-                                  : () async {
-                                final List<MultipartFile> _files =  _pickedImgs.map((img) => MultipartFile.fromFileSync(img.path,  contentType: new MediaType("image", "jpg"))).toList();
-                                FormData _formData = FormData.fromMap({"uploadfile": _files});
-
-                                Dio dio = Dio();
-
-                                // dio.options.headers["authorization"] = AuthProvider.token;
-                                dio.options.contentType = 'multipart/form-data';
-                                dio.options.maxRedirects.isFinite;
-                                try {
-                                  final res = await dio.post('$appServerURL/upload', data: _formData).then(
-                                          (res) async {
-                                        if (res.data.length > 0) {
-                                          for(int i = 0; i < res.data.length; i++) {
-                                            Dio dio2 = Dio();
-                                            final response = await dio2.post(
-                                                '$appServerURL/imgupdate',
-                                                data: {
-                                                  'id': '${snapshot.data[0]['id']}',
-                                                  'imgname': '${res.data[i]['filename']}',
-                                                  'no': '${i + 1}',
-                                                }
-                                            );
-                                            dio2.close();
-                                          }
-                                        }
-                                      }
-                                  );
-                                } catch (e) {
-                                  print(e);
-                                }
-
-
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('사진이 수정되었습니다.'),
-                                    duration: Duration(seconds: 1),
-                                  ),
-                                );
-
-                                Future.delayed(const Duration(milliseconds: 600), () {
-                                  getx.Get.offAll(() => CommDetailViewScreen(id: snapshot.data[0]['id'],));
-                                });
-
-                                dio.close();
-                              },
-                              child: Text(
-                                '사진 수정',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400,
-                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                                ),
-                              ),
-                            ),
-                          ]
-                      ),
                       Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
                       Column(
                         children: [
@@ -1306,6 +1194,7 @@ class _CommDetailState extends State<_CommDetail> {
                           color: Theme.of(context).colorScheme.onPrimaryContainer,
                         ),
                       ),
+
                       Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
                       _SubTitle('상세위치'),
                       SizedBox(
@@ -1339,6 +1228,119 @@ class _CommDetailState extends State<_CommDetail> {
                           width: MediaQuery.of(context).size.width - 520,
                           child: Image.network('https://maps.googleapis.com/maps/api/staticmap?center=&{$_lat,$_lng},zoom=13&size=${(MediaQuery.of(context).size.width - 520).round()}x500&maptype=roadmap&markers=color:red%7C$_lat,$_lng&key=$googleMapKey'),
                         ),
+                      ),
+                      _SubTitle('사진'),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width - 510,
+                        height: (MediaQuery.of(context).size.width - 510) * 0.65,
+                        child : GridView.count(
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 5.0,
+                          crossAxisSpacing: 5.0,
+                          childAspectRatio: 2/1.3,
+                          padding: EdgeInsets.all(5.0),
+                          children: List.generate(
+                            9,
+                                (index) => DottedBorder(
+                              color: Theme.of(context).colorScheme.primary,
+                              strokeWidth: 1,
+                              dashPattern: [5, 5],
+                              child: Container(
+                                decoration:
+                                index <= _pickedImgs.length -1
+                                    ? BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Theme.of(context).colorScheme.primaryContainer,
+                                  image: DecorationImage(
+                                    image: FileImage(File(_pickedImgs[index].path)),
+                                    fit: BoxFit.fitHeight,
+                                  ),
+                                ) :
+                                index <= _imgList.length -1
+                                    ? BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Theme.of(context).colorScheme.primaryContainer,
+                                  image: DecorationImage(
+                                    image: _imgList[index] == '' ? NetworkImage('$appServerURL/sample.jpg',) :  NetworkImage('$appServerURL/${_imgList[index]}',),
+                                    fit: BoxFit.fitHeight,
+                                  ),
+                                ) : null,
+                                child : Center(child: _boxContents[index]),
+
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Theme.of(context).colorScheme.primary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+
+                              onPressed: _pickedImgs.length == 0
+                                  ? null
+                                  : () async {
+                                final List<MultipartFile> _files =  _pickedImgs.map((img) => MultipartFile.fromFileSync(img.path,  contentType: new MediaType("image", "jpg"))).toList();
+                                FormData _formData = FormData.fromMap({"uploadfile": _files});
+
+                                Dio dio = Dio();
+
+                                // dio.options.headers["authorization"] = AuthProvider.token;
+                                dio.options.contentType = 'multipart/form-data';
+                                dio.options.maxRedirects.isFinite;
+                                try {
+                                  final res = await dio.post('$appServerURL/upload', data: _formData).then(
+                                          (res) async {
+                                        if (res.data.length > 0) {
+                                          for(int i = 0; i < res.data.length; i++) {
+                                            Dio dio2 = Dio();
+                                            final response = await dio2.post(
+                                                '$appServerURL/imgupdate',
+                                                data: {
+                                                  'id': '${snapshot.data[0]['id']}',
+                                                  'imgname': '${res.data[i]['filename']}',
+                                                  'no': '${i + 1}',
+                                                }
+                                            );
+                                            dio2.close();
+                                          }
+                                        }
+                                      }
+                                  );
+                                } catch (e) {
+                                  print(e);
+                                }
+
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('사진이 수정되었습니다.'),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+
+                                Future.delayed(const Duration(milliseconds: 600), () {
+                                  getx.Get.offAll(() => CommDetailViewScreen(id: snapshot.data[0]['id'],));
+                                });
+
+                                dio.close();
+                              },
+                              child: Text(
+                                '사진 수정',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                ),
+                              ),
+                            ),
+                          ]
                       ),
                       Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
 
