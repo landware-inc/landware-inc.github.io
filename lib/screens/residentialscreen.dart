@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ import 'package:intl/intl.dart';
 import 'package:kakao_login_test/screens/main_screen.dart';
 import 'package:kakao_login_test/screens/mapscreen.dart';
 import 'package:kakao_login_test/screens/regidentiallistview.dart';
+import 'package:kakao_login_test/screens/regidentiallistviewweb.dart';
 
 import '../status/controller.dart';
 import 'component/bottom_menu.dart';
@@ -839,8 +841,10 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                   backgroundColor: Theme.of(context).colorScheme.primary,
                 ),
                   onPressed: () async {
-
-                    Get.offAll(() => RegidentialListViewScreen());
+                    if(kIsWeb)
+                      Get.offAll(() => RegidentialListViewScreenWeb());
+                    else
+                      Get.offAll(() => RegidentialListViewScreen());
                   },
                   child: const Text(
                     '선택 완료',

@@ -1071,8 +1071,6 @@ class _CommDetailState extends State<_CommDetail> {
                         ),
                       ),
                       Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
-
-                      Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
                       Column(
                         children: [
                           _SubTitle('물건가격'),

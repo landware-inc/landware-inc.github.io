@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -238,7 +239,7 @@ class AssetCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                width: MediaQuery.of(context).size.width * 0.45,
+                                width: kIsWeb ? 300 : MediaQuery.of(context).size.width * 0.43,
                                 child: Text(
                                   '$callname',
                                   maxLines: 1,
