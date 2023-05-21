@@ -1,8 +1,10 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kakao_login_test/screens/commerciallistviewweb.dart';
 import 'package:kakao_login_test/screens/component/bottom_menu.dart';
 import 'package:kakao_login_test/screens/mapscreen.dart';
 import 'package:kakao_login_test/screens/regidentiallistview.dart';
@@ -668,7 +670,10 @@ class _CommercialScreenState extends State<CommercialScreen> {
                   backgroundColor: Theme.of(context).colorScheme.primary,
                 ),
                 onPressed: () async {
-                  Get.offAll(() => CommercialListViewScreen());
+                  if(!kIsWeb)
+                    Get.offAll(() => CommercialListViewScreen());
+                  if(kIsWeb)
+                    Get.offAll(() => CommercialListViewScreenWeb());
                 },
                 child: const Text(
                   '선택 완료',

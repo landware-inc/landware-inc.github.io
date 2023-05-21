@@ -252,10 +252,7 @@ class _AssetDetailViewScreenState extends State<AssetDetailViewScreen> {
             ),
         ],
       ),
-      body: PageView(
-        controller: _controllerMain,
-        children: [
-          Container(
+      body: Container(
             margin: const EdgeInsets.all(8),
             child: FutureBuilder(
               future: pagenationDetailData(),
@@ -416,80 +413,193 @@ class _AssetDetailViewScreenState extends State<AssetDetailViewScreen> {
                           color: Theme.of(context).colorScheme.onPrimaryContainer,
                           thickness: 1,
                         ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: (MediaQuery.of(context).size.width / 13) * 7,
-                          child: PageView(
-                                  controller: _controller,
-                                  children: [
+                        if(!kIsWeb)
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: (MediaQuery.of(context).size.width / 13) * 7,
+                            child: PageView(
+                                    controller: _controller,
+                                    children: [
+                                        ClipRRect(
+                                          child: Image.network(
+                                            snapshot.data[0]['img1'] == ''
+                                                ? '$appServerURL/sample.jpg'
+                                                : '$appServerURL/${snapshot.data[0]['img1']}',
+                                            fit: BoxFit.fitHeight,
+                                          ),
+                                        ),
                                       ClipRRect(
                                         child: Image.network(
-                                          snapshot.data[0]['img1'] == ''
+                                          snapshot.data[0]['img2'] == ''
                                               ? '$appServerURL/sample.jpg'
-                                              : '$appServerURL/${snapshot.data[0]['img1']}',
+                                              : '$appServerURL/${snapshot.data[0]['img2']}',
                                           fit: BoxFit.fitHeight,
                                         ),
                                       ),
-                                    ClipRRect(
-                                      child: Image.network(
-                                        snapshot.data[0]['img2'] == ''
-                                            ? '$appServerURL/sample.jpg'
-                                            : '$appServerURL/${snapshot.data[0]['img2']}',
-                                        fit: BoxFit.fitHeight,
-                                      ),
+                                      if(snapshot.data[0]['img3'] != '')
+                                        ClipRRect(
+                                          child: Image.network(
+                                            '$appServerURL/${snapshot.data[0]['img3']}',
+                                            fit: BoxFit.fitHeight,
+                                          ),
+                                        ),
+                                      if(snapshot.data[0]['img4'] != '')
+                                        ClipRRect(
+                                          child: Image.network(
+                                            '$appServerURL/${snapshot.data[0]['img4']}',
+                                            fit: BoxFit.fitHeight,
+                                          ),
+                                        ),
+                                      if(snapshot.data[0]['img5'] != '')
+                                        ClipRRect(
+                                          child: Image.network(
+                                            '$appServerURL/${snapshot.data[0]['img5']}',
+                                            fit: BoxFit.fitHeight,
+                                          ),
+                                        ),
+                                      if(snapshot.data[0]['img6'] != '')
+                                        ClipRRect(
+                                          child: Image.network(
+                                            '$appServerURL/${snapshot.data[0]['img6']}',
+                                            fit: BoxFit.fitHeight,
+                                          ),
+                                        ),
+                                      if(snapshot.data[0]['img7'] != '')
+                                        ClipRRect(
+                                          child: Image.network(
+                                            '$appServerURL/${snapshot.data[0]['img7']}',
+                                            fit: BoxFit.fitHeight,
+                                          ),
+                                        ),
+                                      if(snapshot.data[0]['img8'] != '')
+                                        ClipRRect(
+                                          child: Image.network(
+                                            '$appServerURL/${snapshot.data[0]['img8']}',
+                                            fit: BoxFit.fitHeight,
+                                          ),
+                                        ),
+                                      if(snapshot.data[0]['img9'] != '')
+                                        ClipRRect(
+                                          child: Image.network(
+                                            '$appServerURL/${snapshot.data[0]['img9']}',
+                                            fit: BoxFit.fitHeight,
+                                          ),
+                                        ),
+                                    ],
+                              ),
+                        ),
+                      if(kIsWeb)
+                        SizedBox(
+                          height: MediaQuery.of(context).size.width/1.5,
+                          child : GridView.count(
+                            crossAxisCount: 3,
+                            mainAxisSpacing: 5.0,
+                            crossAxisSpacing: 5.0,
+                            childAspectRatio: 2/1.3,
+                            padding: EdgeInsets.all(5.0),
+                            children: List.generate(
+                              9,
+                                  (index) => DottedBorder(
+                                color: Theme.of(context).colorScheme.primary,
+                                strokeWidth: 1,
+                                dashPattern: [5, 5],
+                                child: Container(
+                                  decoration:
+                                  index <= _pickedImgs.length -1
+                                      ? BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Theme.of(context).colorScheme.primaryContainer,
+                                    image: DecorationImage(
+                                      image: FileImage(File(_pickedImgs[index].path)),
+                                      fit: BoxFit.fitHeight,
                                     ),
-                                    if(snapshot.data[0]['img3'] != '')
-                                      ClipRRect(
-                                        child: Image.network(
-                                          '$appServerURL/${snapshot.data[0]['img3']}',
-                                          fit: BoxFit.fitHeight,
-                                        ),
-                                      ),
-                                    if(snapshot.data[0]['img4'] != '')
-                                      ClipRRect(
-                                        child: Image.network(
-                                          '$appServerURL/${snapshot.data[0]['img4']}',
-                                          fit: BoxFit.fitHeight,
-                                        ),
-                                      ),
-                                    if(snapshot.data[0]['img5'] != '')
-                                      ClipRRect(
-                                        child: Image.network(
-                                          '$appServerURL/${snapshot.data[0]['img5']}',
-                                          fit: BoxFit.fitHeight,
-                                        ),
-                                      ),
-                                    if(snapshot.data[0]['img6'] != '')
-                                      ClipRRect(
-                                        child: Image.network(
-                                          '$appServerURL/${snapshot.data[0]['img6']}',
-                                          fit: BoxFit.fitHeight,
-                                        ),
-                                      ),
-                                    if(snapshot.data[0]['img7'] != '')
-                                      ClipRRect(
-                                        child: Image.network(
-                                          '$appServerURL/${snapshot.data[0]['img7']}',
-                                          fit: BoxFit.fitHeight,
-                                        ),
-                                      ),
-                                    if(snapshot.data[0]['img8'] != '')
-                                      ClipRRect(
-                                        child: Image.network(
-                                          '$appServerURL/${snapshot.data[0]['img8']}',
-                                          fit: BoxFit.fitHeight,
-                                        ),
-                                      ),
-                                    if(snapshot.data[0]['img9'] != '')
-                                      ClipRRect(
-                                        child: Image.network(
-                                          '$appServerURL/${snapshot.data[0]['img9']}',
-                                          fit: BoxFit.fitHeight,
-                                        ),
-                                      ),
-                                  ],
+                                  ) :
+                                  index <= _imgList.length -1
+                                      ? BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Theme.of(context).colorScheme.primaryContainer,
+                                    image: DecorationImage(
+                                      image: _imgList[index] == '' ? NetworkImage('$appServerURL/sample.jpg',) :  NetworkImage('$appServerURL/${_imgList[index]}',),
+                                      fit: BoxFit.fitHeight,
+                                    ),
+                                  ) : null,
+                                  child : Center(child: _boxContents[index]),
+
+                                ),
+                              ),
                             ),
-                      ),
+                          ),
+                        ),
+                      if(kIsWeb)
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: Theme.of(context).colorScheme.primary,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+
+                                onPressed: _pickedImgs.length == 0
+                                    ? null
+                                    : () async {
+                                  final List<MultipartFile> _files =  _pickedImgs.map((img) => MultipartFile.fromFileSync(img.path,  contentType: new MediaType("image", "jpg"))).toList();
+                                  FormData _formData = FormData.fromMap({"uploadfile": _files});
+
+                                  Dio dio = Dio();
+
+                                  // dio.options.headers["authorization"] = AuthProvider.token;
+                                  dio.options.contentType = 'multipart/form-data';
+                                  dio.options.maxRedirects.isFinite;
+                                  //
+                                  try {
+                                    final res = await dio.post('$appServerURL/upload', data: _formData).then(
+                                            (res) async {
+                                          if (res.data.length > 0) {
+                                            for(int i = 0; i < res.data.length; i++) {
+                                              Dio dio2 = Dio();
+                                              final response = await  dio2.post(
+                                                  '$appServerURL/imgupdatehome',
+                                                  data: {
+                                                    'id': '${snapshot.data[0]['id']}',
+                                                    'imgname': '${res.data[i]['filename']}',
+                                                    'no': '${i + 1}',
+                                                  }
+                                              );
+                                              dio2.close();
+                                            }
+                                          }
+                                        }
+                                    );
+                                  } catch (e) {
+                                    print(e);
+                                  }
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('사진이 수정되었습니다.'),
+                                      duration: Duration(seconds: 1),
+                                    ),
+                                  );
+
+                                  dio.close();
+                                  Future.delayed(const Duration(milliseconds: 600), () {
+                                    getx.Get.offAll(() => AssetDetailViewScreen(id: snapshot.data[0]['id'],));
+                                  });
+                                },
+                                child: Text(
+                                  '사진 수정',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w400,
+                                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                  ),
+                                ),
+                              ),
+                            ]
+                        ),
                       Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
                       _SubTitle('물건가격'),
                        SizedBox(
@@ -643,120 +753,123 @@ class _AssetDetailViewScreenState extends State<AssetDetailViewScreen> {
                         ),
                       ),
                       Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
-                      _SubTitle('사진편집'),
+                      if(!kIsWeb)
+                        _SubTitle('사진편집'),
                         SizedBox(
                           height: 8,
                         ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.width/1.5,
-                          child : GridView.count(
-                            crossAxisCount: 3,
-                            mainAxisSpacing: 5.0,
-                            crossAxisSpacing: 5.0,
-                            childAspectRatio: 2/1.3,
-                            padding: EdgeInsets.all(5.0),
-                            children: List.generate(
-                              9,
-                                  (index) => DottedBorder(
-                                color: Theme.of(context).colorScheme.primary,
-                                strokeWidth: 1,
-                                dashPattern: [5, 5],
-                                child: Container(
-                                  decoration:
-                                  index <= _pickedImgs.length -1
-                                      ? BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Theme.of(context).colorScheme.primaryContainer,
-                                    image: DecorationImage(
-                                      image: FileImage(File(_pickedImgs[index].path)),
-                                      fit: BoxFit.fitHeight,
-                                    ),
-                                  ) :
-                                  index <= _imgList.length -1
-                                      ? BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Theme.of(context).colorScheme.primaryContainer,
-                                    image: DecorationImage(
-                                      image: _imgList[index] == '' ? NetworkImage('$appServerURL/sample.jpg',) :  NetworkImage('$appServerURL/${_imgList[index]}',),
-                                      fit: BoxFit.fitHeight,
-                                    ),
-                                  ) : null,
-                                  child : Center(child: _boxContents[index]),
+                        if(!kIsWeb)
+                          SizedBox(
+                            height: MediaQuery.of(context).size.width/1.5,
+                            child : GridView.count(
+                              crossAxisCount: 3,
+                              mainAxisSpacing: 5.0,
+                              crossAxisSpacing: 5.0,
+                              childAspectRatio: 2/1.3,
+                              padding: EdgeInsets.all(5.0),
+                              children: List.generate(
+                                9,
+                                    (index) => DottedBorder(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  strokeWidth: 1,
+                                  dashPattern: [5, 5],
+                                  child: Container(
+                                    decoration:
+                                    index <= _pickedImgs.length -1
+                                        ? BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Theme.of(context).colorScheme.primaryContainer,
+                                      image: DecorationImage(
+                                        image: FileImage(File(_pickedImgs[index].path)),
+                                        fit: BoxFit.fitHeight,
+                                      ),
+                                    ) :
+                                    index <= _imgList.length -1
+                                        ? BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Theme.of(context).colorScheme.primaryContainer,
+                                      image: DecorationImage(
+                                        image: _imgList[index] == '' ? NetworkImage('$appServerURL/sample.jpg',) :  NetworkImage('$appServerURL/${_imgList[index]}',),
+                                        fit: BoxFit.fitHeight,
+                                      ),
+                                    ) : null,
+                                    child : Center(child: _boxContents[index]),
 
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: Theme.of(context).colorScheme.primary,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
+                        if(!kIsWeb)
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Theme.of(context).colorScheme.primary,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
-                                ),
 
-                                onPressed: _pickedImgs.length == 0
-                                    ? null
-                                    : () async {
-                                  final List<MultipartFile> _files =  _pickedImgs.map((img) => MultipartFile.fromFileSync(img.path,  contentType: new MediaType("image", "jpg"))).toList();
-                                  FormData _formData = FormData.fromMap({"uploadfile": _files});
+                                  onPressed: _pickedImgs.length == 0
+                                      ? null
+                                      : () async {
+                                    final List<MultipartFile> _files =  _pickedImgs.map((img) => MultipartFile.fromFileSync(img.path,  contentType: new MediaType("image", "jpg"))).toList();
+                                    FormData _formData = FormData.fromMap({"uploadfile": _files});
 
-                                  Dio dio = Dio();
+                                    Dio dio = Dio();
 
-                                  // dio.options.headers["authorization"] = AuthProvider.token;
-                                  dio.options.contentType = 'multipart/form-data';
-                                  dio.options.maxRedirects.isFinite;
-                                  //
-                                  try {
-                                    final res = await dio.post('$appServerURL/upload', data: _formData).then(
-                                        (res) async {
-                                          if (res.data.length > 0) {
-                                            for(int i = 0; i < res.data.length; i++) {
-                                              Dio dio2 = Dio();
-                                              final response = await  dio2.post(
-                                                  '$appServerURL/imgupdatehome',
-                                                  data: {
-                                                    'id': '${snapshot.data[0]['id']}',
-                                                    'imgname': '${res.data[i]['filename']}',
-                                                    'no': '${i + 1}',
-                                                  }
-                                              );
-                                              dio2.close();
+                                    // dio.options.headers["authorization"] = AuthProvider.token;
+                                    dio.options.contentType = 'multipart/form-data';
+                                    dio.options.maxRedirects.isFinite;
+                                    //
+                                    try {
+                                      final res = await dio.post('$appServerURL/upload', data: _formData).then(
+                                          (res) async {
+                                            if (res.data.length > 0) {
+                                              for(int i = 0; i < res.data.length; i++) {
+                                                Dio dio2 = Dio();
+                                                final response = await  dio2.post(
+                                                    '$appServerURL/imgupdatehome',
+                                                    data: {
+                                                      'id': '${snapshot.data[0]['id']}',
+                                                      'imgname': '${res.data[i]['filename']}',
+                                                      'no': '${i + 1}',
+                                                    }
+                                                );
+                                                dio2.close();
+                                              }
                                             }
                                           }
-                                        }
+                                      );
+                                    } catch (e) {
+                                      print(e);
+                                    }
+
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('사진이 수정되었습니다.'),
+                                        duration: Duration(seconds: 1),
+                                      ),
                                     );
-                                  } catch (e) {
-                                    print(e);
-                                  }
 
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text('사진이 수정되었습니다.'),
-                                      duration: Duration(seconds: 1),
+                                    dio.close();
+                                    Future.delayed(const Duration(milliseconds: 600), () {
+                                      getx.Get.offAll(() => AssetDetailViewScreen(id: snapshot.data[0]['id'],));
+                                    });
+                                  },
+                                  child: Text(
+                                    '사진 수정',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w400,
+                                      color: Theme.of(context).colorScheme.onPrimaryContainer,
                                     ),
-                                  );
-
-                                  dio.close();
-                                  Future.delayed(const Duration(milliseconds: 600), () {
-                                    getx.Get.offAll(() => AssetDetailViewScreen(id: snapshot.data[0]['id'],));
-                                  });
-                                },
-                                child: Text(
-                                  '사진 수정',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w400,
-                                    color: Theme.of(context).colorScheme.onPrimaryContainer,
                                   ),
                                 ),
-                              ),
-                            ]
-                        ),
+                              ]
+                          ),
 
                     ],
                   ),
@@ -769,36 +882,6 @@ class _AssetDetailViewScreenState extends State<AssetDetailViewScreen> {
               },
             ),
           ),
-          Container(
-            child: FutureBuilder(
-              future: pagenationDetailData(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData) {
-                  return GoogleMap(
-                    mapType: MapType.normal,
-                    myLocationEnabled: true,
-                    myLocationButtonEnabled: true,
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(_lat,_lng),
-                      zoom: 17,
-                    ),
-                    markers: {
-                      Marker(
-                        markerId: MarkerId('marker_1'),
-                        position: LatLng(_lat,_lng),
-                      ),
-                    },
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              }
-            ),
-          ),
-        ],
-      ),
       bottomNavigationBar: BottomMenuBar(),
     );
   }
