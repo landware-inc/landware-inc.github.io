@@ -72,8 +72,8 @@ class _AssetDetailViewScreenState extends State<AssetDetailViewScreen> {
                 ? '$appServerURL/sample.jpg'
                 : '$appServerURL/${_data[0]['img1']}'),
         link: Link(
-            webUrl: Uri.parse(''),
-            mobileWebUrl: Uri.parse('')),
+            webUrl: Uri.parse('https://blog.naver.com/smkim7015'),
+            mobileWebUrl: Uri.parse('https://blog.naver.com/smkim7015')),
       ),
       itemContent: ItemContent(
         // profileText: 'Kakao',

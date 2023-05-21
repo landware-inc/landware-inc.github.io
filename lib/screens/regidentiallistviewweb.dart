@@ -937,6 +937,32 @@ class _HomeDetailState extends State<_HomeDetail> {
                         )
                     ),
                   ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(8),
+                          primary: Theme.of(context).colorScheme.primary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        onPressed: () {
+                          _kakaoMsg();
+                        },
+                        child: Text(
+                          '카카오로 보내기',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                        )
+                    ),
+                  ),
                   Divider(
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                     thickness: 1,
