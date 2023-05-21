@@ -94,8 +94,8 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                 ? '$appServerURL/sample.jpg'
                 : '$appServerURL/${_data[0]['img_1']}'),
         link: Link(
-            webUrl: Uri.parse(''),
-            mobileWebUrl: Uri.parse('')),
+            webUrl: Uri.parse('https://blog.naver.com/smkim7015'),
+            mobileWebUrl: Uri.parse('https://blog.naver.com/smkim7015')),
       ),
       itemContent: ItemContent(
         // profileText: 'Kakao',
