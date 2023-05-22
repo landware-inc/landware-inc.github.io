@@ -486,53 +486,53 @@ class _RegidentialListViewScreenWebState extends State<RegidentialListViewScreen
             width: 510,
             color: Theme.of(context).colorScheme.background,
             child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: FutureBuilder(
-                    future: paginationAssetList(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasData) {
-                        return CustomScrollView(
-                          slivers: [
-                            SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                    (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(top: 10.0),
-                                    child: AssetCard(
-                                      id: snapshot.data[index]['id'],
-                                      image: Image.network(
-                                        snapshot.data[index]['img1'] == ''
-                                            ? '$appServerURL/sample.jpg'
-                                            : '$appServerURL/${snapshot.data[index]['img1']}',
-                                        fit: BoxFit.cover,
-                                      ),
-                                      callname: snapshot.data[index]['callname'],
-                                      price: snapshot.data[index]['price'],
-                                      price2: snapshot.data[index]['price2'] ?? 0,
-                                      room: snapshot.data[index]['room'] ?? 0,
-                                      bath: snapshot.data[index]['bath'] ?? 0,
-                                      size: snapshot.data[index]['size'] ?? 0,
-                                      direction: snapshot.data[index]['direction'],
-                                      indate: snapshot.data[index]['indate'],
-                                      floor: snapshot.data[index]['floor'] ?? 0,
-                                      totalfloor: snapshot.data[index]['totalfloor'] ?? 0,
-                                      type: snapshot.data[index]['type'] ?? '',
-                                      gubun: controller.selectGubun.value,
-                                      addr: snapshot.data[index]['addr'],
-                                      naver_no: snapshot.data[index]['naver_no'],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: FutureBuilder(
+                  future: paginationAssetList(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      return CustomScrollView(
+                        slivers: [
+                          SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                                  (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(top: 10.0),
+                                  child: AssetCard(
+                                    id: snapshot.data[index]['id'],
+                                    image: Image.network(
+                                      snapshot.data[index]['img1'] == ''
+                                          ? '$appServerURL/sample.jpg'
+                                          : '$appServerURL/${snapshot.data[index]['img1']}',
+                                      fit: BoxFit.cover,
                                     ),
-                                  );
-                                },
-                                childCount: snapshot.data.length,
-                              ),
+                                    callname: snapshot.data[index]['callname'],
+                                    price: snapshot.data[index]['price'],
+                                    price2: snapshot.data[index]['price2'] ?? 0,
+                                    room: snapshot.data[index]['room'] ?? 0,
+                                    bath: snapshot.data[index]['bath'] ?? 0,
+                                    size: snapshot.data[index]['size'] ?? 0,
+                                    direction: snapshot.data[index]['direction'],
+                                    indate: snapshot.data[index]['indate'],
+                                    floor: snapshot.data[index]['floor'] ?? 0,
+                                    totalfloor: snapshot.data[index]['totalfloor'] ?? 0,
+                                    type: snapshot.data[index]['type'] ?? '',
+                                    gubun: controller.selectGubun.value,
+                                    addr: snapshot.data[index]['addr'],
+                                    naver_no: snapshot.data[index]['naver_no'],
+                                  ),
+                                );
+                              },
+                              childCount: snapshot.data.length,
                             ),
-                          ],
-                        );
+                          ),
+                        ],
+                      );
 
-                      } else {
-                        return const Center(
-                          child: CircularProgressIndicator(),
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(),
                       );
                     }
                   },
@@ -1161,7 +1161,7 @@ class _HomeDetailState extends State<_HomeDetail> {
                         ),
                       ),
                     ),
-                  if(kIsWeb)
+                  ),
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [

@@ -1048,7 +1048,7 @@ class _CommDetailState extends State<_CommDetail> {
                             ),
                           ),
                           Text(
-                            '방향 : ${snapshot.data[0]['direction'] ?? ''}',
+                            '${snapshot.data[0]['direction'] ?? ''}',
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w400,
