@@ -728,7 +728,7 @@ class _CommDetailState extends State<_CommDetail> {
     final FeedTemplate defaultFeed = FeedTemplate(
       content: Content(
         title: _data[0]["division"],
-        description: _data[0]["etc"],
+//        description: _data[0]["etc"],
         imageUrl: Uri.parse(
             _data[0]['img_1'] == ''
                 ? '$appServerURL/sample.jpg'
@@ -1083,8 +1083,32 @@ class _CommDetailState extends State<_CommDetail> {
                             )
                         ),
                       ),
-                      Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
-
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.all(8),
+                              primary: Theme.of(context).colorScheme.primary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                            onPressed: () {
+                              _kakaoMsg();
+                            },
+                            child: Text(
+                              '카카오로 보내기',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                            )
+                        ),
+                      ),
                       Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
                       Column(
                         children: [
