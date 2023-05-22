@@ -38,6 +38,8 @@ class CommercialListViewScreenWeb extends StatefulWidget {
 }
 
 class _CommercialListViewScreenWebState extends State<CommercialListViewScreenWeb> {
+
+
   double _lat = 0.0;
   double _lng = 0.0;
   List<Marker> _markers = [];
@@ -125,6 +127,7 @@ class _CommercialListViewScreenWebState extends State<CommercialListViewScreenWe
             },
             icon: const Icon(Icons.map),
           ),
+
         ],
       ),
 
@@ -1083,8 +1086,32 @@ class _CommDetailState extends State<_CommDetail> {
                             )
                         ),
                       ),
-                      Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
-
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width - 510,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.all(8),
+                              primary: Theme.of(context).colorScheme.primary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                            onPressed: () {
+                              _kakaoMsg();
+                            },
+                            child: Text(
+                              '카카오로 보내기',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                            )
+                        ),
+                      ),
                       Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
                       Column(
                         children: [

@@ -840,6 +840,7 @@ class _ResidentialScreenState extends State<ResidentialScreen> {
                   fixedSize: Size(MediaQuery.of(context).size.width, 50),
                   backgroundColor: Theme.of(context).colorScheme.primary,
                 ),
+
                 onPressed: () async {
                   if(kIsWeb)
                     Get.offAll(() => RegidentialListViewScreenWeb());

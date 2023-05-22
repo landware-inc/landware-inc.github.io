@@ -1120,48 +1120,48 @@ class _HomeDetailState extends State<_HomeDetail> {
                   ),
                   Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
                   _SubTitle('사진편집'),
-                  SizedBox(
-                    height: (MediaQuery.of(context).size.width - 530)/1.5,
-                    child : GridView.count(
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 5.0,
-                      crossAxisSpacing: 5.0,
-                      childAspectRatio: 2/1.3,
-                      padding: EdgeInsets.all(5.0),
-                      children: List.generate(
-                        9,
-                            (index) => DottedBorder(
-                          color: Theme.of(context).colorScheme.primary,
-                          strokeWidth: 1,
-                          dashPattern: [5, 5],
-                          child: Container(
-                            decoration:
-                            index <= _pickedImgs.length -1
-                                ? BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Theme.of(context).colorScheme.primaryContainer,
-                              image: DecorationImage(
-                                image: FileImage(File(_pickedImgs[index].path)),
-                                fit: BoxFit.fitHeight,
-                              ),
-                            ) :
-                            index <= _imgList.length -1
-                                ? BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Theme.of(context).colorScheme.primaryContainer,
-                              image: DecorationImage(
-                                image: _imgList[index] == '' ? NetworkImage('$appServerURL/sample.jpg',) :  NetworkImage('$appServerURL/${_imgList[index]}',),
-                                fit: BoxFit.fitHeight,
-                              ),
-                            ) : null,
-                            child : Center(child: _boxContents[index]),
+                    SizedBox(
+                      height: (MediaQuery.of(context).size.width - 530)/1.5,
+                      child : GridView.count(
+                        crossAxisCount: 3,
+                        mainAxisSpacing: 5.0,
+                        crossAxisSpacing: 5.0,
+                        childAspectRatio: 2/1.3,
+                        padding: EdgeInsets.all(5.0),
+                        children: List.generate(
+                          9,
+                              (index) => DottedBorder(
+                            color: Theme.of(context).colorScheme.primary,
+                            strokeWidth: 1,
+                            dashPattern: [5, 5],
+                            child: Container(
+                              decoration:
+                              index <= _pickedImgs.length -1
+                                  ? BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Theme.of(context).colorScheme.primaryContainer,
+                                image: DecorationImage(
+                                  image: FileImage(File(_pickedImgs[index].path)),
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              ) :
+                              index <= _imgList.length -1
+                                  ? BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Theme.of(context).colorScheme.primaryContainer,
+                                image: DecorationImage(
+                                  image: _imgList[index] == '' ? NetworkImage('$appServerURL/sample.jpg',) :  NetworkImage('$appServerURL/${_imgList[index]}',),
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              ) : null,
+                              child : Center(child: _boxContents[index]),
 
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                  if(kIsWeb)
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
