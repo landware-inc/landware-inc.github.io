@@ -94,8 +94,8 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                 ? '$appServerURL/sample.jpg'
                 : '$appServerURL/${_data[0]['img_1']}'),
         link: Link(
-            webUrl: Uri.parse(''),
-            mobileWebUrl: Uri.parse('')),
+            webUrl: Uri.parse('https://blog.naver.com/smkim7015'),
+            mobileWebUrl: Uri.parse('https://blog.naver.com/smkim7015')),
       ),
       itemContent: ItemContent(
         // profileText: 'Kakao',
@@ -194,10 +194,10 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
             infoWindow: InfoWindow(
               onTap: () {
                 print('marker_${i + 1} clicked');
-                  getx.Get.offAll(
-                    CommDetailViewScreen(
-                      id: response2.data[i]['id'],
-                    ),);
+                getx.Get.offAll(
+                  CommDetailViewScreen(
+                    id: response2.data[i]['id'],
+                  ),);
               },
               title: response2.data[i]['sub_addr'],
               snippet: '${(response2.data[i]['deposit']/10000).round()}/${(response2.data[i]['monthly']/10000).round()} ${response2.data[i]['size']}평',
@@ -236,9 +236,9 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
             ),
           ),
           child: Icon(
-              Icons.photo,
-              color: Colors.red,
-              size: 24,
+            Icons.photo,
+            color: Colors.red,
+            size: 24,
           ),
         ),
       ),
@@ -411,13 +411,26 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                     SizedBox(
                       height: 8,
                     ),
-                    Text(
-                      '네이버 매물번호 : ${snapshot.data[0]['naver_no'] ?? ''}',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w400,
-                        color: Theme.of(context).colorScheme.onPrimaryContainer,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '네이버 매물번호 : ${snapshot.data[0]['naver_no'] ?? ''}',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                        Text(
+                          '방향 : ${snapshot.data[0]['direction'] ?? ''}',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 8,
@@ -434,17 +447,17 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                           ),
                           onPressed: () {
                             getx.Get.off(() => CommUpdateScreen(
-                              id: widget.id,
-                              type: 1
+                                id: widget.id,
+                                type: 1
                             ));
                           },
                           child: Text(
-                              '자료수정',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.onPrimary,
-                              ),
+                            '자료수정',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w400,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
                           )
                       ),
                     ),
@@ -475,68 +488,68 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                                 ),
                               ),
                             if(snapshot.data[0]['img_3'] != '')
-                            ClipRRect(
-                              child: Image.network(
-                                snapshot.data[0]['img_3'] == ''
-                                    ? '$appServerURL/sample.jpg'
-                                    : '$appServerURL/${snapshot.data[0]['img_3']}',
-                                fit: BoxFit.fitHeight,
+                              ClipRRect(
+                                child: Image.network(
+                                  snapshot.data[0]['img_3'] == ''
+                                      ? '$appServerURL/sample.jpg'
+                                      : '$appServerURL/${snapshot.data[0]['img_3']}',
+                                  fit: BoxFit.fitHeight,
+                                ),
                               ),
-                            ),
                             if(snapshot.data[0]['img_4'] != '')
-                            ClipRRect(
-                              child: Image.network(
-                                snapshot.data[0]['img_4'] == ''
-                                    ? '$appServerURL/sample.jpg'
-                                    : '$appServerURL/${snapshot.data[0]['img_4']}',
-                                fit: BoxFit.fitHeight,
+                              ClipRRect(
+                                child: Image.network(
+                                  snapshot.data[0]['img_4'] == ''
+                                      ? '$appServerURL/sample.jpg'
+                                      : '$appServerURL/${snapshot.data[0]['img_4']}',
+                                  fit: BoxFit.fitHeight,
+                                ),
                               ),
-                            ),
                             if(snapshot.data[0]['img_5'] != '')
-                            ClipRRect(
-                              child: Image.network(
-                                snapshot.data[0]['img_5'] == ''
-                                    ? '$appServerURL/sample.jpg'
-                                    : '$appServerURL/${snapshot.data[0]['img_5']}',
-                                fit: BoxFit.fitHeight,
+                              ClipRRect(
+                                child: Image.network(
+                                  snapshot.data[0]['img_5'] == ''
+                                      ? '$appServerURL/sample.jpg'
+                                      : '$appServerURL/${snapshot.data[0]['img_5']}',
+                                  fit: BoxFit.fitHeight,
+                                ),
                               ),
-                            ),
                             if(snapshot.data[0]['img_6'] != '')
-                            ClipRRect(
-                              child: Image.network(
-                                snapshot.data[0]['img_6'] == ''
-                                    ? '$appServerURL/sample.jpg'
-                                    : '$appServerURL/${snapshot.data[0]['img_6']}',
-                                fit: BoxFit.fitHeight,
+                              ClipRRect(
+                                child: Image.network(
+                                  snapshot.data[0]['img_6'] == ''
+                                      ? '$appServerURL/sample.jpg'
+                                      : '$appServerURL/${snapshot.data[0]['img_6']}',
+                                  fit: BoxFit.fitHeight,
+                                ),
                               ),
-                            ),
                             if(snapshot.data[0]['img_7'] != '')
-                            ClipRRect(
-                              child: Image.network(
-                                snapshot.data[0]['img_7'] == ''
-                                    ? '$appServerURL/sample.jpg'
-                                    : '$appServerURL/${snapshot.data[0]['img_7']}',
-                                fit: BoxFit.fitHeight,
+                              ClipRRect(
+                                child: Image.network(
+                                  snapshot.data[0]['img_7'] == ''
+                                      ? '$appServerURL/sample.jpg'
+                                      : '$appServerURL/${snapshot.data[0]['img_7']}',
+                                  fit: BoxFit.fitHeight,
+                                ),
                               ),
-                            ),
                             if(snapshot.data[0]['img_8'] != '')
-                            ClipRRect(
-                              child: Image.network(
-                                snapshot.data[0]['img_8'] == ''
-                                    ? '$appServerURL/sample.jpg'
-                                    : '$appServerURL/${snapshot.data[0]['img_8']}',
-                                fit: BoxFit.fitHeight,
+                              ClipRRect(
+                                child: Image.network(
+                                  snapshot.data[0]['img_8'] == ''
+                                      ? '$appServerURL/sample.jpg'
+                                      : '$appServerURL/${snapshot.data[0]['img_8']}',
+                                  fit: BoxFit.fitHeight,
+                                ),
                               ),
-                            ),
                             if(snapshot.data[0]['img_9'] != '')
-                            ClipRRect(
-                              child: Image.network(
-                                snapshot.data[0]['img_9'] == ''
-                                    ? '$appServerURL/sample.jpg'
-                                    : '$appServerURL/${snapshot.data[0]['img_9']}',
-                                fit: BoxFit.fitHeight,
+                              ClipRRect(
+                                child: Image.network(
+                                  snapshot.data[0]['img_9'] == ''
+                                      ? '$appServerURL/sample.jpg'
+                                      : '$appServerURL/${snapshot.data[0]['img_9']}',
+                                  fit: BoxFit.fitHeight,
+                                ),
                               ),
-                            ),
                           ],
                         ),
                       ),
@@ -582,51 +595,51 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                           ),
                         ),
                       ),
-                      if(kIsWeb)
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: Theme.of(context).colorScheme.primary,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
+                    if(kIsWeb)
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Theme.of(context).colorScheme.primary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
+                              ),
 
-                                onPressed: _pickedImgs.length == 0
-                                    ? null
-                                    : () async {
-                                  final List<MultipartFile> _files =  _pickedImgs.map((img) => MultipartFile.fromFileSync(img.path,  contentType: new MediaType("image", "jpg"))).toList();
-                                  FormData _formData = FormData.fromMap({"uploadfile": _files});
+                              onPressed: _pickedImgs.length == 0
+                                  ? null
+                                  : () async {
+                                final List<MultipartFile> _files =  _pickedImgs.map((img) => MultipartFile.fromFileSync(img.path,  contentType: new MediaType("image", "jpg"))).toList();
+                                FormData _formData = FormData.fromMap({"uploadfile": _files});
 
-                                  Dio dio = Dio();
+                                Dio dio = Dio();
 
-                                  // dio.options.headers["authorization"] = AuthProvider.token;
-                                  dio.options.contentType = 'multipart/form-data';
-                                  dio.options.maxRedirects.isFinite;
-                                  try {
-                                    final res = await dio.post('$appServerURL/upload', data: _formData).then(
-                                            (res) async {
-                                          if (res.data.length > 0) {
-                                            for(int i = 0; i < res.data.length; i++) {
-                                              Dio dio2 = Dio();
-                                              final response = await dio2.post(
-                                                  '$appServerURL/imgupdate',
-                                                  data: {
-                                                    'id': '${snapshot.data[0]['id']}',
-                                                    'imgname': '${res.data[i]['filename']}',
-                                                    'no': '${i + 1}',
-                                                  }
-                                              );
-                                              dio2.close();
-                                            }
+                                // dio.options.headers["authorization"] = AuthProvider.token;
+                                dio.options.contentType = 'multipart/form-data';
+                                dio.options.maxRedirects.isFinite;
+                                try {
+                                  final res = await dio.post('$appServerURL/upload', data: _formData).then(
+                                          (res) async {
+                                        if (res.data.length > 0) {
+                                          for(int i = 0; i < res.data.length; i++) {
+                                            Dio dio2 = Dio();
+                                            final response = await dio2.post(
+                                                '$appServerURL/imgupdate',
+                                                data: {
+                                                  'id': '${snapshot.data[0]['id']}',
+                                                  'imgname': '${res.data[i]['filename']}',
+                                                  'no': '${i + 1}',
+                                                }
+                                            );
+                                            dio2.close();
                                           }
                                         }
-                                    );
-                                  } catch (e) {
-                                    print(e);
-                                  }
+                                      }
+                                  );
+                                } catch (e) {
+                                  print(e);
+                                }
 
 
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -652,15 +665,15 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                               ),
                             ),
                           ]
-                        ),
+                      ),
                     Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
-                      Column(
-                        children: [
-                          _SubTitle('물건가격'),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          if(snapshot.data[0]['deposit'] > 0)
+                    Column(
+                      children: [
+                        _SubTitle('물건가격'),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        if(snapshot.data[0]['deposit'] > 0)
                           Row(
                             children: [
                               Text(
@@ -681,8 +694,8 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                               ),
                             ],
                           ),
-                        ],
-                      ),
+                      ],
+                    ),
                     SizedBox(
                       height: 8,
                     ),
@@ -813,9 +826,9 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                     Divider(color: Theme.of(context).colorScheme.primary, thickness: 1.0),
                     if(!kIsWeb)
                       _SubTitle('사진편집'),
-                      SizedBox(
-                        height: 8,
-                      ),
+                    SizedBox(
+                      height: 8,
+                    ),
                     if(!kIsWeb)
                       SizedBox(
                         height: MediaQuery.of(context).size.width/1.5,
@@ -826,114 +839,114 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
                           childAspectRatio: 2/1.3,
                           padding: EdgeInsets.all(5.0),
                           children: List.generate(
-                              9,
-                              (index) => DottedBorder(
-                                color: Theme.of(context).colorScheme.primary,
-                                strokeWidth: 1,
-                                dashPattern: [5, 5],
-                                child: Container(
-                                  decoration:
-                                    index <= _pickedImgs.length -1
-                                        ? BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: Theme.of(context).colorScheme.primaryContainer,
-                                           image: DecorationImage(
-                                              image: FileImage(File(_pickedImgs[index].path)),
-                                              fit: BoxFit.fitHeight,
-                                            ),
-                                      ) :
-                                      index <= _imgList.length -1
-                                        ? BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: Theme.of(context).colorScheme.primaryContainer,
-                                           image: DecorationImage(
-                                              image: _imgList[index] == '' ? NetworkImage('$appServerURL/sample.jpg',) :  NetworkImage('$appServerURL/${_imgList[index]}',),
-                                              fit: BoxFit.fitHeight,
-                                            ),
-                                      ) : null,
-                                  child : Center(child: _boxContents[index]),
+                            9,
+                                (index) => DottedBorder(
+                              color: Theme.of(context).colorScheme.primary,
+                              strokeWidth: 1,
+                              dashPattern: [5, 5],
+                              child: Container(
+                                decoration:
+                                index <= _pickedImgs.length -1
+                                    ? BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Theme.of(context).colorScheme.primaryContainer,
+                                  image: DecorationImage(
+                                    image: FileImage(File(_pickedImgs[index].path)),
+                                    fit: BoxFit.fitHeight,
+                                  ),
+                                ) :
+                                index <= _imgList.length -1
+                                    ? BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Theme.of(context).colorScheme.primaryContainer,
+                                  image: DecorationImage(
+                                    image: _imgList[index] == '' ? NetworkImage('$appServerURL/sample.jpg',) :  NetworkImage('$appServerURL/${_imgList[index]}',),
+                                    fit: BoxFit.fitHeight,
+                                  ),
+                                ) : null,
+                                child : Center(child: _boxContents[index]),
 
-                                ),
                               ),
                             ),
+                          ),
                         ),
                       ),
                     if(!kIsWeb)
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Theme.of(context).colorScheme.primary,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Theme.of(context).colorScheme.primary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                               ),
-                            ),
 
-                            onPressed: _pickedImgs.length == 0
-                                ? null
-                                : () async {
-                                      final List<MultipartFile> _files =  _pickedImgs.map((img) => MultipartFile.fromFileSync(img.path,  contentType: new MediaType("image", "jpg"))).toList();
-                                      FormData _formData = FormData.fromMap({"uploadfile": _files});
+                              onPressed: _pickedImgs.length == 0
+                                  ? null
+                                  : () async {
+                                final List<MultipartFile> _files =  _pickedImgs.map((img) => MultipartFile.fromFileSync(img.path,  contentType: new MediaType("image", "jpg"))).toList();
+                                FormData _formData = FormData.fromMap({"uploadfile": _files});
 
-                                      Dio dio = Dio();
+                                Dio dio = Dio();
 
-                                      // dio.options.headers["authorization"] = AuthProvider.token;
-                                      dio.options.contentType = 'multipart/form-data';
-                                      dio.options.maxRedirects.isFinite;
-                                      await dio.post('$appServerURL/upload', data: _formData).then(
-                                          (res) async {
-                                            if (res.data.length > 0) {
-                                              Dio dio2 = Dio();
-                                              for(int i = 0; i < res.data.length; i++) {
+                                // dio.options.headers["authorization"] = AuthProvider.token;
+                                dio.options.contentType = 'multipart/form-data';
+                                dio.options.maxRedirects.isFinite;
+                                await dio.post('$appServerURL/upload', data: _formData).then(
+                                        (res) async {
+                                      if (res.data.length > 0) {
+                                        Dio dio2 = Dio();
+                                        for(int i = 0; i < res.data.length; i++) {
 
-                                                await dio2.post(
-                                                    '$appServerURL/imgupdate',
-                                                    data: {
-                                                      'id': '${snapshot.data[0]['id']}',
-                                                      'imgname': '${res.data[i]['filename']}',
-                                                      'no': '${i + 1}',
-                                                    }
-                                                );
-
+                                          await dio2.post(
+                                              '$appServerURL/imgupdate',
+                                              data: {
+                                                'id': '${snapshot.data[0]['id']}',
+                                                'imgname': '${res.data[i]['filename']}',
+                                                'no': '${i + 1}',
                                               }
-                                              dio2.close();
-                                            }
-                                          }
-                                        ).then(
-                                            (value) {
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(
-                                                  content: Text('사진이 수정되었습니다.'),
-                                                  duration: Duration(seconds: 1),
-                                                ),
-                                              );
+                                          );
 
-                                              Future.delayed(const Duration(milliseconds: 600), () {
-                                                getx.Get.offAll(() => CommDetailViewScreen(id: snapshot.data[0]['id'],));
-                                              });
-                                            }
-                                        ).catchError((e) {
-                                            print(e);
-                                        });
-                                      dio.close();
-                                    },
-                            child: Text(
+                                        }
+                                        dio2.close();
+                                      }
+                                    }
+                                ).then(
+                                        (value) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text('사진이 수정되었습니다.'),
+                                          duration: Duration(seconds: 1),
+                                        ),
+                                      );
+
+                                      Future.delayed(const Duration(milliseconds: 600), () {
+                                        getx.Get.offAll(() => CommDetailViewScreen(id: snapshot.data[0]['id'],));
+                                      });
+                                    }
+                                ).catchError((e) {
+                                  print(e);
+                                });
+                                dio.close();
+                              },
+                              child: Text(
                                 '사진 수정',
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w400,
                                   color: Theme.of(context).colorScheme.onPrimaryContainer,
                                 ),
+                              ),
                             ),
-                          ),
-                        ]
+                          ]
                       ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                    ],
-                  ),
+                    SizedBox(
+                      height: 6,
+                    ),
+                  ],
+                ),
               );
             } else {
               return const Center(
@@ -942,7 +955,7 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
             }
           },
         ),
-       ),
+      ),
     );
   }
 
@@ -993,5 +1006,4 @@ class _CommDetailViewScreenState extends State<CommDetailViewScreen> {
     return position;
   }
 }
-
 

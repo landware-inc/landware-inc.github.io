@@ -136,9 +136,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         });
                       },
                       children: [
-                         _regidential(),
-                         _commertial(),
-                         _landbuilding(),
+                        _regidential(),
+                        _commertial(),
+                        _landbuilding(),
                       ],
                     ),
                   ),
@@ -494,17 +494,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     width: 100,
                     height: 60,
                     child: ElevatedButton(
-                         onPressed: (){
-                           _addressAPI();
-                         },
-                         child: Text(
-                            '주소검색',
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600,
-                              color: Theme.of(context).colorScheme.onPrimary,
-                            )
-                         ),
+                      onPressed: (){
+                        _addressAPI();
+                      },
+                      child: Text(
+                          '주소검색',
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          )
+                      ),
                     ),
                   ),
               ],
@@ -568,6 +568,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   child: TextFormField(
                     controller: _TotalFloorController,
                     keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if(value!.isEmpty) {
+                        return '필수 입력 항목입니다.';
+                      }
+                      return null;
+                    },
                     onSaved: (value) {
                       if(value!.isEmpty) {
                         formData['totalFloor'] = '0';
@@ -582,6 +588,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       labelText: '총층',
                       hintText: '총층',
                       border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.red[50],
                       counterText: '',
                     ),
                   ),
@@ -759,26 +767,26 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   height: 60,
                   child: DropdownButtonFormField(
 
-                      items: ['남','남서','남동','서','동','북서','북동','북'].map((String value) {
-                        return DropdownMenuItem(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        _DirectionController = value.toString();
-                      },
-                      onSaved: (value) {
-                        formData['direction'] = value!;
-                      },
-                      value: '남',
-                      decoration: InputDecoration(
-                        labelText: '방향',
-                        hintText: '방향',
-                        border: OutlineInputBorder(),
-                        filled: true,
-                        fillColor: Colors.red[50],
-                      ),
+                    items: ['남','남서','남동','서','동','북서','북동','북'].map((String value) {
+                      return DropdownMenuItem(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      _DirectionController = value.toString();
+                    },
+                    onSaved: (value) {
+                      formData['direction'] = value!;
+                    },
+                    value: '남',
+                    decoration: InputDecoration(
+                      labelText: '방향',
+                      hintText: '방향',
+                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.red[50],
+                    ),
                   ),
                 ),
                 SizedBox(width: 10,),
@@ -793,21 +801,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     readOnly: true,
                     onTap: (){
                       showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2023),
-                          lastDate: DateTime(2024),
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2023),
+                        lastDate: DateTime(2024),
                       ).then((value) => setState(() {
                         _InDateController.text = value.toString().substring(0,10);
                       })
                       );
                     },
                     decoration: InputDecoration(
-                       labelText: '입주일',
-                       hintText: '입주가능 일자',
-                       border: OutlineInputBorder(),
-                       filled: true,
-                       fillColor: Colors.red[50],
+                      labelText: '입주일',
+                      hintText: '입주가능 일자',
+                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.red[50],
                     ),
                   ),
                 ),
@@ -815,7 +823,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   width: MediaQuery.of(context).size.width/3.3,
                   height: 60,
                   child: DropdownButtonFormField(
-           //         controller: _InDateTypeController,
+                    //         controller: _InDateTypeController,
                     value: '협의',
                     onSaved: (value) {
                       formData['inDateType'] = value!;
@@ -828,7 +836,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     }).toList(),
                     onChanged: (value) {
                       _InDateTypeController = value.toString();
-                      },
+                    },
                     decoration: InputDecoration(
                       labelText: '입주조건',
                       hintText: '입주조건',
@@ -857,15 +865,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   activeColor: Theme.of(context).colorScheme.error,
                   inactiveThumbColor: Theme.of(context).colorScheme.secondary,
                   value : _isSales,
-                    onChanged: (value) {
-                      setState(() {
-                        _isSales = value!;
-                        if(_isSales) {
-                          canvasHeight = canvasHeight + 270;
-                        } else {
-                          canvasHeight = canvasHeight - 270;
-                        }
+                  onChanged: (value) {
+                    setState(() {
+                      _isSales = value!;
+                      if(_isSales) {
+                        canvasHeight = canvasHeight + 270;
+                      } else {
+                        canvasHeight = canvasHeight - 270;
                       }
+                    }
                     );
                   },
                 ),
@@ -1028,11 +1036,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   TextFormField(
                     controller: _SalesController,
                     validator: (value) {
-                        if(_isSales & value!.isEmpty) {
-                          return '필수 입력 항목입니다.';
-                        }
-                        return null;
-                      },
+                      if(_isSales & value!.isEmpty) {
+                        return '필수 입력 항목입니다.';
+                      }
+                      return null;
+                    },
                     onSaved: (value) {
                       formData['sales'] = value!;
                     },
@@ -1744,6 +1752,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   child: TextFormField(
                     controller: _TotalFloorController,
                     keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if(value!.isEmpty) {
+                        return '필수 입력 항목입니다.';
+                      }
+                      return null;
+                    },
                     onSaved: (value) {
                       if(value!.isEmpty) {
                         formData['totalFloor'] = '0';
@@ -1758,6 +1772,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       labelText: '총층',
                       hintText: '총층',
                       border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.red[50],
                       counterText: '',
                     ),
                   ),
@@ -2712,5 +2728,4 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
 }
-
 

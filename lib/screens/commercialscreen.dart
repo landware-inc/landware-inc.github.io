@@ -149,274 +149,26 @@ class _CommercialScreenState extends State<CommercialScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: 240,
                 child: PageView(
-                    pageSnapping: true,
-                    controller: _controller,
-                    onPageChanged: (index) {
-                      setState(() {
-                        for (int i = 0; i < isSelected.length; i++) {
-                          if (i == index) {
-                            isSelected[i] = true;
-                          } else {
-                            isSelected[i] = false;
-                          }
+                  pageSnapping: true,
+                  controller: _controller,
+                  onPageChanged: (index) {
+                    setState(() {
+                      for (int i = 0; i < isSelected.length; i++) {
+                        if (i == index) {
+                          isSelected[i] = true;
+                        } else {
+                          isSelected[i] = false;
                         }
-                        initRangeVlues(index);
-                      });
-                    },
-                    children: [
-                      Column(
-                          children: [
-                            SizedBox(height: 8,),
-                            Text(
-                              '매매 가격',
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 8),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                    width: MediaQuery.of(context).size.width / 4,
-                                    child: TextField(
-                                      textAlign: TextAlign.right ,
-                                      controller: _textEditingControllerMin,
-                                      inputFormatters: [CurrencyTextInputFormatter(
-                                        locale: 'ko_KR',
-                                        decimalDigits: 0,
-                                        symbol: '',
-                                      )],
-                                      keyboardType: TextInputType.number,
-                                      decoration: InputDecoration(
-                                        hintText: '최소',
-                                        labelText: '최소',
-                                        hintStyle: TextStyle(
-                                          color: Theme.of(context).colorScheme.outline,
-                                          letterSpacing: 1.0,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        contentPadding: EdgeInsets.all(5),
-
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Theme.of(context).colorScheme.onBackground,
-                                          ),
-                                          //                           borderRadius: BorderRadius.all(Radius.circular(30)),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Theme.of(context).colorScheme.outlineVariant,
-                                          ),
-                                          //                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                                        ),
-                                      ),
-                                    )
-                                ),
-                                Container(
-                                  alignment: Alignment.center,
-                                  height: 65,
-                                  width: MediaQuery.of(context).size.width / 2.5,
-                                  child: CupertinoPicker(
-                                    itemExtent: 40,
-                                    diameterRatio: 5,
-                                    offAxisFraction: -1.0,
-                                    scrollController: FixedExtentScrollController(initialItem: 0),
-                                    squeeze: 1.0,
-                                    onSelectedItemChanged: (index) {
-                                      if(index == 0) {
-                                        _textEditingControllerMin.text = f.format(controller.minS.value/10000);
-                                        _textEditingControllerMax.text = f.format(controller.maxS.value/10000);
-                                        controller.minPrice(controller.minS.value.toInt());
-                                        controller.maxPrice(controller.maxS.value.toInt());
-                                      } else if(index == 1) {
-                                        _textEditingControllerMin.text = '0';
-                                        _textEditingControllerMax.text = f.format(((index * 5000)*1.5).round());
-                                        controller.minPrice(1*10000);
-                                        controller.maxPrice(((index * 5000)*1.5).round()*10000);
-                                      } else {
-                                        _textEditingControllerMin.text = f.format((((index) * 5000)*0.7).round());
-                                        _textEditingControllerMax.text = f.format((((index) * 5000)*1.3).round());
-                                        controller.minPrice(((index * 5000)*0.7).round()*10000);
-                                        controller.maxPrice(((index * 5000)*1.3).round()*10000);
-                                      }
-                                    },
-                                    children: _list,
-                                  ),
-                                ),
-                                Container(
-                                    width: MediaQuery.of(context).size.width / 4,
-                                    child: TextField(
-                                      textAlign: TextAlign.right ,
-                                      controller: _textEditingControllerMax,
-                                      key: ValueKey(1),
-                                      inputFormatters: [CurrencyTextInputFormatter(
-                                        locale: 'ko_KR',
-                                        decimalDigits: 0,
-                                        symbol: '',
-                                      )],
-                                      keyboardType: TextInputType.number,
-                                      decoration: InputDecoration(
-                                        hintText: '최대',
-                                        labelText: '최대',
-                                        hintStyle: TextStyle(
-                                          color: Theme.of(context).colorScheme.outline,
-                                          letterSpacing: 1.0,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        contentPadding: EdgeInsets.all(5),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Theme.of(context).colorScheme.onBackground,
-                                          ),
-                                          //              borderRadius: BorderRadius.all(Radius.circular(30)),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Theme.of(context).colorScheme.outlineVariant,
-                                          ),
-                                          //             borderRadius: BorderRadius.all(Radius.circular(30)),
-                                        ),
-                                      ),
-                                    )
-                                ),
-                              ],
-                            ),
-                          ]
-                      ),
-                      Column(
+                      }
+                      initRangeVlues(index);
+                    });
+                  },
+                  children: [
+                    Column(
                         children: [
-                          Column(
-                            children: [
-                              SizedBox(height: 8,),
-                              Text(
-                                '보증금',
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(height: 8),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                      width: MediaQuery.of(context).size.width / 4,
-                                      child: TextField(
-                                        textAlign: TextAlign.right ,
-                                        controller: _textEditingControllerMinD,
-                                        inputFormatters: [CurrencyTextInputFormatter(
-                                          locale: 'ko_KR',
-                                          decimalDigits: 0,
-                                          symbol: '',
-                                        )],
-                                        keyboardType: TextInputType.number,
-                                        decoration: InputDecoration(
-                                          hintText: '최소',
-                                          labelText: '최소',
-                                          hintStyle: TextStyle(
-                                            color: Theme.of(context).colorScheme.outline,
-                                            letterSpacing: 1.0,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          contentPadding: EdgeInsets.all(5),
-
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Theme.of(context).colorScheme.onBackground,
-                                            ),
-                                            //                           borderRadius: BorderRadius.all(Radius.circular(30)),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Theme.of(context).colorScheme.outlineVariant,
-                                            ),
-                                            //                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                                          ),
-                                        ),
-                                      )
-                                  ),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    height: 65,
-                                    width: MediaQuery.of(context).size.width / 2.5,
-                                    child: CupertinoPicker(
-                                      itemExtent: 40,
-                                      diameterRatio: 5,
-                                      offAxisFraction: -1.0,
-                                      scrollController: FixedExtentScrollController(initialItem: 0),
-                                      squeeze: 1.0,
-                                      onSelectedItemChanged: (index) {
-                                        if(index == 0) {
-                                          _textEditingControllerMinD.text = f.format(controller.minD.value/10000);
-                                          _textEditingControllerMaxD.text = f.format(controller.maxD.value/10000);
-                                          controller.minDeposit(controller.minD.value.toInt());
-                                          controller.maxDeposit(controller.maxD.value.toInt());
-                                        } else if(index == 1) {
-                                          _textEditingControllerMinD.text = '0';
-                                          _textEditingControllerMaxD.text = f.format(((index * 500)*1.5).round());
-                                          controller.minDeposit(1);
-                                          controller.maxDeposit(((index * 500 * 10000)*1.5).round());
-                                        } else {
-                                          _textEditingControllerMinD.text = f.format((((index) * 500)*0.7).round());
-                                          _textEditingControllerMaxD.text = f.format((((index) * 500)*1.3).round());
-                                          controller.minDeposit(((index * 500 * 10000)*0.7).round());
-                                          controller.maxDeposit(((index * 500 * 10000)*1.3).round());
-                                        }
-                                      },
-                                      children: _listD,
-                                    ),
-                                  ),
-                                  Container(
-                                      width: MediaQuery.of(context).size.width / 4,
-                                      child: TextField(
-                                        textAlign: TextAlign.right ,
-                                        controller: _textEditingControllerMaxD,
-                                        key: ValueKey(1),
-                                        inputFormatters: [CurrencyTextInputFormatter(
-                                          locale: 'ko_KR',
-                                          decimalDigits: 0,
-                                          symbol: '',
-                                        )],
-                                        keyboardType: TextInputType.number,
-                                        decoration: InputDecoration(
-                                          hintText: '최대',
-                                          labelText: '최대',
-                                          hintStyle: TextStyle(
-                                            color: Theme.of(context).colorScheme.outline,
-                                            letterSpacing: 1.0,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          contentPadding: EdgeInsets.all(5),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Theme.of(context).colorScheme.onBackground,
-                                            ),
-                                            //              borderRadius: BorderRadius.all(Radius.circular(30)),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Theme.of(context).colorScheme.outlineVariant,
-                                            ),
-                                            //             borderRadius: BorderRadius.all(Radius.circular(30)),
-                                          ),
-                                        ),
-                                      )
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
                           SizedBox(height: 8,),
                           Text(
-                            '월세',
+                            '매매 가격',
                             style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
@@ -431,7 +183,7 @@ class _CommercialScreenState extends State<CommercialScreen> {
                                   width: MediaQuery.of(context).size.width / 4,
                                   child: TextField(
                                     textAlign: TextAlign.right ,
-                                    controller: _textEditingControllerMinM,
+                                    controller: _textEditingControllerMin,
                                     inputFormatters: [CurrencyTextInputFormatter(
                                       locale: 'ko_KR',
                                       decimalDigits: 0,
@@ -476,25 +228,30 @@ class _CommercialScreenState extends State<CommercialScreen> {
                                   squeeze: 1.0,
                                   onSelectedItemChanged: (index) {
                                     if(index == 0) {
-                                      _textEditingControllerMinM.text = f.format(controller.minM.value);
-                                      _textEditingControllerMaxM.text = f.format(controller.maxM.value);
-                                      controller.minMonthly(controller.minM.value.toInt());
-                                      controller.maxMonthly(controller.maxM.value.toInt());
+                                      _textEditingControllerMin.text = f.format(controller.minS.value/10000);
+                                      _textEditingControllerMax.text = f.format(controller.maxS.value/10000);
+                                      controller.minPrice(controller.minS.value.toInt());
+                                      controller.maxPrice(controller.maxS.value.toInt());
+                                    } else if(index == 1) {
+                                      _textEditingControllerMin.text = '0';
+                                      _textEditingControllerMax.text = f.format(((index * 5000)*1.5).round());
+                                      controller.minPrice(1*10000);
+                                      controller.maxPrice(((index * 5000)*1.5).round()*10000);
                                     } else {
-                                      _textEditingControllerMinM.text = f.format(((index) * 10 - 10));
-                                      _textEditingControllerMaxM.text = f.format(((index + 1) * 10));
-                                      controller.minMonthly(((index * 10000) * 10 -10));
-                                      controller.maxMonthly((((index + 1) * 10000) * 10));
+                                      _textEditingControllerMin.text = f.format((((index) * 5000)*0.7).round());
+                                      _textEditingControllerMax.text = f.format((((index) * 5000)*1.3).round());
+                                      controller.minPrice(((index * 5000)*0.7).round()*10000);
+                                      controller.maxPrice(((index * 5000)*1.3).round()*10000);
                                     }
                                   },
-                                  children: _listM,
+                                  children: _list,
                                 ),
                               ),
                               Container(
                                   width: MediaQuery.of(context).size.width / 4,
                                   child: TextField(
                                     textAlign: TextAlign.right ,
-                                    controller: _textEditingControllerMaxM,
+                                    controller: _textEditingControllerMax,
                                     key: ValueKey(1),
                                     inputFormatters: [CurrencyTextInputFormatter(
                                       locale: 'ko_KR',
@@ -529,9 +286,252 @@ class _CommercialScreenState extends State<CommercialScreen> {
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    ],
+                        ]
+                    ),
+                    Column(
+                      children: [
+                        Column(
+                          children: [
+                            SizedBox(height: 8,),
+                            Text(
+                              '보증금',
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                    width: MediaQuery.of(context).size.width / 4,
+                                    child: TextField(
+                                      textAlign: TextAlign.right ,
+                                      controller: _textEditingControllerMinD,
+                                      inputFormatters: [CurrencyTextInputFormatter(
+                                        locale: 'ko_KR',
+                                        decimalDigits: 0,
+                                        symbol: '',
+                                      )],
+                                      keyboardType: TextInputType.number,
+                                      decoration: InputDecoration(
+                                        hintText: '최소',
+                                        labelText: '최소',
+                                        hintStyle: TextStyle(
+                                          color: Theme.of(context).colorScheme.outline,
+                                          letterSpacing: 1.0,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        contentPadding: EdgeInsets.all(5),
+
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Theme.of(context).colorScheme.onBackground,
+                                          ),
+                                          //                           borderRadius: BorderRadius.all(Radius.circular(30)),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Theme.of(context).colorScheme.outlineVariant,
+                                          ),
+                                          //                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                                        ),
+                                      ),
+                                    )
+                                ),
+                                Container(
+                                  alignment: Alignment.center,
+                                  height: 65,
+                                  width: MediaQuery.of(context).size.width / 2.5,
+                                  child: CupertinoPicker(
+                                    itemExtent: 40,
+                                    diameterRatio: 5,
+                                    offAxisFraction: -1.0,
+                                    scrollController: FixedExtentScrollController(initialItem: 0),
+                                    squeeze: 1.0,
+                                    onSelectedItemChanged: (index) {
+                                      if(index == 0) {
+                                        _textEditingControllerMinD.text = f.format(controller.minD.value/10000);
+                                        _textEditingControllerMaxD.text = f.format(controller.maxD.value/10000);
+                                        controller.minDeposit(controller.minD.value.toInt());
+                                        controller.maxDeposit(controller.maxD.value.toInt());
+                                      } else if(index == 1) {
+                                        _textEditingControllerMinD.text = '0';
+                                        _textEditingControllerMaxD.text = f.format(((index * 500)*1.5).round());
+                                        controller.minDeposit(1);
+                                        controller.maxDeposit(((index * 500 * 10000)*1.5).round());
+                                      } else {
+                                        _textEditingControllerMinD.text = f.format((((index) * 500)*0.7).round());
+                                        _textEditingControllerMaxD.text = f.format((((index) * 500)*1.3).round());
+                                        controller.minDeposit(((index * 500 * 10000)*0.7).round());
+                                        controller.maxDeposit(((index * 500 * 10000)*1.3).round());
+                                      }
+                                    },
+                                    children: _listD,
+                                  ),
+                                ),
+                                Container(
+                                    width: MediaQuery.of(context).size.width / 4,
+                                    child: TextField(
+                                      textAlign: TextAlign.right ,
+                                      controller: _textEditingControllerMaxD,
+                                      key: ValueKey(1),
+                                      inputFormatters: [CurrencyTextInputFormatter(
+                                        locale: 'ko_KR',
+                                        decimalDigits: 0,
+                                        symbol: '',
+                                      )],
+                                      keyboardType: TextInputType.number,
+                                      decoration: InputDecoration(
+                                        hintText: '최대',
+                                        labelText: '최대',
+                                        hintStyle: TextStyle(
+                                          color: Theme.of(context).colorScheme.outline,
+                                          letterSpacing: 1.0,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        contentPadding: EdgeInsets.all(5),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Theme.of(context).colorScheme.onBackground,
+                                          ),
+                                          //              borderRadius: BorderRadius.all(Radius.circular(30)),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Theme.of(context).colorScheme.outlineVariant,
+                                          ),
+                                          //             borderRadius: BorderRadius.all(Radius.circular(30)),
+                                        ),
+                                      ),
+                                    )
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 8,),
+                        Text(
+                          '월세',
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                                width: MediaQuery.of(context).size.width / 4,
+                                child: TextField(
+                                  textAlign: TextAlign.right ,
+                                  controller: _textEditingControllerMinM,
+                                  inputFormatters: [CurrencyTextInputFormatter(
+                                    locale: 'ko_KR',
+                                    decimalDigits: 0,
+                                    symbol: '',
+                                  )],
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                    hintText: '최소',
+                                    labelText: '최소',
+                                    hintStyle: TextStyle(
+                                      color: Theme.of(context).colorScheme.outline,
+                                      letterSpacing: 1.0,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    contentPadding: EdgeInsets.all(5),
+
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Theme.of(context).colorScheme.onBackground,
+                                      ),
+                                      //                           borderRadius: BorderRadius.all(Radius.circular(30)),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Theme.of(context).colorScheme.outlineVariant,
+                                      ),
+                                      //                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                                    ),
+                                  ),
+                                )
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              height: 65,
+                              width: MediaQuery.of(context).size.width / 2.5,
+                              child: CupertinoPicker(
+                                itemExtent: 40,
+                                diameterRatio: 5,
+                                offAxisFraction: -1.0,
+                                scrollController: FixedExtentScrollController(initialItem: 0),
+                                squeeze: 1.0,
+                                onSelectedItemChanged: (index) {
+                                  if(index == 0) {
+                                    _textEditingControllerMinM.text = f.format(controller.minM.value);
+                                    _textEditingControllerMaxM.text = f.format(controller.maxM.value);
+                                    controller.minMonthly(controller.minM.value.toInt());
+                                    controller.maxMonthly(controller.maxM.value.toInt());
+                                  } else {
+                                    _textEditingControllerMinM.text = f.format(((index) * 10 - 10));
+                                    _textEditingControllerMaxM.text = f.format(((index + 1) * 10));
+                                    controller.minMonthly(((index * 10000) * 10 -10));
+                                    controller.maxMonthly((((index + 1) * 10000) * 10));
+                                  }
+                                },
+                                children: _listM,
+                              ),
+                            ),
+                            Container(
+                                width: MediaQuery.of(context).size.width / 4,
+                                child: TextField(
+                                  textAlign: TextAlign.right ,
+                                  controller: _textEditingControllerMaxM,
+                                  key: ValueKey(1),
+                                  inputFormatters: [CurrencyTextInputFormatter(
+                                    locale: 'ko_KR',
+                                    decimalDigits: 0,
+                                    symbol: '',
+                                  )],
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                    hintText: '최대',
+                                    labelText: '최대',
+                                    hintStyle: TextStyle(
+                                      color: Theme.of(context).colorScheme.outline,
+                                      letterSpacing: 1.0,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    contentPadding: EdgeInsets.all(5),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Theme.of(context).colorScheme.onBackground,
+                                      ),
+                                      //              borderRadius: BorderRadius.all(Radius.circular(30)),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Theme.of(context).colorScheme.outlineVariant,
+                                      ),
+                                      //             borderRadius: BorderRadius.all(Radius.circular(30)),
+                                    ),
+                                  ),
+                                )
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
 

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -238,7 +239,7 @@ class AssetCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                width: MediaQuery.of(context).size.width * 0.45,
+                                width: kIsWeb ? 300 : MediaQuery.of(context).size.width * 0.43,
                                 child: Text(
                                   '$callname',
                                   maxLines: 1,
@@ -255,9 +256,9 @@ class AssetCard extends StatelessWidget {
                                   '${(size * 0.3052).round().toString()}평',
                                   overflow: TextOverflow.fade,
                                   style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).colorScheme.primaryContainer
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).colorScheme.primaryContainer
                                   ),
                                 ),
                               ),
@@ -268,72 +269,72 @@ class AssetCard extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                                Column(
-                                  children: [
-                                    if (price2 != 0)
-                                      Text(
-                                        '${f.format(int.parse((price/10000).round().toString()))}만/${f.format(int.parse((price2/10000).round().toString()))}만',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Theme.of(context).colorScheme.primaryContainer,
-                                        ),
-                                      ),
-                                    if (price2 == 0)
-                                      Text(
-                                        '${f.format(int.parse((price/10000).round().toString()))}만',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Theme.of(context).colorScheme.primaryContainer,
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      '$type',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                        color: Theme.of(context).colorScheme.primaryContainer,
-                                      ),
+                            Column(
+                              children: [
+                                if (price2 != 0)
+                                  Text(
+                                    '${f.format(int.parse((price/10000).round().toString()))}만/${f.format(int.parse((price2/10000).round().toString()))}만',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).colorScheme.primaryContainer,
                                     ),
-                                  ],
+                                  ),
+                                if (price2 == 0)
+                                  Text(
+                                    '${f.format(int.parse((price/10000).round().toString()))}만',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).colorScheme.primaryContainer,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  '$type',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).colorScheme.primaryContainer,
+                                  ),
                                 ),
-                            ],
-                          ),
+                              ],
+                            ),
+                          ],
+                        ),
                         const SizedBox(height: 4,),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '방$room/욕실$bath',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).colorScheme.primaryContainer,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '방$room/욕실$bath',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).colorScheme.primaryContainer,
+                                ),
                               ),
-                            ),
-                            Text(
-                              '$direction향',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).colorScheme.primaryContainer,
+                              Text(
+                                '$direction향',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).colorScheme.primaryContainer,
+                                ),
                               ),
-                            ),
-                            Text(
-                              '${floor.toString()}/${totalfloor.toString()} (층)',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).colorScheme.primaryContainer,
-                              ),
-                            ),]
+                              Text(
+                                '${floor.toString()}/${totalfloor.toString()} (층)',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).colorScheme.primaryContainer,
+                                ),
+                              ),]
                         ),
 
                         Row(
