@@ -1,7 +1,4 @@
 
-
-import 'dart:convert';
-
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:kakao_login_test/screens/main_screen.dart';
 import 'package:kakao_login_test/screens/mapscreen.dart';
 import 'package:kakao_login_test/screens/regidentiallistview.dart';
 import 'package:kakao_login_test/screens/regidentiallistviewweb.dart';
