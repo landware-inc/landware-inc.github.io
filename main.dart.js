@@ -107837,10 +107837,10 @@ i=J.ep(j,c)
 for(h=0;h<j;h=g){g=h+1
 i[h]=g*5000}e=A.au(i).i("a9<1,cN>")
 B.b.T(f.go,A.ay(new A.a9(i,new A.aXM(f),e),!0,e.i("bq.E")))
-j=B.e.ai(J.c7(r.gm(r))/5000)
+j=B.e.ai(J.c7(r.gm(r))/3000)
 i=J.ep(j,c)
 for(h=0;h<j;h=g){g=h+1
-i[h]=g*5000}e=A.au(i).i("a9<1,cN>")
+i[h]=g*3000}e=A.au(i).i("a9<1,cN>")
 B.b.T(f.id,A.ay(new A.a9(i,new A.aXN(f),e),!0,e.i("bq.E")))
 j=B.e.ai(J.c7(p.gm(p))/500)
 i=J.ep(j,c)
@@ -107937,7 +107937,7 @@ p=J.c7(p.gm(p))
 q.go.$1(p)
 o=J.c7(o.gm(o))
 q.fy.$1(o)}else{s=this.a
-r=a*5000
+r=a*3000
 q=s.cx
 p=s.cy
 o=s.ok
@@ -107946,9 +107946,9 @@ if(a===1){q.sad(0,"0")
 r=B.e.aq(r*1.5)
 p.sad(0,o.a9(r))
 s.go.$1(1)
-s.fy.$1(r)}else{n=B.e.aq(r*0.7)
+s.fy.$1(r)}else{n=B.e.aq(r*0.8)
 q.sad(0,o.a9(n))
-r=B.e.aq(r*1.3)
+r=B.e.aq(r*1.2)
 p.sad(0,o.a9(r))
 s.go.$1(n)
 s.fy.$1(r)}}},
